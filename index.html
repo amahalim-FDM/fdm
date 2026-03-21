@@ -222,7 +222,7 @@ body { font-family:'IBM Plex Sans Arabic',sans-serif; background:var(--bg); colo
 <div class="toast" id="toast"></div>
 
 <script>
-const NOTION_API = 'https://fdm-api.amahalim.workers.dev/';
+const WORKER_URL = 'https://fdm-api.amahalim.workers.dev';
 const DB_ACTIVITY = '83e014db-41b1-49e4-8e6d-b088cde7203b';
 const DB_EXPENSES = 'abd1f158-b77d-4c84-84f0-4c6f7d0ccbbf';
 
@@ -392,24 +392,25 @@ async function submitEntry() {
       };
     }
 
-    const res = await fetch(NOTION_API, {
+    const res = await fetch(WORKER_URL, {
       method:'POST',
       headers: {
         'Authorization': 'Bearer '+token,
-        'Content-Type': 'application/json',
-        'Notion-Version': '2022-06-28'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
     });
 
     if(!res.ok) {
-      const err = await res.json();
+      const err = await res.json().catch(()=>({}));
       console.error('Notion API error:', err);
-      showToast('⚠️ Saved locally — Notion sync failed','error');
+      showToast('⚠️ Saved locally — Notion sync failed: '+(err.message||res.status),'error');
+    } else {
+      console.log('Notion entry created successfully');
     }
   } catch(e) {
     console.error('Network error:', e);
-    showToast('⚠️ Saved locally — check connection','error');
+    showToast('⚠️ Saved locally — check connection: '+e.message,'error');
   }
 }
 
