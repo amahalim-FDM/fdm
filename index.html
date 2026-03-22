@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html class="dark" dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" name="viewport">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0a0f">
+<title>FDM — Family Data Manager</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a0a0f;
+  --surface:#131318;
+  --surface-container:#1f1f25;
+  --surface-container-low:#1b1b20;
+  --surface-container-high:#2a292f;
+  --surface-container-highest:#35343a;
+  --primary:#f2c35e;
+  --primary-container:#d4a846;
+  --on-primary:#402d00;
+  --on-surface:rgba(255,255,255,0.95);
+  --on-surface-variant:rgba(255,255,255,0.45);
+  --outline:#9a8f7d;
+  --outline-variant:#4e4636;
+  --salwa:#5b8def;
+  --yara:#b07ce8;
+  --green:#4ade80;
+  --red:#f87171;
+  --orange:#fb923c;
+  --pink:#f472b6;
+  --error:#ffb4ab;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+body{
+  background-color:var(--bg);
+  background-image:radial-gradient(rgba(212,168,70,0.05) 1px,transparent 1px);
+  background-size:24px 24px;
+  color:var(--on-surface);
+  font-family:'Manrope',sans-serif;
+  min-height:100dvh;
+  overflow-x:hidden;
+  padding-bottom:calc(90px + var(--safe-bottom));
+  max-width:500px;
+  margin:0 auto;
+}
+.material-symbols-outlined{
+  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+}
+
+/* === GLASS CARD === */
+.glass-card{
+  background:rgba(31,31,37,0.4);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(212,168,70,0.12);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.08);
+}
+
+/* === HEADER === */
+header{
+  background:var(--surface)/70;
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  display:flex;justify-content:space-between;align-items:center;
+  width:100%;padding:0 20px;height:60px;
+  position:sticky;top:0;z-index:100;
+}
+header h1{
+  font-family:'Be Vietnam Pro',sans-serif;
+  font-size:18px;font-weight:700;
+  letter-spacing:-0.3px;color:var(--primary);
+}
+.header-btn{
+  width:38px;height:38px;border-radius:12px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:var(--surface-container);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;
+}
+.header-btn:active{transform:scale(0.9);background:var(--primary);color:var(--on-primary)}
+.header-btn .material-symbols-outlined{color:var(--primary);font-size:20px}
+.header-btn:active .material-symbols-outlined{color:var(--on-primary)}
+
+/* === PAGES === */
+.page{display:none;padding:16px 16px 20px;animation:fadeSlide .3s ease-out}
+.page.active{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* === SECTION HEADER === */
+.section-hdr{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:6px;padding:0 4px;
+}
+.section-title{
+  font-family:'Be Vietnam Pro',sans-serif;
+  font-size:18px;font-weight:800;color:var(--on-surface);
+  position:relative;display:inline-block;
+}
+.section-title::after{
+  content:'';position:absolute;bottom:-4px;right:0;
+  width:24px;height:2px;background:var(--primary);border-radius:2px;
+}
+.section-badge{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;color:var(--on-surface-variant);
+  text-transform:uppercase;letter-spacing:1.5px;
+}
+
+/* === QUICK ACTION GRID === */
+.q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.q-card{
+  background:rgba(31,31,37,0.5);backdrop-filter:blur(12px);
+  border:1px solid rgba(212,168,70,0.1);
+  border-radius:16px;padding:16px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:6px;cursor:pointer;position:relative;overflow:hidden;
+  transition:all .15s;
+}
+.q-card:active{transform:scale(0.93)}
+.q-card .q-glow{
+  position:absolute;top:0;right:0;width:40%;height:3px;
+  border-radius:0 0 0 4px;
+}
+.q-card .q-icon-wrap{
+  width:44px;height:44px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.q-card .q-icon-wrap .glow-bg{
+  position:absolute;inset:0;border-radius:14px;
+  filter:blur(12px);opacity:0.2;
+}
+.q-card .q-icon{font-size:32px;position:relative;z-index:1;line-height:1}
+.q-card .q-label{
+  font-family:'Manrope',sans-serif;
+  font-size:12px;font-weight:700;color:var(--on-surface);
+}
+.q-card .q-sub{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:9px;color:var(--on-surface-variant);
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+
+/* Aspect square variant */
+.q-card.sq{aspect-ratio:1}
+
+/* === MODAL === */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;
+  display:none;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(6px);
+}
+.modal-overlay.active{display:flex}
+.modal{
+  background:var(--surface);
+  border:1px solid rgba(212,168,70,0.1);
+  border-radius:24px 24px 0 0;width:100%;max-width:500px;
+  max-height:88dvh;overflow-y:auto;
+  padding:24px 20px calc(24px + var(--safe-bottom));
+  animation:slideUp .3s ease-out;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-title{
+  font-family:'Be Vietnam Pro',sans-serif;
+  font-size:18px;font-weight:700;color:var(--on-surface);
+}
+.modal-close{
+  width:34px;height:34px;border-radius:10px;
+  background:var(--surface-container);
+  border:1px solid rgba(255,255,255,0.06);
+  color:var(--on-surface-variant);font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.modal-close:active{background:var(--red);color:#fff}
+
+/* === FORM ELEMENTS === */
+.form-group{margin-bottom:14px}
+.form-label{
+  display:block;font-family:'Space Grotesk',sans-serif;
+  font-size:11px;font-weight:500;color:var(--on-surface-variant);
+  margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;
+}
+.form-input,.form-select{
+  width:100%;padding:12px 14px;border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:var(--surface-container);color:var(--on-surface);
+  font-size:15px;font-family:'Manrope',sans-serif;
+  outline:none;transition:border .2s;
+}
+.form-input:focus,.form-select:focus{border-color:var(--primary)}
+.form-input[type="number"]{
+  font-family:'JetBrains Mono',monospace;font-size:20px;
+  text-align:center;font-weight:700;
+}
+.form-select{color-scheme:dark}
+
+/* === CHIPS === */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  padding:7px 14px;border-radius:20px;
+  font-size:12px;font-weight:700;cursor:pointer;
+  border:2px solid rgba(255,255,255,0.08);
+  background:var(--surface-container);
+  transition:all .15s;user-select:none;
+  font-family:'Manrope',sans-serif;
+}
+.chip.selected{
+  border-color:var(--chip-color,var(--primary));
+  background:color-mix(in srgb,var(--chip-color,var(--primary)) 15%,transparent);
+}
+
+/* === SUBMIT BTN === */
+.submit-btn{
+  width:100%;padding:14px;border-radius:16px;border:none;
+  background:linear-gradient(135deg,var(--primary),var(--primary-container));
+  color:var(--on-primary);font-size:15px;font-weight:700;
+  font-family:'Be Vietnam Pro',sans-serif;
+  cursor:pointer;transition:all .15s;margin-top:10px;
+  box-shadow:0 4px 16px rgba(242,195,94,0.2);
+}
+.submit-btn:active{transform:scale(0.97)}
+.submit-btn:disabled{opacity:0.4}
+
+/* === TOGGLE ITEMS (Mabeet) === */
+.toggle-group{display:none;gap:10px;margin-bottom:14px}
+.toggle-group.visible{display:flex}
+.toggle-item{
+  flex:1;padding:12px 8px;border-radius:14px;
+  border:2px solid rgba(255,255,255,0.06);
+  background:var(--surface-container);
+  text-align:center;cursor:pointer;transition:all .15s;user-select:none;
+}
+.toggle-item .t-icon{font-size:20px;display:block;margin-bottom:4px}
+.toggle-item .t-label{
+  font-size:10px;font-weight:700;
+  font-family:'Space Grotesk',sans-serif;
+  color:var(--on-surface-variant);
+}
+.toggle-item.on{
+  border-color:var(--green);
+  background:rgba(74,222,128,0.08);
+}
+.toggle-item.on .t-label{color:var(--green)}
+
+/* === DATE PICKER === */
+.date-toggle{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.date-today-btn{
+  flex:1;padding:11px 14px;border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:var(--surface-container);color:var(--on-surface);
+  font-size:13px;font-weight:600;font-family:'Manrope',sans-serif;
+  cursor:pointer;text-align:center;transition:all .15s;
+}
+.date-today-btn.custom{border-color:var(--primary);color:var(--primary)}
+.date-change-btn{
+  width:44px;height:44px;border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:var(--surface-container);color:var(--on-surface-variant);
+  font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .15s;
+}
+.date-change-btn:active{background:var(--primary);color:var(--on-primary)}
+.date-input-real{
+  display:none;width:100%;padding:10px 14px;border-radius:12px;
+  border:1px solid var(--primary);background:var(--surface-container);
+  color:var(--on-surface);font-size:14px;
+  font-family:'JetBrains Mono',monospace;
+  margin-top:6px;outline:none;color-scheme:dark;
+}
+.date-input-real.visible{display:block}
+
+/* === TOAST === */
+.toast{
+  position:fixed;top:20px;left:50%;
+  transform:translateX(-50%) translateY(-120px);
+  padding:14px 22px;border-radius:16px;
+  font-size:13px;font-weight:700;
+  font-family:'Manrope',sans-serif;
+  z-index:999;transition:transform .3s ease;
+  max-width:calc(100% - 40px);text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.5);
+  backdrop-filter:blur(20px);
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{background:rgba(74,222,128,0.9);color:#000}
+.toast.error{background:rgba(248,113,113,0.9);color:#fff}
+.toast a{display:inline-block;margin-top:4px}
+
+/* === DASHBOARD === */
+.dash-card{
+  background:rgba(31,31,37,0.4);backdrop-filter:blur(20px);
+  border:1px solid rgba(212,168,70,0.1);
+  box-shadow:inset 0 1px 0 0 rgba(255,255,255,0.06);
+  border-radius:24px;padding:20px;margin-bottom:12px;
+  position:relative;overflow:hidden;
+}
+.dash-card .card-glow{
+  position:absolute;width:120px;height:120px;
+  border-radius:50%;filter:blur(60px);opacity:0.08;
+  pointer-events:none;
+}
+
+/* Month selector */
+.month-selector{
+  display:flex;align-items:center;gap:8px;margin-bottom:16px;
+}
+.month-btn{
+  width:40px;height:40px;border-radius:12px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:var(--surface-container);
+  color:var(--primary);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.month-btn:active{background:var(--primary);color:var(--on-primary)}
+.month-label{
+  flex:1;text-align:center;
+  font-family:'Be Vietnam Pro',sans-serif;
+  font-size:16px;font-weight:700;color:var(--on-surface);
+}
+.month-label span{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:11px;color:var(--on-surface-variant);font-weight:400;
+  margin-right:6px;
+}
+
+/* Balance Ring */
+.balance-ring-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  gap:8px;padding:8px 0;
+}
+.balance-ring{position:relative;width:140px;height:140px}
+.balance-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.balance-ring .ring-center{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.balance-ring .ring-total{
+  font-family:'JetBrains Mono',monospace;
+  font-size:22px;font-weight:700;color:var(--on-surface);
+}
+.balance-ring .ring-label{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;color:var(--on-surface-variant);
+  text-transform:uppercase;letter-spacing:1px;
+}
+.balance-legend{
+  display:flex;gap:20px;justify-content:center;margin-top:4px;
+}
+.legend-item{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:700;
+}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+.legend-count{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;font-weight:700;
+}
+.balance-status{
+  text-align:center;font-size:12px;font-weight:700;
+  padding:6px 14px;border-radius:20px;margin-top:4px;
+  font-family:'Manrope',sans-serif;
+}
+
+/* Recent items */
+.history-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;margin-bottom:6px;
+  background:var(--surface-container-low);
+  border-radius:16px;border-right:3px solid var(--primary);
+  transition:all .15s;cursor:pointer;
+}
+.history-item:active{background:var(--surface-container-high)}
+.history-icon{
+  width:44px;height:44px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.history-info{flex:1;min-width:0}
+.history-name{
+  font-size:13px;font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.history-meta{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;color:var(--on-surface-variant);margin-top:2px;
+}
+.history-amount{
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;font-weight:700;flex-shrink:0;
+}
+
+/* Expense list cards */
+.exp-list-card{
+  background:rgba(31,31,37,0.5);backdrop-filter:blur(12px);
+  border:1px solid rgba(212,168,70,0.08);
+  border-radius:18px;padding:16px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:6px;transition:all .15s;cursor:pointer;
+}
+.exp-list-card:active{transform:scale(0.97)}
+.exp-list-card .exp-icon-wrap{
+  width:48px;height:48px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.exp-list-card .exp-info{flex:1;margin:0 12px;min-width:0}
+.exp-list-card .exp-name{font-size:14px;font-weight:700}
+.exp-list-card .exp-meta{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;color:var(--on-surface-variant);margin-top:2px;
+}
+.exp-list-card .exp-amount{
+  font-family:'JetBrains Mono',monospace;
+  font-size:16px;font-weight:700;color:var(--primary);
+}
+.exp-list-card .exp-currency{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:9px;color:var(--on-surface-variant);
+  text-transform:uppercase;letter-spacing:1px;
+}
+
+/* Big total card */
+.big-total-card{
+  background:rgba(31,31,37,0.4);backdrop-filter:blur(20px);
+  border:1px solid rgba(212,168,70,0.12);
+  border-radius:28px;padding:24px;
+  position:relative;overflow:hidden;text-align:center;
+}
+.big-total-card .glow-orb{
+  position:absolute;width:140px;height:140px;
+  border-radius:50%;background:var(--primary);
+  filter:blur(80px);opacity:0.06;pointer-events:none;
+}
+.big-total-label{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:10px;color:var(--on-surface-variant);
+  text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;
+}
+.big-total-value{
+  font-family:'JetBrains Mono',monospace;
+  font-size:40px;font-weight:700;
+  background:linear-gradient(135deg,var(--primary),var(--primary-container));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-2px;
+}
+.big-total-currency{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12px;color:var(--primary-container);font-weight:700;
+}
+.big-total-count{
+  font-size:11px;color:var(--on-surface-variant);
+  margin-top:8px;
+}
+.gold-shimmer{
+  height:1px;margin:12px auto;width:80%;
+  background:linear-gradient(90deg,transparent,rgba(242,195,94,0.3),transparent);
+}
+
+/* Refresh btn */
+.refresh-btn{
+  width:100%;padding:14px;border-radius:16px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:var(--surface-container);color:var(--on-surface);
+  font-size:14px;font-weight:700;
+  font-family:'Manrope',sans-serif;
+  cursor:pointer;transition:all .15s;
+}
+.refresh-btn:active{background:var(--primary);color:var(--on-primary)}
+
+/* === SETTINGS === */
+.danger-btn{
+  width:100%;padding:12px;border-radius:14px;
+  border:1px solid var(--red);
+  background:transparent;color:var(--red);
+  font-size:13px;font-weight:700;
+  font-family:'Manrope',sans-serif;
+  cursor:pointer;margin-top:10px;
+}
+
+/* === BOTTOM NAV === */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-around;align-items:flex-start;
+  padding:10px 16px calc(10px + var(--safe-bottom)) 16px;
+  background:rgba(19,19,24,0.9);backdrop-filter:blur(20px);
+  border-top:1px solid rgba(212,168,70,0.1);
+  border-radius:28px 28px 0 0;
+  box-shadow:0 -8px 32px rgba(0,0,0,0.4);
+  max-width:500px;margin:0 auto;
+}
+.nav-item{
+  display:flex;flex-direction:column;align-items:center;
+  gap:3px;cursor:pointer;padding:6px 20px;
+  color:rgba(255,255,255,0.3);transition:all .2s;
+  background:none;border:none;font-family:inherit;
+  border-radius:16px;
+}
+.nav-item.active{
+  color:var(--primary);
+  background:rgba(242,195,94,0.12);
+  border-top:1px solid var(--primary);
+}
+.nav-item .material-symbols-outlined{font-size:24px}
+.nav-item.active .material-symbols-outlined{
+  font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24;
+}
+.nav-item .nav-label{
+  font-family:'Be Vietnam Pro',sans-serif;
+  font-size:10px;font-weight:700;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:0}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-btn" onclick="openSettings()">
+    <span class="material-symbols-outlined">settings</span>
+  </div>
+  <h1>FDM</h1>
+  <div style="width:38px"></div>
+</header>
+
+<!-- ===== PAGE: ACTIVITY ===== -->
+<div id="page-activity" class="page active">
+  <div class="section-hdr" style="margin-top:4px">
+    <h2 class="section-title">مبيت 🌙</h2>
+    <span class="section-badge">PRIVATE</span>
+  </div>
+  <div class="q-grid">
+    <div class="q-card" onclick="quickAction('mabeet','salwa')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--salwa),transparent)"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--salwa)"></div><span class="q-icon">👩‍🦰</span></div>
+      <span class="q-label">سلوى</span>
+    </div>
+    <div class="q-card" onclick="quickAction('mabeet','yara')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--yara),transparent)"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--yara)"></div><span class="q-icon">👧</span></div>
+      <span class="q-label">يارا</span>
+    </div>
+    <div class="q-card" onclick="quickAction('activity','milestone')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--green),transparent)"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--green)"></div><span class="q-icon">🏆</span></div>
+      <span class="q-label">انجاز</span>
+    </div>
+  </div>
+
+  <div class="section-hdr" style="margin-top:24px">
+    <h2 class="section-title">أنشطة ⚡</h2>
+    <span class="section-badge">ACTIVITIES</span>
+  </div>
+  <div class="q-grid">
+    <div class="q-card sq" onclick="quickAction('activity','outing')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--orange),transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--orange)"></div><span class="q-icon">🚗</span></div>
+      <span class="q-label" style="color:var(--on-surface-variant)">طلعة</span>
+    </div>
+    <div class="q-card sq" onclick="quickAction('activity','sport')">
+      <div class="q-glow" style="background:linear-gradient(to left,#ef4444,transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:#ef4444"></div><span class="q-icon">🏃</span></div>
+      <span class="q-label" style="color:var(--on-surface-variant)">رياضة</span>
+    </div>
+    <div class="q-card sq" onclick="quickAction('activity','islam')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--green),transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--green)"></div><span class="q-icon">🕌</span></div>
+      <span class="q-label" style="color:var(--on-surface-variant)">اسلام</span>
+    </div>
+    <div class="q-card sq" onclick="quickAction('activity','health')">
+      <div class="q-glow" style="background:linear-gradient(to left,#22d3ee,transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:#22d3ee"></div><span class="q-icon">🏥</span></div>
+      <span class="q-label" style="color:var(--on-surface-variant)">صحة</span>
+    </div>
+    <div class="q-card sq" onclick="quickAction('activity','task')">
+      <div class="q-glow" style="background:linear-gradient(to left,#facc15,transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:#facc15"></div><span class="q-icon">📋</span></div>
+      <span class="q-label" style="color:var(--on-surface-variant)">مهمة</span>
+    </div>
+    <div class="q-card sq" onclick="quickAction('activity','event')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--pink),transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--pink)"></div><span class="q-icon">🎉</span></div>
+      <span class="q-label" style="color:var(--on-surface-variant)">مناسبة</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: EXPENSES ===== -->
+<div id="page-expenses" class="page">
+  <div class="section-hdr" style="margin-top:4px">
+    <h2 class="section-title">مصاريف البيت 🏠</h2>
+    <span class="section-badge">HOUSEHOLD</span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
+    <div class="exp-list-card" onclick="quickExpense('supermarket','salwa')">
+      <div class="exp-icon-wrap" style="background:rgba(91,141,239,0.12)">
+        <span class="material-symbols-outlined" style="color:var(--salwa);font-variation-settings:'FILL' 1">shopping_cart</span>
+      </div>
+      <div class="exp-info">
+        <div class="exp-name">مصروف سلوى</div>
+        <div class="exp-meta">SUPERMARKET • SALWA</div>
+      </div>
+      <div style="text-align:left">
+        <span class="material-symbols-outlined" style="color:var(--on-surface-variant);font-size:20px">arrow_forward_ios</span>
+      </div>
+    </div>
+    <div class="exp-list-card" onclick="quickExpense('supermarket','yara')">
+      <div class="exp-icon-wrap" style="background:rgba(176,124,232,0.12)">
+        <span class="material-symbols-outlined" style="color:var(--yara);font-variation-settings:'FILL' 1">local_mall</span>
+      </div>
+      <div class="exp-info">
+        <div class="exp-name">مصروف يارا</div>
+        <div class="exp-meta">SUPERMARKET • YARA</div>
+      </div>
+      <div style="text-align:left">
+        <span class="material-symbols-outlined" style="color:var(--on-surface-variant);font-size:20px">arrow_forward_ios</span>
+      </div>
+    </div>
+    <div class="exp-list-card" onclick="quickExpense('fuel')">
+      <div class="exp-icon-wrap" style="background:rgba(74,222,128,0.12)">
+        <span class="material-symbols-outlined" style="color:var(--green);font-variation-settings:'FILL' 1">local_gas_station</span>
+      </div>
+      <div class="exp-info">
+        <div class="exp-name">بنزين</div>
+        <div class="exp-meta">FUEL • VEHICLE</div>
+      </div>
+      <div style="text-align:left">
+        <span class="material-symbols-outlined" style="color:var(--on-surface-variant);font-size:20px">arrow_forward_ios</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-hdr" style="margin-top:24px">
+    <h2 class="section-title">مصاريف متنوعة 💰</h2>
+    <span class="section-badge">MISC</span>
+  </div>
+  <div class="q-grid">
+    <div class="q-card sq" onclick="quickExpense('food')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--orange),transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--orange)"></div>
+        <span class="material-symbols-outlined" style="font-size:28px;color:var(--orange);position:relative;z-index:1">restaurant</span>
+      </div>
+      <span class="q-label">أكل</span>
+    </div>
+    <div class="q-card sq" onclick="quickExpense('medical')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--red),transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--red)"></div>
+        <span class="material-symbols-outlined" style="font-size:28px;color:var(--red);position:relative;z-index:1">medical_services</span>
+      </div>
+      <span class="q-label">دكتور</span>
+    </div>
+    <div class="q-card sq" onclick="quickExpense('school')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--salwa),transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--salwa)"></div>
+        <span class="material-symbols-outlined" style="font-size:28px;color:var(--salwa);position:relative;z-index:1">school</span>
+      </div>
+      <span class="q-label">مدرسة</span>
+    </div>
+    <div class="q-card sq" onclick="quickExpense('clothes')">
+      <div class="q-glow" style="background:linear-gradient(to left,var(--yara),transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:var(--yara)"></div>
+        <span class="material-symbols-outlined" style="font-size:28px;color:var(--yara);position:relative;z-index:1">checkroom</span>
+      </div>
+      <span class="q-label">لبس</span>
+    </div>
+    <div class="q-card sq" onclick="quickExpense('bills')">
+      <div class="q-glow" style="background:linear-gradient(to left,#2dd4bf,transparent);opacity:0.6"></div>
+      <div class="q-icon-wrap"><div class="glow-bg" style="background:#2dd4bf"></div>
+        <span class="material-symbols-outlined" style="font-size:28px;color:#2dd4bf;position:relative;z-index:1">receipt_long</span>
+      </div>
+      <span class="q-label">فواتير</span>
+    </div>
+    <div class="q-card sq" style="border-style:dashed" onclick="quickExpense('custom')">
+      <div class="q-icon-wrap">
+        <span class="material-symbols-outlined" style="font-size:28px;color:var(--on-surface-variant);position:relative;z-index:1">add_circle</span>
+      </div>
+      <span class="q-label">أخرى</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE: DASHBOARD ===== -->
+<div id="page-dashboard" class="page">
+  <div class="month-selector">
+    <button class="month-btn" onclick="changeMonth(1)">
+      <span class="material-symbols-outlined">chevron_right</span>
+    </button>
+    <div class="month-label" id="month-label">مارس <span>2026</span></div>
+    <button class="month-btn" onclick="changeMonth(-1)">
+      <span class="material-symbols-outlined">chevron_left</span>
+    </button>
+  </div>
+
+  <!-- Mabeet Balance — RING CHART -->
+  <div class="dash-card">
+    <div class="card-glow" style="background:var(--primary);top:-40px;right:-40px"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span class="material-symbols-outlined" style="color:var(--primary)">bedtime</span>
+      <span style="font-family:'Be Vietnam Pro';font-size:14px;font-weight:700">رصيد المبيت</span>
+      <span id="mabeet-badge" style="margin-right:auto;font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;font-family:'Space Grotesk';background:rgba(74,222,128,0.12);color:var(--green)">—</span>
+    </div>
+    <div class="balance-ring-wrap">
+      <div class="balance-ring">
+        <svg viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="12"/>
+          <circle id="ring-salwa" cx="70" cy="70" r="58" fill="none" stroke="var(--salwa)" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="0 364.4" style="transition:stroke-dasharray .8s ease"/>
+          <circle id="ring-yara" cx="70" cy="70" r="58" fill="none" stroke="var(--yara)" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="0 364.4" style="transition:stroke-dasharray .8s ease"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-total" id="mabeet-total-ring">—</div>
+          <div class="ring-label">ليلة</div>
+        </div>
+      </div>
+      <div class="balance-legend">
+        <div class="legend-item" style="color:var(--salwa)">
+          <div class="legend-dot" style="background:var(--salwa)"></div>
+          سلوى <span class="legend-count" id="mabeet-s-count">—</span>
+        </div>
+        <div class="legend-item" style="color:var(--yara)">
+          <div class="legend-dot" style="background:var(--yara)"></div>
+          يارا <span class="legend-count" id="mabeet-y-count">—</span>
+        </div>
+      </div>
+      <div class="balance-status" id="mabeet-summary">جاري التحميل...</div>
+    </div>
+  </div>
+
+  <!-- Expense Equity — RING CHART -->
+  <div class="dash-card">
+    <div class="card-glow" style="background:var(--yara);top:-40px;left:-40px"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span class="material-symbols-outlined" style="color:var(--primary)">balance</span>
+      <span style="font-family:'Be Vietnam Pro';font-size:14px;font-weight:700">عدالة المصاريف</span>
+    </div>
+    <div class="balance-ring-wrap">
+      <div class="balance-ring">
+        <svg viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="12"/>
+          <circle id="exp-ring-salwa" cx="70" cy="70" r="58" fill="none" stroke="var(--salwa)" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="0 364.4" style="transition:stroke-dasharray .8s ease"/>
+          <circle id="exp-ring-yara" cx="70" cy="70" r="58" fill="none" stroke="var(--yara)" stroke-width="12" stroke-linecap="round"
+            stroke-dasharray="0 364.4" style="transition:stroke-dasharray .8s ease"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-total" id="exp-equity-pct" style="font-size:20px">—</div>
+          <div class="ring-label">عدالة</div>
+        </div>
+      </div>
+      <div class="balance-legend">
+        <div class="legend-item" style="color:var(--salwa)">
+          <div class="legend-dot" style="background:var(--salwa)"></div>
+          سلوى <span class="legend-count" id="exp-s-total">—</span>
+        </div>
+        <div class="legend-item" style="color:var(--yara)">
+          <div class="legend-dot" style="background:var(--yara)"></div>
+          يارا <span class="legend-count" id="exp-y-total">—</span>
+        </div>
+      </div>
+      <div class="balance-status" id="expense-equity-summary">جاري التحميل...</div>
+    </div>
+  </div>
+
+  <!-- Month Total -->
+  <div class="big-total-card">
+    <div class="glow-orb" style="top:-60px;right:-40px"></div>
+    <div class="big-total-label">إجمالي إنفاق الشهر</div>
+    <div class="big-total-currency">EGP</div>
+    <div class="big-total-value" id="month-total">—</div>
+    <div class="gold-shimmer"></div>
+    <div class="big-total-count" id="month-count">— عملية</div>
+  </div>
+
+  <!-- Recent transactions -->
+  <div class="section-hdr" style="margin-top:20px">
+    <h2 class="section-title">المعاملات الأخيرة</h2>
+  </div>
+  <div id="recent-list" style="margin:8px 0 16px">
+    <div style="text-align:center;padding:30px;color:var(--on-surface-variant);font-size:13px">اضغط تحديث لتحميل البيانات</div>
+  </div>
+  <button class="refresh-btn" onclick="loadDashboard()">
+    <span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;margin-left:6px">refresh</span>
+    تحديث البيانات
+  </button>
+</div>
+
+<!-- ===== ACTIVITY MODAL ===== -->
+<div class="modal-overlay" id="activity-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="activity-modal-title">تسجيل نشاط</div>
+      <button class="modal-close" onclick="closeModal('activity-modal')">✕</button>
+    </div>
+    <form id="activity-form" onsubmit="submitActivity(event)">
+      <input type="hidden" id="act-type">
+      <input type="hidden" id="act-house">
+
+      <div class="date-toggle">
+        <button type="button" class="date-today-btn" id="act-date-display" onclick="toggleDateInput('act')">📅 النهارده</button>
+        <button type="button" class="date-change-btn" onclick="resetDate('act')" title="رجوع للنهارده">↩️</button>
+      </div>
+      <input type="date" class="date-input-real" id="act-date-input" onchange="onDateChange('act')">
+
+      <div class="form-group">
+        <label class="form-label">الاسم</label>
+        <input class="form-input" id="act-name" required placeholder="وصف النشاط">
+      </div>
+
+      <div class="form-group" id="act-house-group" style="display:none">
+        <label class="form-label">البيت</label>
+        <select class="form-select" id="act-house-select">
+          <option value="🏠 Salwa">🏠 سلوى</option>
+          <option value="🏠 Yara">🏠 يارا</option>
+          <option value="Both">الاتنين</option>
+          <option value="Outside">برا</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="act-mabeet-group" style="display:none">
+        <label class="form-label">حالة المبيت</label>
+        <select class="form-select" id="act-mabeet-status">
+          <option value="مبيت كامل">مبيت كامل</option>
+          <option value="مبيت جزئى">مبيت جزئى</option>
+          <option value="سفر">سفر</option>
+          <option value="ظروف استثنائية">ظروف استثنائية</option>
+        </select>
+      </div>
+
+      <div class="toggle-group" id="act-mabeet-toggles">
+        <div class="toggle-item" id="toggle-salah" onclick="this.classList.toggle('on')">
+          <span class="t-icon">🕌</span>
+          <span class="t-label">صلاة</span>
+        </div>
+        <div class="toggle-item" id="toggle-quality" onclick="this.classList.toggle('on')">
+          <span class="t-icon">💝</span>
+          <span class="t-label">وقت نوعى</span>
+        </div>
+        <div class="toggle-item" id="toggle-done" onclick="this.classList.toggle('on')">
+          <span class="t-icon">✅</span>
+          <span class="t-label">تم</span>
+        </div>
+      </div>
+
+      <div class="form-group" id="act-milestone-group" style="display:none">
+        <label class="form-label">نوع الانجاز</label>
+        <select class="form-select" id="act-milestone-cat">
+          <option value="">— اختار —</option>
+          <option value="Quran 📖">قرآن 📖</option>
+          <option value="School 🏫">مدرسة 🏫</option>
+          <option value="Sport 🏊">رياضة 🏊</option>
+          <option value="Islamic Learning">تعلم اسلامى</option>
+          <option value="Social & Emotional">اجتماعى</option>
+          <option value="Health">صحة</option>
+          <option value="Creative & Skills">مهارات</option>
+          <option value="Language">لغة</option>
+          <option value="First Time 🌟">أول مرة 🌟</option>
+          <option value="Behavioral">سلوك</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">العيلة</label>
+        <div class="chips" id="act-family-chips"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ملاحظات (اختيارى)</label>
+        <input class="form-input" id="act-note" placeholder="تفاصيل إضافية">
+      </div>
+
+      <button type="submit" class="submit-btn" id="act-submit">✅ تسجيل</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== EXPENSE MODAL ===== -->
+<div class="modal-overlay" id="expense-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="expense-modal-title">تسجيل مصروف</div>
+      <button class="modal-close" onclick="closeModal('expense-modal')">✕</button>
+    </div>
+    <form id="expense-form" onsubmit="submitExpense(event)">
+      <input type="hidden" id="exp-category">
+
+      <div class="date-toggle">
+        <button type="button" class="date-today-btn" id="exp-date-display" onclick="toggleDateInput('exp')">📅 النهارده</button>
+        <button type="button" class="date-change-btn" onclick="resetDate('exp')" title="رجوع للنهارده">↩️</button>
+      </div>
+      <input type="date" class="date-input-real" id="exp-date-input" onchange="onDateChange('exp')">
+
+      <div class="form-group">
+        <label class="form-label">الاسم</label>
+        <input class="form-input" id="exp-name" required placeholder="وصف المصروف">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">المبلغ (ج.م)</label>
+        <input class="form-input" type="number" id="exp-amount" required placeholder="0" min="1" step="0.5" inputmode="decimal">
+      </div>
+
+      <div class="form-group" id="exp-category-group" style="display:none">
+        <label class="form-label">التصنيف</label>
+        <select class="form-select" id="exp-category-select">
+          <option value="Super Market🛒">سوبر ماركت 🛒</option>
+          <option value="Food 🥘">أكل 🥘</option>
+          <option value="Fuel ⛽️">بنزين ⛽</option>
+          <option value="DR & Medicine">دكتور و أدوية 💊</option>
+          <option value="school">مدرسة 🏫</option>
+          <option value="Clothes👕👚">لبس 👕</option>
+          <option value="Bills">فواتير</option>
+          <option value="entertainment💃">ترفيه 💃</option>
+          <option value="Essential">أساسيات</option>
+          <option value="Accessories">اكسسوارات</option>
+          <option value="Subscription">اشتراكات</option>
+          <option value="Maintenance 🔧">صيانة 🔧</option>
+          <option value="Spare parts ⚙️">قطع غيار ⚙️</option>
+          <option value="ISLAM">اسلام</option>
+          <option value="هدية">هدية 🎁</option>
+          <option value="Sport">رياضة</option>
+          <option value="Travel">سفر</option>
+          <option value="Desserts and Candy">حلويات</option>
+          <option value="مصروف شخصى">مصروف شخصى</option>
+          <option value="خدمات">خدمات</option>
+          <option value="بامبرز ومناديل">بامبرز ومناديل</option>
+          <option value="دروس وكتب خارجية">دروس وكتب خارجية</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="exp-bills-type-group" style="display:none">
+        <label class="form-label">نوع الفاتورة</label>
+        <select class="form-select" id="exp-bills-type">
+          <option value="كهربا">كهرباء ⚡</option>
+          <option value="غاز">غاز 🔥</option>
+          <option value="Internet bill">نت 🌐</option>
+          <option value="Mobile Bill📱">موبايل 📱</option>
+          <option value="Telephone bill☎️">خط أرضى ☎️</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="exp-property-group" style="display:none">
+        <label class="form-label">العقار</label>
+        <select class="form-select" id="exp-property-select">
+          <option value="">— اختار —</option>
+          <option value="356b4fb4">الحدايق</option>
+          <option value="b1363fc3">المقطم</option>
+          <option value="970f8193">بابا الحدايق</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">طريقة الدفع</label>
+        <select class="form-select" id="exp-paid-by">
+          <option value="CASH">كاش</option>
+          <option value="CIB 4476 FDM">CIB 4476 FDM</option>
+          <option value="CIB 1011">CIB 1011</option>
+          <option value="CIB 8019">CIB 8019</option>
+          <option value="CIB 6135">CIB 6135</option>
+          <option value="CIB 7010">CIB 7010</option>
+          <option value="CIB 0010">CIB 0010</option>
+          <option value="HSBC 3626">HSBC 3626</option>
+          <option value="HSBC 2936">HSBC 2936</option>
+          <option value="VF Cash">VF Cash</option>
+          <option value="Instapay CIB">Instapay CIB</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="exp-family-group">
+        <label class="form-label">العيلة</label>
+        <div class="chips" id="exp-family-chips"></div>
+      </div>
+
+      <div class="form-group" id="exp-vehicle-group" style="display:none">
+        <label class="form-label">العربية</label>
+        <select class="form-select" id="exp-vehicle">
+          <option value="">— اختار —</option>
+          <option value="a89327c0">سكوتر</option>
+          <option value="9d530c70">BMW</option>
+          <option value="d52b4381">Honda</option>
+          <option value="1e8cde28">Lanos</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="exp-km-group" style="display:none">
+        <label class="form-label">عداد الكيلومتر</label>
+        <input class="form-input" type="number" id="exp-km" placeholder="KM" inputmode="numeric">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ملاحظات (اختيارى)</label>
+        <input class="form-input" id="exp-note" placeholder="تفاصيل إضافية">
+      </div>
+
+      <button type="submit" class="submit-btn" id="exp-submit">✅ تسجيل المصروف</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== SETTINGS MODAL ===== -->
+<div class="modal-overlay" id="settings-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">⚙️ الإعدادات</div>
+      <button class="modal-close" onclick="closeModal('settings-modal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notion API Token</label>
+      <input class="form-input" id="token-input" type="password" placeholder="ntn_..." dir="ltr" style="font-family:'JetBrains Mono',monospace;font-size:13px">
+      <button class="submit-btn" onclick="saveToken()" style="margin-top:8px">💾 حفظ التوكن</button>
+    </div>
+    <div id="token-status" style="margin-top:10px"></div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06)">
+      <div class="form-label">حالة الاتصال</div>
+      <div id="connection-status" style="font-size:13px;color:var(--on-surface-variant);margin-top:6px">—</div>
+    </div>
+    <button class="danger-btn" onclick="clearToken()">🗑️ مسح التوكن</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-item active" onclick="switchPage('activity')">
+    <span class="material-symbols-outlined">history</span>
+    <span class="nav-label">أنشطة</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('expenses')">
+    <span class="material-symbols-outlined">payments</span>
+    <span class="nav-label">مصاريف</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('dashboard')">
+    <span class="material-symbols-outlined">dashboard</span>
+    <span class="nav-label">لوحة</span>
+  </button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const WORKER_URL = 'https://fdm-api.amahalim.workers.dev';
+const DB = {
+  activity: '51e6f26ff10740d8a5a697b341a21d70',
+  expenses: '3ad23eb4fcb54f6baf2ebeec603dd9ae'
+};
+const FAMILY = {
+  ahmad:   { id:'e4c8783f-d65b-436c-84d7-1d998e2abf88', name:'أحمد',  emoji:'👨', color:'#D4A846' },
+  salwa:   { id:'14fb5273-a910-409c-9e04-0c15a1846826', name:'سلوى',  emoji:'🙎‍♀️', color:'#5b8def' },
+  farah:   { id:'764f0cad-4464-49a7-a732-c55d6080b7d6', name:'فرح',   emoji:'😍', color:'#E05080' },
+  youssef: { id:'36c4e569-1b36-489d-9e34-240a10fc681b', name:'يوسف',  emoji:'😎', color:'#4FA8E0' },
+  hayat:   { id:'68e82cca-91ab-4399-bc45-86fb9616b75f', name:'حياة',  emoji:'😝', color:'#50C8B0' },
+  yara:    { id:'e26d4426-bf0e-46ae-9a0e-a0be7af6aefa', name:'يارا',  emoji:'👧', color:'#b07ce8' },
+  younis:  { id:'32acde28-d1d7-811f-95b4-cfef8c39748a', name:'يونس',  emoji:'👶', color:'#E89040' }
+};
+const VEHICLES = {
+  'a89327c0': 'a89327c0-855c-48f1-9f41-2ef4e6e792a6',
+  '9d530c70': '9d530c70-6ad5-40e5-98cb-1b2f6ba64a57',
+  'd52b4381': 'd52b4381-8218-427c-92df-648d43cfb0ad',
+  '1e8cde28': '1e8cde28-d1d7-8073-97ec-dc0792dcef33'
+};
+const PROPERTIES = {
+  '356b4fb4': '356b4fb4-5f83-48a8-8810-fe4f5382666a',
+  'b1363fc3': 'b1363fc3-e13f-4e99-8653-0506e341c07c',
+  '970f8193': '970f8193-ed21-4798-9f71-d1648cae2b36'
+};
+const ACT_TYPES = {
+  mabeet:'مبيت 🌙', milestone:'Milestone 🌟', outing:'Outing 🚗',
+  sport:'Sport 🏃', islam:'Islam 🕌', health:'Health 🏥',
+  task:'Task 📋', event:'Event 🎉'
+};
+
+// Household mapping
+const HOUSE_SALWA_IDS = [
+  '14fb5273-a910-409c-9e04-0c15a1846826',
+  '764f0cad-4464-49a7-a732-c55d6080b7d6',
+  '36c4e569-1b36-489d-9e34-240a10fc681b',
+  '68e82cca-91ab-4399-bc45-86fb9616b75f',
+];
+const HOUSE_YARA_IDS = [
+  'e26d4426-bf0e-46ae-9a0e-a0be7af6aefa',
+  '32acde28-d1d7-811f-95b4-cfef8c39748a',
+];
+const PROP_MOQATTAM = 'b1363fc3-e13f-4e99-8653-0506e341c07c';
+const PROP_BABA_HADAYEQ = '970f8193-ed21-4798-9f71-d1648cae2b36';
+
+// RING CHART CONSTANTS
+const RING_CIRCUMFERENCE = 2 * Math.PI * 58; // ~364.4
+
+// ============================================================
+// TOKEN
+// ============================================================
+function getToken() { return localStorage.getItem('fdm_token') || ''; }
+function saveToken() {
+  const t = document.getElementById('token-input').value.trim();
+  if(!t) { showToast('ادخل التوكن أولاً','error'); return; }
+  localStorage.setItem('fdm_token', t);
+  document.getElementById('token-input').value = '';
+  showToast('✅ تم حفظ التوكن','success');
+  closeModal('settings-modal');
+  testConnection();
+}
+function clearToken() {
+  if(confirm('متأكد تمسح التوكن؟')) {
+    localStorage.removeItem('fdm_token');
+    showToast('تم مسح التوكن','success');
+    document.getElementById('connection-status').textContent = 'غير متصل';
+  }
+}
+function openSettings() {
+  document.getElementById('settings-modal').classList.add('active');
+  const token = getToken();
+  document.getElementById('connection-status').textContent = token ? 'التوكن موجود' : 'لا يوجد توكن';
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item')[['activity','expenses','dashboard'].indexOf(name)].classList.add('active');
+  if(name === 'dashboard') loadDashboard();
+}
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.className = 'toast ' + type;
+  t.innerHTML = msg;
+  setTimeout(() => t.classList.add('show'), 10);
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+function showToastWithLink(msg, notionUrl) {
+  const t = document.getElementById('toast');
+  t.className = 'toast success';
+  t.innerHTML = msg + ' <a href="'+notionUrl+'" target="_blank" style="color:#000;text-decoration:underline;margin-right:8px;font-weight:800">📎 Notion</a>';
+  setTimeout(() => t.classList.add('show'), 10);
+  setTimeout(() => t.classList.remove('show'), 6000);
+}
+
+// ============================================================
+// FAMILY CHIPS
+// ============================================================
+function buildFamilyChips(containerId, preselect=[]) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  Object.entries(FAMILY).forEach(([key, m]) => {
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (preselect.includes(key) ? ' selected' : '');
+    chip.style.cssText = `--chip-color:${m.color}`;
+    chip.dataset.key = key;
+    chip.textContent = m.emoji + ' ' + m.name;
+    chip.onclick = () => chip.classList.toggle('selected');
+    el.appendChild(chip);
+  });
+}
+function getSelectedFamily(containerId) {
+  return Array.from(document.querySelectorAll('#'+containerId+' .chip.selected'))
+    .map(c => FAMILY[c.dataset.key]?.id).filter(Boolean);
+}
+
+// ============================================================
+// NOTION API
+// ============================================================
+async function notionPost(body) {
+  const token = getToken();
+  if(!token) { showToast('⚠️ ادخل التوكن في الإعدادات أولاً','error'); return null; }
+  try {
+    const res = await fetch(WORKER_URL, {
+      method:'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+token },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if(!res.ok) { console.error('Notion error:', data); showToast('⚠️ خطأ: '+(data.message || res.status),'error'); return null; }
+    return data;
+  } catch(e) { console.error('Network error:', e); showToast('⚠️ مشكلة في الاتصال','error'); return null; }
+}
+
+async function notionQuery(databaseId, filter={}, sorts=[], pageSize=20) {
+  const token = getToken();
+  if(!token) { showToast('⚠️ ادخل التوكن أولاً','error'); return null; }
+  const body = { _endpoint:'query', _database_id:databaseId, page_size:pageSize };
+  if(Object.keys(filter).length) body.filter = filter;
+  if(sorts.length) body.sorts = sorts;
+  try {
+    const res = await fetch(WORKER_URL, {
+      method:'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+token },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if(!res.ok) { console.error('Query error:', data); return null; }
+    return data;
+  } catch(e) { console.error('Query network error:', e); return null; }
+}
+
+// ============================================================
+// QUICK ACTIVITY
+// ============================================================
+function quickAction(type, subtype) {
+  const modal = document.getElementById('activity-modal');
+  document.getElementById('activity-form').reset();
+
+  document.getElementById('act-type').value = type === 'mabeet' ? 'mabeet' : subtype;
+
+  const names = {
+    mabeet: subtype === 'salwa' ? 'مبيت سلوى' : 'مبيت يارا',
+    milestone:'انجاز جديد', outing:'طلعة', sport:'تمرين',
+    islam:'نشاط اسلامى', health:'صحة', task:'مهمة', event:'مناسبة'
+  };
+  document.getElementById('act-name').value = names[type === 'mabeet' ? 'mabeet' : subtype] || '';
+  document.getElementById('act-house').value = type === 'mabeet' ? (subtype === 'salwa' ? '🏠 Salwa' : '🏠 Yara') : '';
+
+  document.getElementById('act-mabeet-group').style.display = type === 'mabeet' ? 'block' : 'none';
+  document.getElementById('act-house-group').style.display = type !== 'mabeet' ? 'block' : 'none';
+  document.getElementById('act-milestone-group').style.display = subtype === 'milestone' ? 'block' : 'none';
+
+  const togglesEl = document.getElementById('act-mabeet-toggles');
+  if(type === 'mabeet') {
+    togglesEl.classList.add('visible');
+    document.getElementById('toggle-salah').classList.remove('on');
+    document.getElementById('toggle-quality').classList.remove('on');
+    document.getElementById('toggle-done').classList.add('on');
+  } else {
+    togglesEl.classList.remove('visible');
+  }
+
+  const titles = { mabeet:'🌙 مبيت', milestone:'🏆 انجاز', outing:'🚗 طلعة', sport:'🏃 رياضة', islam:'🕌 اسلام', health:'🏥 صحة', task:'📋 مهمة', event:'🎉 مناسبة' };
+  document.getElementById('activity-modal-title').textContent = titles[type === 'mabeet' ? 'mabeet' : subtype] || 'نشاط';
+
+  const preselect = type === 'mabeet'
+    ? (subtype === 'salwa' ? ['ahmad','salwa'] : ['ahmad','yara'])
+    : [];
+  buildFamilyChips('act-family-chips', preselect);
+
+  modal.classList.add('active');
+  resetDate('act');
+  if(type !== 'mabeet') document.getElementById('act-name').focus();
+}
+
+async function submitActivity(e) {
+  e.preventDefault();
+  const btn = document.getElementById('act-submit');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري التسجيل...';
+
+  const typeKey = document.getElementById('act-type').value;
+  const isMabeet = typeKey === 'mabeet';
+  const actType = isMabeet ? 'مبيت 🌙' : ACT_TYPES[typeKey];
+  const house = isMabeet ? document.getElementById('act-house').value : document.getElementById('act-house-select').value;
+  const name = document.getElementById('act-name').value;
+  const selectedDate = getSelectedDate('act');
+
+  const properties = {
+    'Name': { title: [{ text: { content: name } }] },
+    'Type': { select: { name: actType } },
+    'House': { select: { name: house } },
+    'Activity Date': { date: { start: selectedDate } },
+    // ★ ALL activities marked as Done by default
+    'Done': { checkbox: true }
+  };
+
+  if(isMabeet) {
+    const status = document.getElementById('act-mabeet-status').value;
+    properties['Mabeet Status'] = { select: { name: status } };
+    properties['Salah Together'] = { checkbox: document.getElementById('toggle-salah').classList.contains('on') };
+    properties['Quality Time'] = { checkbox: document.getElementById('toggle-quality').classList.contains('on') };
+    // Override Done for mabeet based on toggle
+    properties['Done'] = { checkbox: document.getElementById('toggle-done').classList.contains('on') };
+  }
+
+  if(typeKey === 'milestone') {
+    const cat = document.getElementById('act-milestone-cat').value;
+    if(cat) properties['Milestone Category'] = { select: { name: cat } };
+    properties['Achivment 🏅'] = { checkbox: true };
+  }
+
+  const familyIds = getSelectedFamily('act-family-chips');
+  if(familyIds.length) {
+    properties['Family'] = { relation: familyIds.map(id => ({id})) };
+  }
+
+  const body = { parent: { database_id: DB.activity }, properties };
+  const note = document.getElementById('act-note').value.trim();
+  if(note) {
+    body.children = [{
+      object:'block', type:'paragraph',
+      paragraph: { rich_text: [{ type:'text', text:{ content: note } }] }
+    }];
+  }
+
+  const result = await notionPost(body);
+  btn.disabled = false;
+  btn.textContent = '✅ تسجيل';
+
+  if(result && result.id) {
+    const pageUrl = 'https://www.notion.so/' + result.id.replace(/-/g,'');
+    showToastWithLink('✅ تم: ' + name, pageUrl);
+    closeModal('activity-modal');
+  }
+}
+
+// ============================================================
+// QUICK EXPENSE
+// ============================================================
+function quickExpense(type, house) {
+  const modal = document.getElementById('expense-modal');
+  document.getElementById('expense-form').reset();
+
+  const isFuel = type === 'fuel';
+  const isBills = type === 'bills';
+  const isCustom = type === 'custom';
+
+  const catMap = {
+    supermarket:'Super Market🛒', fuel:'Fuel ⛽️', food:'Food 🥘',
+    medical:'DR & Medicine', school:'school', clothes:'Clothes👕👚',
+    bills:'', custom:''
+  };
+  document.getElementById('exp-category').value = catMap[type] || '';
+
+  const nameMap = {
+    supermarket: house === 'salwa' ? 'مصروف البيت "S"' : 'مصروف البيت "Y"',
+    fuel:'بنزين', food:'أكل', medical:'دكتور', school:'مدرسة',
+    clothes:'لبس', bills:'فاتورة', custom:''
+  };
+  document.getElementById('exp-name').value = nameMap[type] || '';
+
+  const titles = { supermarket:'🛒 مصروف البيت', fuel:'⛽ بنزين', food:'🥘 أكل', medical:'💊 دكتور', school:'🏫 مدرسة', clothes:'👕 لبس', bills:'📃 فواتير', custom:'✏️ مصروف حر' };
+  document.getElementById('expense-modal-title').textContent = titles[type] || 'مصروف';
+
+  document.getElementById('exp-category-group').style.display = isCustom ? 'block' : 'none';
+  document.getElementById('exp-bills-type-group').style.display = isBills ? 'block' : 'none';
+  document.getElementById('exp-property-group').style.display = isBills ? 'block' : 'none';
+  document.getElementById('exp-vehicle-group').style.display = isFuel ? 'block' : 'none';
+  document.getElementById('exp-km-group').style.display = isFuel ? 'block' : 'none';
+
+  const preselect = house === 'salwa' ? ['salwa'] : house === 'yara' ? ['yara'] : [];
+  buildFamilyChips('exp-family-chips', preselect);
+
+  modal.classList.add('active');
+  resetDate('exp');
+  document.getElementById('exp-amount').focus();
+}
+
+async function submitExpense(e) {
+  e.preventDefault();
+  const btn = document.getElementById('exp-submit');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري التسجيل...';
+
+  const name = document.getElementById('exp-name').value;
+  const amount = parseFloat(document.getElementById('exp-amount').value);
+  const paidBy = document.getElementById('exp-paid-by').value;
+  const selectedDate = getSelectedDate('exp');
+
+  let category = document.getElementById('exp-category').value;
+  if(!category && document.getElementById('exp-bills-type-group').style.display !== 'none') {
+    category = document.getElementById('exp-bills-type').value;
+  }
+  if(!category) category = document.getElementById('exp-category-select').value;
+
+  const properties = {
+    'Name': { title: [{ text: { content: name } }] },
+    'Amount': { number: amount },
+    'Paid BY': { select: { name: paidBy } },
+    'Date': { date: { start: selectedDate } }
+  };
+
+  if(category) properties['Category'] = { multi_select: [{ name: category }] };
+
+  const note = document.getElementById('exp-note').value;
+  if(note) properties['note'] = { rich_text: [{ text: { content: note } }] };
+
+  const familyIds = getSelectedFamily('exp-family-chips');
+  if(familyIds.length) properties['Family'] = { relation: familyIds.map(id => ({id})) };
+
+  if(document.getElementById('exp-vehicle-group').style.display !== 'none') {
+    const vKey = document.getElementById('exp-vehicle').value;
+    if(vKey && VEHICLES[vKey]) {
+      properties['Vehicles'] = { relation: [{id: VEHICLES[vKey]}] };
+    }
+    const km = document.getElementById('exp-km').value;
+    if(km) properties['KM'] = { number: parseInt(km) };
+  }
+
+  if(document.getElementById('exp-property-group').style.display !== 'none') {
+    const propKey = document.getElementById('exp-property-select').value;
+    if(propKey && PROPERTIES[propKey]) {
+      properties['Property'] = { relation: [{id: PROPERTIES[propKey]}] };
+    }
+  }
+
+  const body = { parent: { database_id: DB.expenses }, properties };
+  const expNote = document.getElementById('exp-note').value.trim();
+  if(expNote) {
+    body.children = [{
+      object:'block', type:'paragraph',
+      paragraph: { rich_text: [{ type:'text', text:{ content: expNote } }] }
+    }];
+  }
+
+  const result = await notionPost(body);
+  btn.disabled = false;
+  btn.textContent = '✅ تسجيل المصروف';
+
+  if(result && result.id) {
+    const pageUrl = 'https://www.notion.so/' + result.id.replace(/-/g,'');
+    showToastWithLink('✅ تم: ' + name + ' — ' + amount + ' ج.م', pageUrl);
+    closeModal('expense-modal');
+  }
+}
+
+// ============================================================
+// DATE PICKER
+// ============================================================
+function getTodayStr() { return new Date().toISOString().split('T')[0]; }
+function formatDateAr(dateStr) {
+  if(!dateStr || dateStr === getTodayStr()) return '📅 النهارده';
+  const d = new Date(dateStr + 'T00:00:00');
+  const days = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+  return '📅 ' + days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()];
+}
+function toggleDateInput(prefix) {
+  const input = document.getElementById(prefix + '-date-input');
+  if(input.classList.contains('visible')) { input.classList.remove('visible'); }
+  else { input.classList.add('visible'); input.value = input.value || getTodayStr(); input.focus(); }
+}
+function onDateChange(prefix) {
+  const input = document.getElementById(prefix + '-date-input');
+  const display = document.getElementById(prefix + '-date-display');
+  if(input.value && input.value !== getTodayStr()) {
+    display.textContent = formatDateAr(input.value);
+    display.classList.add('custom');
+  } else {
+    display.textContent = '📅 النهارده';
+    display.classList.remove('custom');
+  }
+}
+function resetDate(prefix) {
+  const input = document.getElementById(prefix + '-date-input');
+  const display = document.getElementById(prefix + '-date-display');
+  input.value = '';
+  input.classList.remove('visible');
+  display.textContent = '📅 النهارده';
+  display.classList.remove('custom');
+}
+function getSelectedDate(prefix) {
+  const input = document.getElementById(prefix + '-date-input');
+  return (input.value && input.value.length === 10) ? input.value : getTodayStr();
+}
+
+// ============================================================
+// RING CHART HELPER
+// ============================================================
+function updateRing(salwaId, yaraId, salwaVal, yaraVal) {
+  const total = salwaVal + yaraVal || 1;
+  const salwaPct = salwaVal / total;
+  const yaraPct = yaraVal / total;
+  const gap = 8; // pixel gap between arcs
+
+  const salwaArc = RING_CIRCUMFERENCE * salwaPct - (salwaPct > 0 && yaraPct > 0 ? gap : 0);
+  const yaraArc = RING_CIRCUMFERENCE * yaraPct - (salwaPct > 0 && yaraPct > 0 ? gap : 0);
+
+  const salwaEl = document.getElementById(salwaId);
+  const yaraEl = document.getElementById(yaraId);
+
+  // Salwa starts at 0
+  salwaEl.setAttribute('stroke-dasharray', `${Math.max(0,salwaArc)} ${RING_CIRCUMFERENCE}`);
+  salwaEl.setAttribute('stroke-dashoffset', '0');
+
+  // Yara starts after Salwa's arc + gap
+  const yaraOffset = -(RING_CIRCUMFERENCE * salwaPct);
+  yaraEl.setAttribute('stroke-dasharray', `${Math.max(0,yaraArc)} ${RING_CIRCUMFERENCE}`);
+  yaraEl.setAttribute('stroke-dashoffset', `${yaraOffset}`);
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+const MONTHS_AR = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+let dashYear = new Date().getFullYear();
+let dashMonth = new Date().getMonth();
+
+function updateMonthLabel() {
+  document.getElementById('month-label').innerHTML = MONTHS_AR[dashMonth] + ' <span>' + dashYear + '</span>';
+}
+function changeMonth(delta) {
+  dashMonth += delta;
+  if(dashMonth > 11) { dashMonth = 0; dashYear++; }
+  if(dashMonth < 0) { dashMonth = 11; dashYear--; }
+  updateMonthLabel();
+  loadDashboard();
+}
+
+function classifyExpense(r) {
+  const familyRels = (r.properties?.Family?.relation || []).map(f => f.id);
+  const propRels = (r.properties?.Property?.relation || []).map(p => p.id);
+  const name = (r.properties?.Name?.title?.[0]?.plain_text || '').toLowerCase();
+
+  if(propRels.includes(PROP_MOQATTAM)) return 'salwa';
+  if(propRels.includes(PROP_BABA_HADAYEQ)) return 'yara';
+
+  const hasSalwaHouse = familyRels.some(id => HOUSE_SALWA_IDS.includes(id));
+  const hasYaraHouse = familyRels.some(id => HOUSE_YARA_IDS.includes(id));
+
+  if(hasSalwaHouse && !hasYaraHouse) return 'salwa';
+  if(hasYaraHouse && !hasSalwaHouse) return 'yara';
+
+  if(name.includes('"s"') || name.includes('سلوى')) return 'salwa';
+  if(name.includes('"y"') || name.includes('يارا')) return 'yara';
+
+  return 'shared';
+}
+
+async function loadDashboard() {
+  const refreshBtn = document.querySelector('#page-dashboard .refresh-btn');
+  if(refreshBtn) { refreshBtn.disabled = true; refreshBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;margin-left:6px;animation:spin 1s linear infinite">refresh</span> جاري التحميل...'; }
+  updateMonthLabel();
+
+  const monthStart = new Date(dashYear, dashMonth, 1).toISOString().split('T')[0];
+  const monthEnd = new Date(dashYear, dashMonth + 1, 0).toISOString().split('T')[0];
+
+  // Load mabeet
+  const mabeetData = await notionQuery(DB.activity, {
+    and: [
+      { property:'Type', select:{ equals:'مبيت 🌙' } },
+      { property:'Activity Date', date:{ on_or_after: monthStart } },
+      { property:'Activity Date', date:{ on_or_before: monthEnd } }
+    ]
+  }, [{ property:'Activity Date', direction:'descending' }], 100);
+
+  if(mabeetData && mabeetData.results) {
+    let salwaCount = 0, yaraCount = 0;
+    mabeetData.results.forEach(r => {
+      const house = r.properties?.House?.select?.name;
+      if(house === '🏠 Salwa') salwaCount++;
+      else if(house === '🏠 Yara') yaraCount++;
+    });
+    const total = salwaCount + yaraCount;
+    document.getElementById('mabeet-s-count').textContent = salwaCount;
+    document.getElementById('mabeet-y-count').textContent = yaraCount;
+    document.getElementById('mabeet-total-ring').textContent = total;
+
+    // Update ring
+    updateRing('ring-salwa', 'ring-yara', salwaCount, yaraCount);
+
+    const diff = Math.abs(salwaCount - yaraCount);
+    const balanced = diff <= 2;
+    const badge = document.getElementById('mabeet-badge');
+    const summary = document.getElementById('mabeet-summary');
+    if(balanced) {
+      badge.textContent = '✅ متوازن';
+      badge.style.background = 'rgba(74,222,128,0.12)';
+      badge.style.color = 'var(--green)';
+      summary.textContent = 'متوازن — الفرق ' + diff + ' ليالى فقط';
+      summary.style.background = 'rgba(74,222,128,0.08)';
+      summary.style.color = 'var(--green)';
+    } else {
+      badge.textContent = '⚠️ فرق';
+      badge.style.background = 'rgba(251,146,60,0.12)';
+      badge.style.color = 'var(--orange)';
+      summary.textContent = 'فرق ' + diff + ' ليالى لصالح ' + (salwaCount > yaraCount ? 'سلوى' : 'يارا');
+      summary.style.background = 'rgba(251,146,60,0.08)';
+      summary.style.color = 'var(--orange)';
+    }
+  }
+
+  // Load expenses
+  const expData = await notionQuery(DB.expenses, {
+    and: [
+      { property:'Date', date:{ on_or_after: monthStart } },
+      { property:'Date', date:{ on_or_before: monthEnd } }
+    ]
+  }, [{ property:'Date', direction:'descending' }], 100);
+
+  if(expData && expData.results) {
+    let total = 0, salwaExp = 0, yaraExp = 0;
+    expData.results.forEach(r => {
+      const amount = r.properties?.Amount?.number || 0;
+      total += amount;
+      const house = classifyExpense(r);
+      if(house === 'salwa') salwaExp += amount;
+      else if(house === 'yara') yaraExp += amount;
+    });
+
+    document.getElementById('month-total').textContent = total.toLocaleString('en') + '.00';
+    document.getElementById('month-count').textContent = expData.results.length + ' عملية';
+
+    // Expense equity ring
+    updateRing('exp-ring-salwa', 'exp-ring-yara', salwaExp, yaraExp);
+    document.getElementById('exp-s-total').textContent = salwaExp.toLocaleString('en');
+    document.getElementById('exp-y-total').textContent = yaraExp.toLocaleString('en');
+
+    // Calculate equity percentage
+    const expTotal = salwaExp + yaraExp || 1;
+    const ratio = Math.min(salwaExp, yaraExp) / Math.max(salwaExp, yaraExp) * 100 || 0;
+    document.getElementById('exp-equity-pct').textContent = Math.round(ratio) + '%';
+
+    const expDiff = Math.abs(salwaExp - yaraExp);
+    const expBalanced = expDiff < total * 0.15;
+    const expSummary = document.getElementById('expense-equity-summary');
+    if(expBalanced) {
+      expSummary.textContent = 'متوازن — الفرق ' + expDiff.toLocaleString('en') + ' ج.م';
+      expSummary.style.background = 'rgba(74,222,128,0.08)';
+      expSummary.style.color = 'var(--green)';
+    } else {
+      expSummary.textContent = 'فرق ' + expDiff.toLocaleString('en') + ' ج.م لصالح ' + (salwaExp > yaraExp ? 'سلوى' : 'يارا');
+      expSummary.style.background = 'rgba(251,146,60,0.08)';
+      expSummary.style.color = 'var(--orange)';
+    }
+
+    // Recent items
+    const list = document.getElementById('recent-list');
+    list.innerHTML = '';
+    const catIcons = { 'Super Market🛒':'shopping_cart', 'Fuel ⛽️':'local_gas_station', 'Food 🥘':'restaurant', 'DR & Medicine':'medical_services', 'school':'school', 'Clothes👕👚':'checkroom', 'كهربا':'bolt', 'غاز':'local_fire_department', 'Internet bill':'wifi', 'Bills':'receipt_long' };
+    const catColors = { 'Super Market🛒':'#f59e0b', 'Fuel ⛽️':'#4ade80', 'Food 🥘':'#fb923c', 'DR & Medicine':'#f87171', 'school':'#60a5fa', 'Clothes👕👚':'#a78bfa', 'كهربا':'#facc15', 'غاز':'#f87171', 'Internet bill':'#22d3ee', 'Bills':'#2dd4bf' };
+
+    expData.results.slice(0, 8).forEach(r => {
+      const name = r.properties?.Name?.title?.[0]?.plain_text || '—';
+      const amount = r.properties?.Amount?.number || 0;
+      const cats = r.properties?.Category?.multi_select?.map(c => c.name) || [];
+      const date = r.properties?.Date?.date?.start || '';
+      const house = classifyExpense(r);
+      const houseTag = house === 'salwa' ? '🔵' : house === 'yara' ? '🟣' : '⚪';
+      const icon = catIcons[cats[0]] || 'payments';
+      const color = catColors[cats[0]] || 'var(--primary)';
+      const borderColor = house === 'salwa' ? 'var(--salwa)' : house === 'yara' ? 'var(--yara)' : 'var(--primary)';
+
+      const div = document.createElement('div');
+      div.className = 'history-item';
+      div.style.borderRightColor = borderColor;
+      div.innerHTML = `
+        <div class="history-icon" style="background:${color}15">
+          <span class="material-symbols-outlined" style="color:${color}">${icon}</span>
+        </div>
+        <div class="history-info">
+          <div class="history-name">${houseTag} ${name}</div>
+          <div class="history-meta">${cats.join(', ')} · ${date}</div>
+        </div>
+        <div class="history-amount">${amount.toLocaleString('en')}</div>
+      `;
+      list.appendChild(div);
+    });
+    if(!expData.results.length) list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--on-surface-variant);font-size:13px">لا توجد مصاريف في الشهر ده</div>';
+  }
+
+  if(refreshBtn) { refreshBtn.disabled = false; refreshBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;margin-left:6px">refresh</span> تحديث البيانات'; }
+}
+
+// ============================================================
+// CONNECTION TEST
+// ============================================================
+async function testConnection() {
+  const token = getToken();
+  if(!token) return;
+  try {
+    const res = await fetch(WORKER_URL, {
+      method:'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+token },
+      body: JSON.stringify({ _endpoint:'query', _database_id: DB.activity, page_size:1 })
+    });
+    if(res.ok) {
+      document.getElementById('connection-status').innerHTML = '<span style="color:var(--green)">✅ متصل بـ Notion</span>';
+    }
+  } catch(e) { /* silent */ }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  if(!getToken()) setTimeout(() => openSettings(), 500);
+  else testConnection();
+});
+
+// Close modals on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if(e.target === overlay) overlay.classList.remove('active');
+  });
+});
+
+// Bills sub-type change handler
+document.getElementById('exp-bills-type')?.addEventListener('change', function() {
+  const name = document.getElementById('exp-name');
+  const typeMap = { 'كهربا':'فاتورة كهرباء', 'غاز':'فاتورة غاز', 'Internet bill':'فاتورة نت', 'Mobile Bill📱':'فاتورة موبايل', 'Telephone bill☎️':'فاتورة خط أرضى' };
+  name.value = typeMap[this.value] || 'فاتورة';
+  const showProp = ['كهربا','غاز'].includes(this.value);
+  document.getElementById('exp-property-group').style.display = showProp ? 'block' : 'none';
+});
+</script>
+
+<style>
+@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+</style>
+</body>
+</html>
