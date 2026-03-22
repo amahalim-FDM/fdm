@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#06090f">
+<title>FDM v3</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRkRNIiwic2hvcnRfbmFtZSI6IkZETSIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMDYwOTBmIiwidGhlbWVfY29sb3IiOiIjMDYwOTBmIn0=">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06090f;--s:#0d1218;--s2:#141c26;--b:#1c2840;--t:#d0d8e4;--m:#586882;--gold:#cda23a;--grn:#2ecc71;--blu:#3a8fd4;--pur:#8b6abf;--ros:#d44a72;--org:#d48a3a;--tea:#3ab89a;--red:#d44a4a}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Readex Pro',sans-serif;background:var(--bg);color:var(--t);min-height:100dvh;overflow-x:hidden}
+input,textarea,select,button{font-family:inherit}
+.setup{padding:24px 20px;text-align:center;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.setup h1{font-size:32px;color:var(--gold);margin-bottom:4px;font-weight:700;letter-spacing:2px}
+.setup p{font-size:13px;color:var(--m);margin-bottom:28px;line-height:1.7}
+.setup input{width:100%;padding:14px 16px;background:var(--s);border:1.5px solid var(--b);border-radius:14px;color:var(--t);font-size:14px;font-family:'JetBrains Mono',monospace;margin-bottom:14px;outline:none;direction:ltr;text-align:left}
+.setup input:focus{border-color:var(--gold)}
+.setup .go{width:100%;padding:15px;background:var(--gold);color:#0a0e14;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer}
+.setup .note{font-size:10px;color:var(--m);margin-top:18px;line-height:1.8;direction:ltr;text-align:left;background:var(--s);padding:14px;border-radius:12px;border:1px solid var(--b)}
+.app{display:none}.app.on{display:flex;flex-direction:column;min-height:100dvh}
+.hdr{padding:12px 20px 8px;text-align:center;background:var(--s);border-bottom:1px solid var(--b)}
+.hdr .bsm{font-size:10px;color:var(--gold);opacity:.5}
+.hdr h1{font-size:18px;font-weight:700;color:var(--gold);letter-spacing:2px}
+.hdr .dt{font-size:10px;color:var(--m);margin-top:1px}
+.nav{display:flex;border-bottom:1px solid var(--b);position:sticky;top:0;background:var(--bg);z-index:10}
+.nav button{flex:1;padding:8px 0 6px;text-align:center;font-size:9px;color:var(--m);border:none;background:none;cursor:pointer;font-family:inherit;border-bottom:2.5px solid transparent;transition:all .15s}
+.nav button.on{color:var(--gold);border-bottom-color:var(--gold);font-weight:600}
+.nav button .i{font-size:16px;display:block;margin-bottom:1px}
+.pg{padding:14px 14px 90px;flex:1}.pg[hidden]{display:none}
+.lbl{font-size:11px;color:var(--m);font-weight:600;margin-bottom:8px;letter-spacing:.5px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:16px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:16px}
+.ab{background:var(--s);border:1.5px solid var(--b);border-radius:14px;padding:12px 4px 9px;text-align:center;cursor:pointer;transition:all .1s}
+.ab:active{transform:scale(.92);border-color:var(--gold)}
+.ab .i{font-size:20px;display:block;margin-bottom:3px}
+.ab .l{font-size:9px;color:var(--t);font-weight:500;line-height:1.3}
+.ab .sub{font-size:8px;color:var(--m);margin-top:1px}
+.ab.fuel{border-right:3px solid var(--org)}
+.ab.tpl{border-right:3px solid var(--tea)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--grn);color:#0a0e14;padding:12px 24px;border-radius:14px;font-size:13px;font-weight:700;z-index:999;transition:transform .3s;box-shadow:0 8px 32px rgba(0,0,0,.5);white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}.toast.err{background:var(--red);color:#fff}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.mo.show{display:flex}
+.mp{width:100%;max-width:420px;background:var(--s);border-radius:22px 22px 0 0;padding:20px 16px 28px;max-height:85vh;overflow-y:auto;border-top:3px solid var(--gold)}
+.mp h3{font-size:16px;font-weight:700;margin-bottom:2px}
+.mp .ms{font-size:11px;color:var(--m);margin-bottom:12px}
+.mp label{font-size:11px;color:var(--m);display:block;margin-bottom:4px;font-weight:500}
+.mp input,.mp textarea{width:100%;padding:10px 12px;background:var(--s2);border:1.5px solid var(--b);border-radius:11px;color:var(--t);font-size:14px;margin-bottom:10px;outline:none}
+.mp input:focus,.mp textarea:focus{border-color:var(--gold)}
+.mp .amt{color:var(--gold);font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace;direction:ltr;text-align:left}
+.mp textarea{resize:none;height:45px;font-size:13px}
+.mp .btn{width:100%;padding:14px;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;color:#fff;letter-spacing:.5px}
+.mp .btn:active{transform:scale(.97)}
+.mp .di{font-family:'JetBrains Mono',monospace;font-size:13px;direction:ltr;text-align:left}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.chip{padding:4px 11px;border-radius:16px;font-size:11px;border:1.5px solid var(--b);background:var(--s2);color:var(--m);cursor:pointer;transition:all .12s;font-weight:500}
+.chip.sel{border-color:var(--gold);color:var(--gold);background:rgba(205,162,58,.1)}
+.le{background:var(--s);border:1.5px solid var(--b);border-radius:12px;padding:10px 12px;margin-bottom:5px;display:flex;align-items:center;gap:10px}
+.le .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.le .inf{flex:1;min-width:0}.le .inf .nm{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.le .inf .mt{font-size:9px;color:var(--m)}
+.le .am{font-size:12px;font-weight:700;color:var(--gold);font-family:'JetBrains Mono',monospace;direction:ltr}
+.sc{background:var(--s);border:1.5px solid var(--b);border-radius:14px;padding:14px;text-align:center}
+.sc .sl{font-size:10px;color:var(--m);margin-bottom:3px}.sc .sv{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.fc{background:var(--s);border:1.5px solid var(--b);border-radius:14px;padding:10px;display:flex;align-items:center;gap:9px}
+.fc .av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.fc .fn{font-size:12px;font-weight:600}.fc .fa{font-size:9px;color:var(--m)}
+.mbar{height:8px;border-radius:4px;background:var(--s2);overflow:hidden;display:flex;margin-top:10px}
+.badge{display:inline-block;font-size:9px;padding:2px 8px;border-radius:10px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="setup" id="S"><div>
+<div style="font-size:44px;margin-bottom:12px">🏠</div>
+<h1>FDM</h1>
+<p>Family Data Manager v3<br>ادخل Notion API Token لربط التطبيق</p>
+<input type="text" id="TI" placeholder="ntn_xxxxxxxxxxxxx..." autocomplete="off">
+<button class="go" onclick="saveT()">ربط التطبيق ←</button>
+<div class="note">1. Go to notion.so/my-integrations<br>2. Create "FDM App" integration<br>3. Copy the ntn_ secret<br>4. Share databases with "FDM App"</div>
+</div></div>
+
+<div class="app" id="A">
+<div class="hdr"><div class="bsm">بسم الله الرحمن الرحيم</div><h1>FDM</h1><div class="dt" id="DT"></div></div>
+<div class="nav" id="NV">
+<button class="on" onclick="sw('q',this)"><span class="i">⚡</span>تسجيل</button>
+<button onclick="sw('f',this)"><span class="i">⛽</span>وقود</button>
+<button onclick="sw('t',this)"><span class="i">📋</span>قوالب</button>
+<button onclick="sw('d',this)"><span class="i">📊</span>متابعة</button>
+<button onclick="sw('fm',this)"><span class="i">👨‍👩‍👧‍👦</span>عائلة</button>
+</div>
+
+<div class="pg" id="pg-q">
+<div class="lbl">⚡ نشاط سريع</div>
+<div class="g4">
+<div class="ab" onclick="om('mbs')"><span class="i">🌙</span><span class="l">مبيت سلوى</span></div>
+<div class="ab" onclick="om('mby')"><span class="i">🌙</span><span class="l">مبيت يارا</span></div>
+<div class="ab" onclick="om('ms')"><span class="i">🏅</span><span class="l">انجاز</span></div>
+<div class="ab" onclick="om('out')"><span class="i">🚗</span><span class="l">طلعة</span></div>
+<div class="ab" onclick="om('sp')"><span class="i">🏃</span><span class="l">رياضة</span></div>
+<div class="ab" onclick="om('is')"><span class="i">🕌</span><span class="l">اسلام</span></div>
+<div class="ab" onclick="om('he')"><span class="i">🏥</span><span class="l">صحة</span></div>
+<div class="ab" onclick="om('ta')"><span class="i">📋</span><span class="l">مهمة</span></div>
+</div>
+<div class="lbl">💰 مصروف سريع</div>
+<div class="g3">
+<div class="ab" onclick="om('xs')"><span class="i">🏠</span><span class="l">بيت S</span></div>
+<div class="ab" onclick="om('xy')"><span class="i">🏠</span><span class="l">بيت Y</span></div>
+<div class="ab" onclick="om('xfo')"><span class="i">🥘</span><span class="l">أكل</span></div>
+<div class="ab" onclick="om('xdr')"><span class="i">💊</span><span class="l">دكتور</span></div>
+<div class="ab" onclick="om('xsc')"><span class="i">🏫</span><span class="l">مدرسة</span></div>
+<div class="ab" onclick="om('xad')"><span class="i">💊</span><span class="l">أدوية</span></div>
+</div>
+<div class="lbl">📝 آخر التسجيلات</div>
+<div id="LOG"><div style="font-size:11px;color:var(--m);text-align:center;padding:16px">لا توجد تسجيلات بعد</div></div>
+</div>
+
+<div class="pg" id="pg-f" hidden>
+<div class="lbl">⛽ تعبئة وقود — اختر المركبة</div>
+<div class="g2">
+<div class="ab fuel" onclick="om('fsc')"><span class="i">🛵</span><span class="l">Scooter Kymco</span><span class="sub">~£85</span></div>
+<div class="ab fuel" onclick="om('fbm')"><span class="i">🚗</span><span class="l">BMW</span><span class="sub">~£500</span></div>
+<div class="ab fuel" onclick="om('fho')"><span class="i">🚘</span><span class="l">Honda</span><span class="sub">~£500</span></div>
+<div class="ab fuel" onclick="om('fla')"><span class="i">🚙</span><span class="l">Lanos</span><span class="sub">~£300</span></div>
+</div>
+</div>
+
+<div class="pg" id="pg-t" hidden>
+<div class="lbl">📋 قوالب المصروفات الجاهزة</div>
+<div class="g2">
+<div class="ab tpl" onclick="om('tpam')"><span class="i">🧒</span><span class="l">بامبرز ومناديل</span></div>
+<div class="ab tpl" onclick="om('tpel')"><span class="i">⚡</span><span class="l">كهرباء</span></div>
+<div class="ab tpl" onclick="om('tpmd')"><span class="i">💊</span><span class="l">أدوية وفيتامينات</span></div>
+<div class="ab tpl" onclick="om('tpbb')"><span class="i">👶</span><span class="l">مستلزمات البيبى</span></div>
+<div class="ab tpl" onclick="om('tpsw')"><span class="i">🏊</span><span class="l">تمرين سباحة</span></div>
+<div class="ab tpl" onclick="om('tpdr')"><span class="i">📚</span><span class="l">دروس</span></div>
+<div class="ab tpl" onclick="om('tpls')"><span class="i">👕</span><span class="l">لبس</span></div>
+<div class="ab tpl" onclick="om('tpph')"><span class="i">☎️</span><span class="l">خط ارضى</span></div>
+</div>
+</div>
+
+<div class="pg" id="pg-d" hidden>
+<div class="lbl">🌙 ميزان المبيت</div>
+<div style="background:var(--s);border:1.5px solid var(--b);border-radius:14px;padding:14px;margin-bottom:12px">
+<div style="display:flex;gap:14px;margin-bottom:6px">
+<div style="flex:1;text-align:center"><div id="MS" style="font-size:24px;font-weight:700;color:var(--blu);font-family:'JetBrains Mono',monospace">0</div><div style="font-size:9px;color:var(--m)">سلوى</div></div>
+<div style="width:1px;background:var(--b)"></div>
+<div style="flex:1;text-align:center"><div id="MY" style="font-size:24px;font-weight:700;color:var(--pur);font-family:'JetBrains Mono',monospace">0</div><div style="font-size:9px;color:var(--m)">يارا</div></div>
+</div>
+<div class="mbar"><div id="BS" style="background:var(--blu);width:50%;transition:width .5s"></div><div id="BY" style="background:var(--pur);width:50%;transition:width .5s"></div></div>
+<div id="MST" style="text-align:center;margin-top:6px"></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+<div class="sc"><div class="sl">نشاطات اليوم</div><div class="sv" id="TA" style="color:var(--grn)">0</div></div>
+<div class="sc"><div class="sl">مصروفات اليوم</div><div class="sv" id="TE" style="color:var(--gold)">£0</div></div>
+</div>
+<div class="lbl">⚖️ مقارنة شهرية</div>
+<div style="background:var(--s);border:1.5px solid var(--b);border-radius:14px;padding:14px">
+<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--m);margin-bottom:8px"><span>🔵 سلوى</span><span>🟣 يارا</span></div>
+<div id="MB"></div>
+</div>
+</div>
+
+<div class="pg" id="pg-fm" hidden>
+<div class="lbl">🏠 بيت سلوى</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px">
+<div class="fc"><div class="av" style="background:rgba(58,143,212,.15)">🙎‍♀️</div><div><div class="fn">سلوى</div><div class="fa">9/9/1985</div></div></div>
+<div class="fc"><div class="av" style="background:rgba(212,74,114,.15)">😍</div><div><div class="fn">فرح</div><div class="fa" id="aF"></div></div></div>
+<div class="fc"><div class="av" style="background:rgba(58,143,212,.15)">😎</div><div><div class="fn">يوسف</div><div class="fa" id="aYs"></div></div></div>
+<div class="fc"><div class="av" style="background:rgba(58,184,154,.15)">😝</div><div><div class="fn">حياة</div><div class="fa" id="aH"></div></div></div>
+</div>
+<div class="lbl">🏠 بيت يارا</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px">
+<div class="fc"><div class="av" style="background:rgba(139,106,191,.15)">👧</div><div><div class="fn">يارا</div><div class="fa">15/10/1997</div></div></div>
+<div class="fc"><div class="av" style="background:rgba(212,138,58,.15)">👶</div><div><div class="fn">يونس</div><div class="fa" id="aYn"></div></div></div>
+</div>
+<div class="lbl">⚙️ الإعدادات</div>
+<div style="background:var(--s);border:1.5px solid var(--b);border-radius:14px;padding:14px">
+<div style="font-size:11px;color:var(--m);margin-bottom:4px">Notion API Token</div>
+<div style="font-size:10px;color:var(--grn);font-family:'JetBrains Mono',monospace;word-break:break-all;margin-bottom:8px" id="TD"></div>
+<div style="font-size:10px;color:var(--m);margin-bottom:8px">Worker: fdm-api.amahalim.workers.dev ✓</div>
+<button onclick="clrT()" style="width:100%;padding:10px;background:var(--s2);border:1.5px solid var(--b);border-radius:11px;color:var(--red);font-size:12px;cursor:pointer;font-family:inherit;font-weight:600">تغيير التوكن</button>
+</div>
+</div>
+</div>
+
+<div class="mo" id="MO" onclick="cm()"><div class="mp" onclick="event.stopPropagation()" id="MC"></div></div>
+<div class="toast" id="TT"></div>
+
+<script>
+const W='https://fdm-api.amahalim.workers.dev';
+const DA='51e6f26f-f107-40d8-a5a6-97b341a21d70';
+const DE='3ad23eb4-fcb5-4f6b-af2e-beec603dd9ae';
+const F={
+ahmad:{id:'e4c8783f-d65b-436c-84d7-1d998e2abf88',n:'MIDO',e:'👨'},
+salwa:{id:'14fb5273-a910-409c-9e04-0c15a1846826',n:'Soo',e:'🙎‍♀️'},
+farah:{id:'764f0cad-4464-49a7-a732-c55d6080b7d6',n:'Ro7a',e:'😍'},
+youssef:{id:'36c4e569-1b36-489d-9e34-240a10fc681b',n:'Wesoo',e:'😎'},
+hayat:{id:'68e82cca-91ab-4399-bc45-86fb9616b75f',n:'Youta',e:'😝'},
+yara:{id:'e26d4426-bf0e-46ae-9a0e-a0be7af6aefa',n:'YouYa',e:'👧'},
+younis:{id:'32acde28-d1d7-811f-95b4-cfef8c39748a',n:'Younis',e:'👶'},
+};
+const V={
+scooter:{id:'a89327c0-855c-48f1-9f41-2ef4e6e792a6',n:'Scooter Kymco'},
+bmw:{id:'9d530c70-6ad5-40e5-98cb-1b2f6ba64a57',n:'BMW'},
+honda:{id:'d52b4381-8218-427c-92df-648d43cfb0ad',n:'Honda'},
+lanos:{id:'1e8cde28-d1d7-8073-97ec-dc0792dcef33',n:'Lanos'},
+};
+const AC={
+mbs:{db:'a',name:'مبيت سلوى',type:'مبيت 🌙',house:'🏠 Salwa',c:'#3a8fd4',i:'🌙',mb:1},
+mby:{db:'a',name:'مبيت يارا',type:'مبيت 🌙',house:'🏠 Yara',c:'#8b6abf',i:'🌙',mb:1},
+ms:{db:'a',name:'انجاز',type:'Milestone 🌟',c:'#2ecc71',i:'🏅'},
+out:{db:'a',name:'طلعة عائلية',type:'Outing 🚗',c:'#d48a3a',i:'🚗'},
+sp:{db:'a',name:'رياضة',type:'Sport 🏃',c:'#3a8fd4',i:'🏃'},
+is:{db:'a',name:'اسلام',type:'Islam 🕌',c:'#8B6F47',i:'🕌'},
+he:{db:'a',name:'صحة',type:'Health 🏥',c:'#d44a72',i:'🏥'},
+ta:{db:'a',name:'مهمة',type:'Task 📋',c:'#d44a4a',i:'📋'},
+xs:{db:'e',name:'مصروف بيت S',cat:'Super Market🛒',fam:'salwa',c:'#3a8fd4',i:'🏠',ex:1},
+xy:{db:'e',name:'مصروف بيت Y',cat:'Super Market🛒',fam:'yara',c:'#8b6abf',i:'🏠',ex:1},
+xfo:{db:'e',name:'أكل',cat:'Food 🥘',c:'#d48a3a',i:'🥘',ex:1},
+xdr:{db:'e',name:'دكتور',cat:'DR & Medicine',c:'#d44a72',i:'💊',ex:1},
+xsc:{db:'e',name:'مدرسة',cat:'school',c:'#3a8fd4',i:'🏫',ex:1},
+xad:{db:'e',name:'أدوية وفيتامينات',cat:'DR & Medicine',c:'#d44a72',i:'💊',ex:1},
+fsc:{db:'e',name:'Fuel 🛵',cat:'Fuel ⛽️',c:'#d48a3a',i:'⛽',ex:1,fuel:1,vk:'scooter',at:'Gas Station⛽',pay:'CIB 0010',defAmt:85},
+fbm:{db:'e',name:'Fuel BMW 🚗',cat:'Fuel ⛽️',c:'#d48a3a',i:'⛽',ex:1,fuel:1,vk:'bmw',at:'Gas Station⛽',pay:'CIB 4476 FDM',defAmt:500},
+fho:{db:'e',name:'Fuel Honda 🚘',cat:'Fuel ⛽️',c:'#d48a3a',i:'⛽',ex:1,fuel:1,vk:'honda',at:'Gas Station⛽',pay:'CIB 4476 FDM',defAmt:500},
+fla:{db:'e',name:'Fuel Lanos 🚗',cat:'Fuel ⛽️',c:'#d48a3a',i:'⛽',ex:1,fuel:1,vk:'lanos',at:'Gas Station⛽',pay:'CASH',defAmt:300},
+tpam:{db:'e',name:'بامبرز ومناديل',cat:'بامبرز ومناديل',c:'#3ab89a',i:'🧒',ex:1},
+tpel:{db:'e',name:'كهرباء',cat:'electicity bill⚡️',c:'#d48a3a',i:'⚡',ex:1},
+tpmd:{db:'e',name:'أدوية وفيتامينات',cat:'DR & Medicine',c:'#d44a72',i:'💊',ex:1},
+tpbb:{db:'e',name:'مستلزمات البيبى',cat:'بامبرز ومناديل',c:'#3ab89a',i:'👶',ex:1},
+tpsw:{db:'e',name:'تمرين سباحة',cat:'Sport',c:'#3a8fd4',i:'🏊',ex:1},
+tpdr:{db:'e',name:'دروس',cat:'دروس وكتب خارجية',c:'#8b6abf',i:'📚',ex:1},
+tpls:{db:'e',name:'لبس',cat:'Clothes👕👚',c:'#d44a72',i:'👕',ex:1},
+tpph:{db:'e',name:'خط ارضى',cat:'Telephone bill☎️',c:'#3ab89a',i:'☎️',ex:1},
+};
+
+let log=JSON.parse(localStorage.getItem('fdm3_log')||'[]');
+let mab=JSON.parse(localStorage.getItem('fdm3_mab')||'[]');
+let cur=null;
+function age(d){const b=new Date(d),n=new Date();let y=n.getFullYear()-b.getFullYear(),m=n.getMonth()-b.getMonth();if(m<0){y--;m+=12}return y>0?y+'y '+m+'m':m+'m'}
+function td(){return new Date().toISOString().split('T')[0]}
+
+function init(){
+const t=localStorage.getItem('fdm3_t');
+if(t){document.getElementById('S').style.display='none';document.getElementById('A').classList.add('on');
+document.getElementById('TD').textContent=t.substring(0,12)+'...'+t.slice(-4);
+document.getElementById('DT').textContent=new Date().toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+document.getElementById('aF').textContent=age('2015-02-18');
+document.getElementById('aYs').textContent=age('2016-06-08');
+document.getElementById('aH').textContent=age('2019-09-24');
+document.getElementById('aYn').textContent=age('2026-02-02');
+rLog();rDash();rBars()}}
+
+function saveT(){const t=document.getElementById('TI').value.trim();if(!t.startsWith('ntn_')){toast('التوكن لازم يبدأ بـ ntn_','err');return}localStorage.setItem('fdm3_t',t);init()}
+function clrT(){localStorage.removeItem('fdm3_t');location.reload()}
+function sw(id,btn){document.querySelectorAll('.pg').forEach(p=>p.hidden=true);document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('on'));document.getElementById('pg-'+id).hidden=false;btn.classList.add('on')}
+
+function om(id){
+cur=AC[id];const a=cur;const isE=a.ex;const isM=a.mb;const isF=a.fuel;
+let h=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+<div style="width:38px;height:38px;border-radius:10px;background:${a.c}22;display:flex;align-items:center;justify-content:center;font-size:18px">${a.i}</div>
+<div><h3>${a.name}</h3><div class="ms">${isM?'تسجيل مبيت':isE?'تسجيل مصروف':'تسجيل نشاط'}</div></div></div>`;
+h+=`<label>${isE?'الوصف':'الاسم'}</label><input type="text" id="mN" value="${a.name}">`;
+h+=`<label>التاريخ</label><input type="date" id="mD" class="di" value="${td()}">`;
+if(isE){h+=`<label>المبلغ (جنيه)</label><input type="number" id="mA" class="amt" placeholder="0" inputmode="numeric" value="${a.defAmt||''}">`}
+if(isF){h+=`<label>عداد KM</label><input type="number" id="mKM" placeholder="KM reading" inputmode="numeric" style="font-family:'JetBrains Mono',monospace;direction:ltr;text-align:left">`;
+h+=`<div style="font-size:10px;color:var(--m);margin:-6px 0 10px">المركبة: <span style="color:var(--gold)">${V[a.vk].n}</span> · الدفع: <span style="color:var(--tea)">${a.pay}</span></div>`}
+if(!isM){h+=`<label>لمين؟</label><div class="chips" id="FC">`;
+Object.entries(F).forEach(([k,f])=>{h+=`<div class="chip" data-id="${k}" onclick="tc(this)">${f.e} ${f.n}</div>`});
+h+=`</div>`}
+h+=`<label>ملاحظة</label><textarea id="mNo" placeholder="اختياري..."></textarea>`;
+h+=`<button class="btn" style="background:${a.c}" onclick="sub()">تسجيل ✓</button>`;
+document.getElementById('MC').innerHTML=h;document.getElementById('MO').classList.add('show');
+if(isE&&!a.defAmt)setTimeout(()=>document.getElementById('mA')?.focus(),100)}
+
+function cm(){document.getElementById('MO').classList.remove('show');cur=null}
+function tc(el){el.classList.toggle('sel')}
+
+async function sub(){
+const a=cur;const name=document.getElementById('mN').value;const date=document.getElementById('mD').value||td();
+const note=document.getElementById('mNo')?.value||'';const amount=document.getElementById('mA')?.value||'';
+const km=document.getElementById('mKM')?.value||'';const token=localStorage.getItem('fdm3_t');
+const sf=[];document.querySelectorAll('.chip.sel').forEach(c=>sf.push(c.dataset.id));
+const entry={name,type:a.type||a.cat,c:a.c,time:new Date().toLocaleTimeString('en',{hour:'2-digit',minute:'2-digit'}),date,amount,house:a.house};
+log.unshift(entry);localStorage.setItem('fdm3_log',JSON.stringify(log.slice(0,50)));
+if(a.mb){mab.unshift({house:a.house,date});localStorage.setItem('fdm3_mab',JSON.stringify(mab))}
+cm();rLog();rDash();toast('تم تسجيل: '+name+' ✓');
+try{let body;
+if(a.ex){const fr=a.fam?[{id:F[a.fam].id}]:sf.map(f=>({id:F[f]?.id})).filter(f=>f);
+const vr=a.fuel&&a.vk?[{id:V[a.vk].id}]:[];
+body={parent:{database_id:DE},properties:{
+Name:{title:[{text:{content:name}}]},
+Category:{multi_select:[{name:a.cat}]},
+...(amount?{Amount:{number:parseFloat(amount)}}:{}),
+...(fr.length?{Family:{relation:fr}}:{}),
+...(vr.length?{Vehicles:{relation:vr}}:{}),
+...(km?{KM:{number:parseFloat(km)}}:{}),
+...(a.at?{AT:{select:{name:a.at}}}:{}),
+...(a.pay?{'Paid BY':{select:{name:a.pay}}}:{}),
+Date:{date:{start:date}},
+...(note?{note:{rich_text:[{text:{content:note}}]}}:{}),
+}}}else{const fr=sf.map(f=>({id:F[f]?.id})).filter(f=>f);
+body={parent:{database_id:DA},properties:{
+Name:{title:[{text:{content:name}}]},
+Type:{select:{name:a.type}},
+...(a.house?{House:{select:{name:a.house}}}:{}),
+...(a.mb?{'Mabeet Status':{select:{name:'مبيت كامل'}}}:{}),
+...(a.type==='Milestone 🌟'?{'Achivment 🏅':{checkbox:true}}:{}),
+...(fr.length?{Family:{relation:fr}}:{}),
+'Activity Date':{date:{start:date}},
+}}}
+const res=await fetch(W,{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)});
+if(!res.ok){const err=await res.json().catch(()=>({}));console.error('API:',err);toast('⚠️ '+(err.message||res.status),'err')}
+else console.log('✓ OK')
+}catch(e){console.error(e);toast('⚠️ '+e.message,'err')}}
+
+function rLog(){const el=document.getElementById('LOG');if(!log.length){el.innerHTML='<div style="font-size:11px;color:var(--m);text-align:center;padding:16px">لا توجد تسجيلات</div>';return}
+el.innerHTML=log.slice(0,8).map(e=>`<div class="le"><div class="dot" style="background:${e.c||'var(--grn)'}"></div><div class="inf"><div class="nm">${e.name}</div><div class="mt">${e.type||''} · ${e.time} · ${e.date}</div></div>${e.amount?`<div class="am">£${Number(e.amount).toLocaleString()}</div>`:''}</div>`).join('')}
+
+function rDash(){const today=td();const te=log.filter(e=>e.date===today);
+document.getElementById('TA').textContent=te.filter(e=>!e.amount).length;
+document.getElementById('TE').textContent='£'+te.reduce((s,e)=>s+Number(e.amount||0),0).toLocaleString();
+const sc=mab.filter(m=>m.house==='🏠 Salwa').length,yc=mab.filter(m=>m.house==='🏠 Yara').length,tot=sc+yc||1;
+document.getElementById('MS').textContent=sc;document.getElementById('MY').textContent=yc;
+document.getElementById('BS').style.width=Math.round(sc/tot*100)+'%';document.getElementById('BY').style.width=Math.round(yc/tot*100)+'%';
+const d=Math.abs(sc-yc);const st=d<=2?{t:'متوازن ✅',c:'var(--grn)'}:d<=4?{t:'فرق بسيط ⚠️',c:'var(--org)'}:{t:'فرق كبير 🔴',c:'var(--red)'};
+document.getElementById('MST').innerHTML=`<span class="badge" style="background:${st.c}22;color:${st.c}">${st.t}</span>`}
+
+function rBars(){const data=[{m:'Oct',s:15640,y:17012},{m:'Nov',s:18102,y:16709},{m:'Dec',s:21350,y:12359},{m:'Jan',s:21335,y:20542},{m:'Feb',s:23535,y:9278},{m:'Mar',s:13300,y:19025}];
+const mx=Math.max(...data.map(d=>Math.max(d.s,d.y)));
+document.getElementById('MB').innerHTML=data.map(d=>`<div style="margin-bottom:6px"><div style="font-size:9px;color:var(--m);margin-bottom:2px">${d.m} — S: £${(d.s/1000).toFixed(0)}k | Y: £${(d.y/1000).toFixed(0)}k</div><div style="display:flex;gap:3px"><div style="height:5px;border-radius:3px;background:var(--blu);width:${Math.round(d.s/mx*100)}%"></div><div style="height:5px;border-radius:3px;background:var(--pur);width:${Math.round(d.y/mx*100)}%"></div></div></div>`).join('')}
+
+function toast(m,t){const el=document.getElementById('TT');el.textContent=m;el.className='toast show'+(t==='err'?' err':'');setTimeout(()=>el.classList.remove('show'),2800)}
+init();
+</script>
+</body>
+</html>
