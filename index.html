@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html class="dark" dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" name="viewport">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0a0f">
+<title>FDM</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#0a0a0f;--sf:#131318;--sc:#1f1f25;--scl:#1b1b20;--sch:#2a292f;--sct:#35343a;--p:#f2c35e;--pc:#d4a846;--op:#402d00;--os:rgba(255,255,255,.95);--osv:rgba(255,255,255,.55);--salwa:#5b8def;--yara:#b07ce8;--grn:#4ade80;--red:#f87171;--org:#fb923c;--pnk:#f472b6;--sb:env(safe-area-inset-bottom,0px);--glass-bg:rgba(31,31,37,.5);--glass-border:rgba(212,168,70,.08);--glass-blur:12px;--t-fast:.15s cubic-bezier(.4,0,.2,1);--t-med:.3s cubic-bezier(.4,0,.2,1);--t-slow:.5s cubic-bezier(.4,0,.2,1);--sh-sm:0 2px 8px rgba(0,0,0,.3);--sh-md:0 8px 24px rgba(0,0,0,.4);--sh-lg:0 16px 48px rgba(0,0,0,.5)}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 50% 0%,rgba(242,195,94,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(91,141,239,.02) 0%,transparent 50%),radial-gradient(rgba(212,168,70,.04) 1px,transparent 1px) 0 0/24px 24px,var(--bg);color:var(--os);font-family:Manrope,sans-serif;min-height:100dvh;overflow-x:hidden;padding-bottom:calc(78px + var(--sb));max-width:500px;margin:0 auto}
+.ms{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+header{background:rgba(19,19,24,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;padding:0 18px;height:54px;position:sticky;top:0;z-index:100}
+header h1{font-family:'Be Vietnam Pro';font-size:16px;font-weight:700;color:var(--p)}
+.hb{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:var(--sc);display:flex;align-items:center;justify-content:center;cursor:pointer}.hb:active{transform:scale(.9);background:var(--p)}
+.page{display:none;padding:10px 14px 16px}.page.active{display:block;animation:pageIn .35s cubic-bezier(.4,0,.2,1)}
+@keyframes pageIn{0%{opacity:0;transform:translateY(12px) scale(.98)}100%{opacity:1;transform:none}}
+.sh{display:flex;align-items:flex-end;justify-content:space-between;margin:20px 0 10px;padding:0 2px}.sh:first-child{margin-top:0}
+.st{font-family:'Be Vietnam Pro';font-size:15px;font-weight:800;position:relative;display:inline-block}.st::after{content:'';position:absolute;bottom:-3px;right:0;width:18px;height:2px;background:var(--p);border-radius:2px}
+.sb2{font-family:'Space Grotesk';font-size:9px;color:var(--osv);text-transform:uppercase;letter-spacing:1.5px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.qc{background:var(--glass-bg);backdrop-filter:blur(var(--glass-blur));border:1px solid var(--glass-border);border-radius:13px;padding:12px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;position:relative;overflow:hidden;transition:transform var(--t-fast),box-shadow var(--t-fast)}.qc:active{transform:scale(.93);box-shadow:0 2px 12px rgba(242,195,94,.12)}
+.qc .gw{position:absolute;top:0;right:0;width:35%;height:2px;border-radius:0 0 0 3px}
+.qc .qi{font-size:28px;line-height:1}.qc .ql{font-size:10px;font-weight:700}.qc .ql2{font-size:10px;font-weight:700;color:var(--osv)}.qc.sq{aspect-ratio:1}
+.lc{background:var(--glass-bg);border:1px solid rgba(212,168,70,.06);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;margin-bottom:6px;cursor:pointer;transition:transform var(--t-fast),box-shadow var(--t-fast),border-color var(--t-fast);box-shadow:var(--sh-sm)}.lc:active{transform:scale(.97) translateX(-2px);border-color:rgba(212,168,70,.15);box-shadow:var(--sh-md)}
+.lc .li{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}.mo.active{display:flex}
+.md{background:var(--sf);border:1px solid rgba(212,168,70,.08);border-radius:20px 20px 0 0;width:100%;max-width:500px;max-height:88dvh;overflow-y:auto;padding:24px 18px calc(24px + var(--sb));animation:su .3s ease-out}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.mt2{font-family:'Be Vietnam Pro';font-size:16px;font-weight:700}
+.mx{width:30px;height:30px;border-radius:8px;background:var(--sc);border:none;color:var(--osv);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fg{margin-bottom:11px}.fl{display:block;font-family:'Space Grotesk';font-size:9px;font-weight:500;color:var(--osv);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.fi,.fs{width:100%;padding:10px 12px;border-radius:11px;border:1px solid rgba(255,255,255,.06);background:var(--sc);color:var(--os);font-size:13px;font-family:Manrope;outline:none;transition:border .2s}.fi:focus,.fs:focus{border-color:var(--p)}
+.fi[type="number"]{font-family:'JetBrains Mono';font-size:17px;text-align:center;font-weight:700}.fs{color-scheme:dark}
+textarea.fi{font-family:Manrope;resize:none}
+.chips{display:flex;flex-wrap:wrap;gap:4px}.chip{padding:5px 10px;border-radius:16px;font-size:10px;font-weight:700;cursor:pointer;border:2px solid rgba(255,255,255,.06);background:var(--sc);transition:all .15s;user-select:none}.chip.selected{border-color:var(--cc,var(--p));background:color-mix(in srgb,var(--cc,var(--p)) 15%,transparent)}
+.sb1{width:100%;padding:12px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--p),var(--pc));color:var(--op);font-size:13px;font-weight:700;font-family:'Be Vietnam Pro';cursor:pointer;transition:all .15s;margin-top:6px;box-shadow:0 4px 16px rgba(242,195,94,.2)}.sb1:active{transform:scale(.97)}.sb1:disabled{opacity:.4}
+.tg{display:none;gap:7px;margin-bottom:11px}.tg.visible{display:flex}
+.ti{flex:1;padding:9px 5px;border-radius:11px;border:2px solid rgba(255,255,255,.04);background:var(--sc);text-align:center;cursor:pointer;user-select:none}.ti .t-i{font-size:17px;display:block;margin-bottom:2px}.ti .t-l{font-size:8px;font-weight:700;font-family:'Space Grotesk';color:var(--osv)}.ti.on{border-color:var(--grn);background:rgba(74,222,128,.06)}.ti.on .t-l{color:var(--grn)}
+.dt{display:flex;align-items:center;gap:6px;margin-bottom:11px}.dtb{flex:1;padding:9px;border-radius:11px;border:1px solid rgba(255,255,255,.06);background:var(--sc);color:var(--os);font-size:11px;font-weight:600;font-family:Manrope;cursor:pointer;text-align:center}.dtb.custom{border-color:var(--p);color:var(--p)}
+.dtr{width:38px;height:38px;border-radius:11px;border:1px solid rgba(255,255,255,.06);background:var(--sc);color:var(--osv);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dti{display:none;width:100%;padding:9px;border-radius:10px;border:1px solid var(--p);background:var(--sc);color:var(--os);font-size:12px;font-family:'JetBrains Mono';margin-top:4px;outline:none;color-scheme:dark}.dti.visible{display:block}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-120px);padding:11px 18px;border-radius:13px;font-size:11px;font-weight:700;z-index:999;transition:transform .3s;max-width:calc(100% - 28px);text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.5);backdrop-filter:blur(20px)}.toast.show{transform:translateX(-50%) translateY(0)}.toast.success{background:rgba(74,222,128,.9);color:#000}.toast.error{background:rgba(248,113,113,.9);color:#fff}.toast a{display:inline-block;margin-top:2px}
+.dc{background:rgba(31,31,37,.4);backdrop-filter:blur(20px);border:1px solid rgba(212,168,70,.08);border-radius:18px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden;box-shadow:var(--sh-md);cursor:pointer}
+.dc::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(242,195,94,.15),transparent 40%,rgba(91,141,239,.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:.6}
+.ring-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;padding:4px 0}
+.ring{position:relative;width:120px;height:120px}.ring svg{width:100%;height:100%;transform:rotate(-90deg)}.ring-c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.ring-v{font-family:'JetBrains Mono';font-size:18px;font-weight:700}.ring-l{font-family:'Space Grotesk';font-size:8px;color:var(--osv);text-transform:uppercase;letter-spacing:1px}
+.bl{display:flex;gap:16px;justify-content:center;margin-top:2px}.lg{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700}.ld{width:7px;height:7px;border-radius:50%}.ln{font-family:'JetBrains Mono';font-size:11px}
+.bs{text-align:center;font-size:10px;font-weight:700;padding:4px 10px;border-radius:14px;margin-top:2px}
+.mn{display:flex;align-items:center;gap:6px;margin-bottom:12px}.mb2{width:34px;height:34px;border-radius:9px;border:1px solid rgba(255,255,255,.06);background:var(--sc);color:var(--p);cursor:pointer;display:flex;align-items:center;justify-content:center}.mb2:active{background:var(--p);color:var(--op)}.ml2{flex:1;text-align:center;font-family:'Be Vietnam Pro';font-size:14px;font-weight:700}.ml2 span{font-family:'Space Grotesk';font-size:9px;color:var(--osv);font-weight:400;margin-right:3px}
+.bt{background:rgba(31,31,37,.4);border:1px solid rgba(212,168,70,.08);border-radius:22px;padding:18px;position:relative;overflow:hidden;text-align:center;margin-bottom:12px;box-shadow:var(--sh-md)}
+.hi{display:flex;align-items:center;gap:9px;padding:10px 12px;margin-bottom:4px;background:var(--scl);border-radius:12px;border-right:3px solid var(--p)}.hi:active{background:var(--sch)}
+.task-item{display:flex;align-items:flex-start;gap:9px;padding:11px 12px;background:rgba(31,31,37,.5);border:1px solid rgba(255,255,255,.04);border-radius:12px;margin-bottom:5px;cursor:pointer}
+.task-check{width:20px;height:20px;border-radius:5px;border:2px solid rgba(255,255,255,.15);background:transparent;cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}.task-check.done{background:var(--grn);border-color:var(--grn)}.task-check.done::after{content:'\2713';color:#000;font-size:11px;font-weight:900}
+.task-name{font-size:12px;font-weight:700}.task-name.done{text-decoration:line-through;opacity:.35}
+.task-due{font-family:'Space Grotesk';font-size:9px;margin-top:1px}.task-due.overdue{color:var(--red)}.task-due.soon{color:var(--org)}.task-due.future{color:var(--osv)}
+.note-item{background:rgba(31,31,37,.5);border:1px solid rgba(255,255,255,.04);border-radius:12px;padding:12px;margin-bottom:5px;position:relative}.note-item .note-text{font-size:12px;font-weight:500;line-height:1.5}.note-item .note-meta{font-family:'Space Grotesk';font-size:8px;color:var(--osv);margin-top:5px}.note-item .note-pin{position:absolute;top:8px;left:8px;font-size:12px;opacity:.4}
+.oa{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.15);border-radius:12px;padding:10px 12px;margin-bottom:8px;display:none;align-items:center;gap:8px}.oa.show{display:flex}
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;display:flex;justify-content:space-around;align-items:flex-start;padding:5px 6px calc(5px + var(--sb));background:rgba(19,19,24,.92);backdrop-filter:blur(20px);border-top:1px solid rgba(212,168,70,.06);border-radius:20px 20px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.4);max-width:500px;margin:0 auto}
+.ni{display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;padding:4px 8px;color:rgba(255,255,255,.22);background:none;border:none;font-family:inherit;border-radius:10px;position:relative}.ni.active{color:var(--p);background:rgba(242,195,94,.08)}.ni .material-symbols-outlined{font-size:20px}.ni.active .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24}.ni .nl{font-family:'Be Vietnam Pro';font-size:8px;font-weight:700}
+.ni .td{width:5px;height:5px;border-radius:50%;background:var(--red);position:absolute;top:2px;right:6px}
+.del-btn{width:28px;height:28px;border-radius:8px;border:1px solid rgba(248,113,113,.2);background:rgba(248,113,113,.06);color:var(--red);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s;font-size:14px}.del-btn:active{background:var(--red);color:#fff;transform:scale(.9)}
+.rb{width:100%;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.06);background:var(--sc);color:var(--os);font-size:12px;font-weight:700;font-family:Manrope;cursor:pointer}.rb:active{background:var(--p);color:var(--op)}
+.danger-btn{width:100%;padding:10px;border-radius:11px;border:1px solid var(--red);background:transparent;color:var(--red);font-size:11px;font-weight:700;font-family:Manrope;cursor:pointer;margin-top:8px}
+::-webkit-scrollbar{width:0}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.stab{flex:1;padding:7px;border-radius:9px;text-align:center;font-size:10px;font-weight:700;cursor:pointer;border:none;font-family:Manrope;transition:all .15s}
+.gs{height:1px;margin:12px auto;width:70%;background:linear-gradient(90deg,transparent,rgba(242,195,94,.15) 20%,rgba(242,195,94,.25) 50%,rgba(242,195,94,.15) 80%,transparent);position:relative}.gs::after{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:6px;height:3px;background:var(--p);border-radius:0 0 3px 3px;opacity:.4}
+/* FAB — small round add button */
+.fab{width:40px;height:40px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--p),var(--pc));color:var(--op);font-size:22px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(242,195,94,.3);transition:all .15s;margin:0 auto 10px}.fab:active{transform:scale(.9)}
+/* Dash info cards */
+.info-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.info-card{background:rgba(31,31,37,.4);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:14px;text-align:center;transition:transform var(--t-fast),box-shadow var(--t-fast)}.info-card:active{transform:scale(.96);box-shadow:var(--sh-sm)}
+.info-card .ic-icon{font-size:20px;margin-bottom:4px}
+.info-card .ic-val{font-family:'JetBrains Mono';font-size:20px;font-weight:700}
+.info-card .ic-lbl{font-family:'Space Grotesk';font-size:8px;color:var(--osv);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+/* Reminder card in dash */
+.remind-card{background:rgba(31,31,37,.4);border:1px solid rgba(251,146,60,.12);border-radius:14px;padding:12px;margin-bottom:5px;display:flex;align-items:center;gap:10px}
+.remind-card .rc-time{font-family:'JetBrains Mono';font-size:10px;color:var(--org);white-space:nowrap}
+/* Phase 2: Animations */
+.g3 .qc{animation:cardIn .3s cubic-bezier(.4,0,.2,1) both}
+.g3 .qc:nth-child(1){animation-delay:0ms}.g3 .qc:nth-child(2){animation-delay:50ms}.g3 .qc:nth-child(3){animation-delay:100ms}
+.g3 .qc:nth-child(4){animation-delay:150ms}.g3 .qc:nth-child(5){animation-delay:200ms}.g3 .qc:nth-child(6){animation-delay:250ms}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:none}}
+.mo{transition:background var(--t-med),backdrop-filter var(--t-med)}
+.mo.active .md{animation:modalIn .4s cubic-bezier(.16,1,.3,1)}
+.mo.closing .md{animation:modalOut .25s cubic-bezier(.4,0,1,1) forwards}
+@keyframes modalIn{0%{transform:translateY(100%) scale(.95);opacity:.5}100%{transform:none;opacity:1}}
+@keyframes modalOut{0%{transform:none;opacity:1}100%{transform:translateY(60%);opacity:0}}
+.nav-ind{position:absolute;top:0;height:3px;width:48px;border-radius:0 0 4px 4px;background:var(--p);transition:right var(--t-med);box-shadow:0 2px 12px rgba(242,195,94,.4)}
+/* Phase 3: Skeletons */
+.skeleton{background:linear-gradient(90deg,var(--sc) 25%,var(--sch) 50%,var(--sc) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:12px}
+.skeleton-task{height:52px;margin-bottom:5px}.skeleton-card{height:120px;margin-bottom:8px;border-radius:18px}.skeleton-ring{height:200px;margin-bottom:12px;border-radius:18px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* Phase 4: Toast progress */
+.toast{overflow:hidden}.toast::after{content:'';position:absolute;bottom:0;right:0;height:3px;background:rgba(0,0,0,.25);animation:toastProg var(--toast-dur,3.5s) linear forwards}
+@keyframes toastProg{from{width:100%}to{width:0}}
+/* Phase 5: Accessibility & Polish */
+*:focus-visible{outline:2px solid var(--p);outline-offset:2px}
+.qc:focus-visible,.lc:focus-visible{outline-offset:-2px;box-shadow:0 0 0 4px rgba(242,195,94,.15)}
+.chip{transition:all .2s cubic-bezier(.4,0,.2,1)}.chip.selected{animation:chipPop .3s cubic-bezier(.4,0,.2,1)}
+@keyframes chipPop{0%{transform:scale(1)}50%{transform:scale(1.08)}100%{transform:scale(1)}}
+.empty{text-align:center;padding:40px 20px;color:var(--osv);font-size:11px}
+.empty-icon{font-size:48px;margin-bottom:12px;opacity:.3}.empty-text{font-size:12px;font-weight:600}.empty-sub{font-size:10px;color:var(--osv);margin-top:4px}
+.fab{animation:fabPulse 3s ease-in-out infinite}
+@keyframes fabPulse{0%,100%{box-shadow:0 4px 16px rgba(242,195,94,.3)}50%{box-shadow:0 4px 24px rgba(242,195,94,.5)}}
+/* Phase 6: Dashboard widgets */
+.quick-stats{display:flex;gap:8px;overflow-x:auto;padding:8px 0;margin-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}.quick-stats::-webkit-scrollbar{display:none}
+.qs-item{flex:0 0 auto;min-width:80px;background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:12px;padding:10px 14px;text-align:center}
+.qs-val{font-family:'JetBrains Mono';font-size:18px;font-weight:700;display:block}.qs-lbl{font-family:'Space Grotesk';font-size:7px;color:var(--osv);text-transform:uppercase;letter-spacing:.5px}
+.spark-card{background:rgba(31,31,37,.4);border:1px solid var(--glass-border);border-radius:18px;padding:14px;margin-bottom:12px;position:relative;overflow:hidden;box-shadow:var(--sh-sm)}
+.spark-title{font-family:'Be Vietnam Pro';font-size:11px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.cat-bar-wrap{margin-bottom:8px}.cat-bar-label{font-size:9px;font-weight:600;margin-bottom:3px;display:flex;justify-content:space-between}
+.cat-bar{height:6px;border-radius:3px;background:var(--sc);overflow:hidden}.cat-bar-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.streak-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:14px;background:rgba(251,146,60,.1);font-family:'JetBrains Mono';font-size:11px;font-weight:700;color:var(--org)}
+/* Phase 7: Swipe */
+.task-item,.note-item{transition:transform .2s,opacity .2s;touch-action:pan-y}
+.swipe-bg{position:absolute;top:0;bottom:0;border-radius:12px;display:flex;align-items:center;justify-content:center;width:60px;opacity:0;transition:opacity .15s}
+.swipe-bg.done-bg{right:0;background:rgba(74,222,128,.12);color:var(--grn)}.swipe-bg.del-bg{left:0;background:rgba(248,113,113,.12);color:var(--red)}
+
+.mcal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:4px}.mcal-h{font-family:'Space Grotesk';font-size:7px;color:var(--osv);text-align:center;padding:2px 0}.mcal-d{width:100%;aspect-ratio:1;max-width:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono';font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;border:1px solid transparent;margin:0 auto}.mcal-d.empty{pointer-events:none}.mcal-d.sw{background:rgba(91,141,239,.15);color:var(--salwa);border-color:rgba(91,141,239,.2)}.mcal-d.yr{background:rgba(176,124,232,.15);color:var(--yara);border-color:rgba(176,124,232,.2)}.mcal-d.missed{background:rgba(255,255,255,.02);color:var(--osv);border:1px dashed rgba(255,255,255,.1)}.mcal-d.today{box-shadow:0 0 0 2px var(--p)}.mcal-d.future{color:var(--osv);opacity:.4}
+.dash-rs{background:rgba(251,146,60,.04);border:1px solid rgba(251,146,60,.1);border-radius:14px;padding:12px;margin-bottom:12px}
+</style>
+</head>
+<body>
+<header><div class="hb" onclick="openSettings()"><span class="material-symbols-outlined ms" style="color:var(--p);font-size:17px">settings</span></div><h1>FDM</h1><div style="width:34px"></div></header>
+<!-- ACTIVITIES -->
+<div id="page-activity" class="page active">
+<div class="sh"><h2 class="st">مبيت 🌙</h2><span class="sb2">PRIVATE</span></div>
+<div class="g3">
+<div class="qc" onclick="quickAction('mabeet','salwa')"><div class="gw" style="background:linear-gradient(to left,var(--salwa),transparent)"></div><span class="qi">👩‍🦰</span><span class="ql">سلوى</span></div>
+<div class="qc" onclick="quickAction('mabeet','yara')"><div class="gw" style="background:linear-gradient(to left,var(--yara),transparent)"></div><span class="qi">👧</span><span class="ql">يارا</span></div>
+<div class="qc" onclick="quickAction('activity','milestone')"><div class="gw" style="background:linear-gradient(to left,var(--grn),transparent)"></div><span class="qi">🏆</span><span class="ql">انجاز</span></div>
+</div>
+<div class="sh"><h2 class="st">أنشطة ⚡</h2><span class="sb2">ACTIVITIES</span></div>
+<div class="g3">
+<div class="qc sq" onclick="quickAction('activity','outing')"><div class="gw" style="background:linear-gradient(to left,var(--org),transparent);opacity:.6"></div><span class="qi">🚗</span><span class="ql2">طلعة</span></div>
+<div class="qc sq" onclick="quickAction('activity','sport')"><div class="gw" style="background:linear-gradient(to left,#ef4444,transparent);opacity:.6"></div><span class="qi">🏃</span><span class="ql2">رياضة</span></div>
+<div class="qc sq" onclick="quickAction('activity','islam')"><div class="gw" style="background:linear-gradient(to left,var(--grn),transparent);opacity:.6"></div><span class="qi">🕌</span><span class="ql2">اسلام</span></div>
+<div class="qc sq" onclick="quickAction('activity','health')"><div class="gw" style="background:linear-gradient(to left,#22d3ee,transparent);opacity:.6"></div><span class="qi">🏥</span><span class="ql2">صحة</span></div>
+<div class="qc sq" onclick="quickAction('activity','task')"><div class="gw" style="background:linear-gradient(to left,#facc15,transparent);opacity:.6"></div><span class="qi">📋</span><span class="ql2">مهمة</span></div>
+<div class="qc sq" onclick="quickAction('activity','event')"><div class="gw" style="background:linear-gradient(to left,var(--pnk),transparent);opacity:.6"></div><span class="qi">🎉</span><span class="ql2">مناسبة</span></div>
+</div></div>
+
+<!-- EXPENSES -->
+<div id="page-expenses" class="page">
+<div class="sh"><h2 class="st">مصاريف البيت 🏠</h2><span class="sb2">HOUSEHOLD</span></div>
+<div class="lc" onclick="quickExpense('supermarket','salwa')"><div class="li" style="background:rgba(91,141,239,.1)"><span class="material-symbols-outlined ms" style="color:var(--salwa);font-variation-settings:'FILL' 1">shopping_cart</span></div><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">مصروف سلوى</div><div style="font-family:'Space Grotesk';font-size:8px;color:var(--osv);text-transform:uppercase;letter-spacing:.5px;margin-top:1px">SUPERMARKET</div></div><span class="material-symbols-outlined ms" style="color:var(--osv);font-size:16px">arrow_forward_ios</span></div>
+<div class="lc" onclick="quickExpense('supermarket','yara')"><div class="li" style="background:rgba(176,124,232,.1)"><span class="material-symbols-outlined ms" style="color:var(--yara);font-variation-settings:'FILL' 1">local_mall</span></div><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">مصروف يارا</div><div style="font-family:'Space Grotesk';font-size:8px;color:var(--osv);text-transform:uppercase;letter-spacing:.5px;margin-top:1px">SUPERMARKET</div></div><span class="material-symbols-outlined ms" style="color:var(--osv);font-size:16px">arrow_forward_ios</span></div>
+<div class="lc" onclick="quickExpense('fuel')"><div class="li" style="background:rgba(74,222,128,.1)"><span class="material-symbols-outlined ms" style="color:var(--grn);font-variation-settings:'FILL' 1">local_gas_station</span></div><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">بنزين</div><div style="font-family:'Space Grotesk';font-size:8px;color:var(--osv);text-transform:uppercase;letter-spacing:.5px;margin-top:1px">FUEL</div></div><span class="material-symbols-outlined ms" style="color:var(--osv);font-size:16px">arrow_forward_ios</span></div>
+<div class="sh"><h2 class="st">مصاريف متنوعة 💰</h2><span class="sb2">MISC</span></div>
+<div class="g3">
+<div class="qc sq" onclick="quickExpense('food')"><div class="gw" style="background:linear-gradient(to left,var(--org),transparent);opacity:.6"></div><span class="material-symbols-outlined ms" style="font-size:24px;color:var(--org)">restaurant</span><span class="ql">أكل</span></div>
+<div class="qc sq" onclick="quickExpense('medical')"><div class="gw" style="background:linear-gradient(to left,var(--red),transparent);opacity:.6"></div><span class="material-symbols-outlined ms" style="font-size:24px;color:var(--red)">medical_services</span><span class="ql">دكتور</span></div>
+<div class="qc sq" onclick="quickExpense('school')"><div class="gw" style="background:linear-gradient(to left,var(--salwa),transparent);opacity:.6"></div><span class="material-symbols-outlined ms" style="font-size:24px;color:var(--salwa)">school</span><span class="ql">مدرسة</span></div>
+<div class="qc sq" onclick="quickExpense('clothes')"><div class="gw" style="background:linear-gradient(to left,var(--yara),transparent);opacity:.6"></div><span class="material-symbols-outlined ms" style="font-size:24px;color:var(--yara)">checkroom</span><span class="ql">لبس</span></div>
+<div class="qc sq" onclick="quickExpense('bills')"><div class="gw" style="background:linear-gradient(to left,#2dd4bf,transparent);opacity:.6"></div><span class="material-symbols-outlined ms" style="font-size:24px;color:#2dd4bf">receipt_long</span><span class="ql">فواتير</span></div>
+<div class="qc sq" onclick="quickExpense('license')"><div class="gw" style="background:linear-gradient(to left,#818cf8,transparent);opacity:.6"></div><span class="material-symbols-outlined ms" style="font-size:24px;color:#818cf8">badge</span><span class="ql">ترخيص</span></div>
+<div class="qc sq" onclick="quickExpense('custom')" style="border-style:dashed"><span class="material-symbols-outlined ms" style="font-size:24px;color:var(--osv)">add_circle</span><span class="ql">أخرى</span></div>
+</div></div>
+
+<!-- PLANNER -->
+<div id="page-planner" class="page">
+<div id="oa1" class="oa" onclick="sp('planner');switchSub('tasks')"><span class="material-symbols-outlined ms" style="color:var(--red);font-size:20px">warning</span><span style="font-size:11px;font-weight:700;color:var(--red)">مهام متأخرة</span><span id="oc1" style="margin-right:auto;font-family:'JetBrains Mono';font-size:16px;font-weight:700;color:var(--red)">0</span></div>
+<div style="display:flex;gap:3px;background:var(--sc);border-radius:10px;padding:2px;margin-bottom:12px">
+<button class="stab" id="stab-tasks" onclick="switchSub('tasks')" style="background:var(--p);color:var(--op)">📋 مهام</button>
+<button class="stab" id="stab-shopping" onclick="switchSub('shopping')" style="background:transparent;color:var(--osv)">🛍️ تسوق</button>
+<button class="stab" id="stab-notes" onclick="switchSub('notes')" style="background:transparent;color:var(--osv)">📝 ملاحظات</button>
+</div>
+<div id="sub-tasks"><button class="fab" onclick="openModal('task')">+</button><div id="tasks-list"><div class="empty">⏳</div></div></div>
+<div id="sub-shopping" style="display:none"><button class="fab" onclick="openModal('shop')">+</button><div id="shopping-list"><div class="empty">⏳</div></div></div>
+<div id="sub-notes" style="display:none"><button class="fab" onclick="openModal('note')">+</button><div id="notes-list"><div class="empty">⏳</div></div></div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page">
+<!-- Quick Stats -->
+<div class="quick-stats">
+<div class="qs-item" onclick="showDayExp(today())"><span class="qs-val" id="qs-today" style="color:var(--p)">0</span><span class="qs-lbl">اليوم</span></div>
+<div class="qs-item"><span class="qs-val" id="qs-week" style="color:var(--salwa)">0</span><span class="qs-lbl">الأسبوع</span></div>
+<div class="qs-item"><span class="qs-val" id="qs-avg" style="color:var(--grn)">0</span><span class="qs-lbl">متوسط/يوم</span></div>
+<div class="qs-item"><span class="qs-val" id="qs-streak" style="color:var(--org)">0</span><span class="qs-lbl">🔥 أيام متتالية</span></div>
+</div>
+<div class="mn"><button class="mb2" onclick="chM(1)"><span class="material-symbols-outlined ms" style="font-size:16px">chevron_right</span></button><div class="ml2" id="ml">مارس <span>2026</span></div><button class="mb2" onclick="chM(-1)"><span class="material-symbols-outlined ms" style="font-size:16px">chevron_left</span></button></div>
+<div id="drw" class="dash-rs" style="display:none"><div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer" onclick="sp('planner')"><span class="material-symbols-outlined ms" style="color:var(--org);font-size:18px">notification_important</span><span style="font-family:'Be Vietnam Pro';font-size:11px;font-weight:700">تذكيرات ومتأخرات</span><span style="margin-right:auto;font-family:'JetBrains Mono';font-size:14px;font-weight:700;color:var(--org);background:rgba(251,146,60,.12);padding:2px 8px;border-radius:10px" id="drc">0</span><span class="material-symbols-outlined ms" style="color:var(--osv);font-size:14px">arrow_forward_ios</span></div><div id="drl"></div></div>
+<div id="oa2" class="oa" onclick="sp('planner')"><span class="material-symbols-outlined ms" style="color:var(--red);font-size:20px">warning</span><span style="font-size:11px;font-weight:700;color:var(--red)">مهام متأخرة</span><span id="oc2" style="margin-right:auto;font-family:'JetBrains Mono';font-size:16px;font-weight:700;color:var(--red)">0</span></div>
+
+<!-- Dash info row -->
+<div class="info-row">
+<div class="info-card" onclick="sp('planner');switchSub('tasks')"><div class="ic-icon">📋</div><div class="ic-val" id="d-tasks" style="color:var(--p)">—</div><div class="ic-lbl">مهام مفتوحة</div></div>
+<div class="info-card" onclick="sp('planner');switchSub('shopping')"><div class="ic-icon">🛍️</div><div class="ic-val" id="d-shop" style="color:var(--grn)">—</div><div class="ic-lbl">تسوق معلق</div></div>
+</div>
+<div class="info-row">
+<div class="info-card" onclick="sp('planner');switchSub('notes')"><div class="ic-icon">⏰</div><div class="ic-val" id="d-remind" style="color:var(--org)">—</div><div class="ic-lbl">تذكيرات</div></div>
+<div class="info-card" onclick="sp('planner');switchSub('notes')"><div class="ic-icon">📝</div><div class="ic-val" id="d-notes" style="color:var(--yara)">—</div><div class="ic-lbl">ملاحظات</div></div>
+</div>
+
+<!-- Upcoming reminders -->
+<div id="dash-reminders"></div>
+
+<!-- Mabeet Ring -->
+<div class="dc" onclick="toggleMC(event)"><div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><span class="material-symbols-outlined ms" style="color:var(--p);font-size:18px">bedtime</span><span style="font-family:'Be Vietnam Pro';font-size:12px;font-weight:700">رصيد المبيت</span><span id="mb" style="margin-right:auto;font-size:7px;font-weight:700;padding:2px 7px;border-radius:14px;font-family:'Space Grotesk'">—</span></div>
+<div class="ring-wrap"><div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.03)" stroke-width="10"/><circle id="rs" cx="60" cy="60" r="50" fill="none" stroke="var(--salwa)" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 314" style="transition:stroke-dasharray .8s"/><circle id="ry" cx="60" cy="60" r="50" fill="none" stroke="var(--yara)" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 314" style="transition:stroke-dasharray .8s"/></svg><div class="ring-c"><div class="ring-v" id="mtr">—</div><div class="ring-l">ليلة</div></div></div>
+<div class="bl"><div class="lg" style="color:var(--salwa)"><div class="ld" style="background:var(--salwa)"></div>سلوى <span class="ln" id="msc">—</span></div><div class="lg" style="color:var(--yara)"><div class="ld" style="background:var(--yara)"></div>يارا <span class="ln" id="myc">—</span></div></div>
+<div class="bs" id="msm">—</div></div><div id="mcb" style="display:none;margin-top:10px;border-top:1px solid rgba(255,255,255,.06);padding-top:10px"><div style="font-family:'Space Grotesk';font-size:8px;color:var(--osv);text-align:center;margin-bottom:6px">اضغط على يوم فاضى لإضافة مبيت</div><div class="mcal"><div class="mcal-h">سبت</div><div class="mcal-h">أحد</div><div class="mcal-h">إثنين</div><div class="mcal-h">ثلاث</div><div class="mcal-h">أربع</div><div class="mcal-h">خميس</div><div class="mcal-h">جمعة</div></div><div class="mcal" id="mcd"></div></div></div>
+
+<!-- Expense Equity Ring -->
+<div class="dc"><div style="display:flex;align-items:center;gap:5px;margin-bottom:8px"><span class="material-symbols-outlined ms" style="color:var(--p);font-size:18px">balance</span><span style="font-family:'Be Vietnam Pro';font-size:12px;font-weight:700">عدالة المصاريف</span></div>
+<div class="ring-wrap"><div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.03)" stroke-width="10"/><circle id="ers" cx="60" cy="60" r="50" fill="none" stroke="var(--salwa)" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 314" style="transition:stroke-dasharray .8s"/><circle id="ery" cx="60" cy="60" r="50" fill="none" stroke="var(--yara)" stroke-width="10" stroke-linecap="round" stroke-dasharray="0 314" style="transition:stroke-dasharray .8s"/></svg><div class="ring-c"><div class="ring-v" id="eqp" style="font-size:16px">—</div><div class="ring-l">عدالة</div></div></div>
+<div class="bl"><div class="lg" style="color:var(--salwa)"><div class="ld" style="background:var(--salwa)"></div>سلوى <span class="ln" id="est">—</span></div><div class="lg" style="color:var(--yara)"><div class="ld" style="background:var(--yara)"></div>يارا <span class="ln" id="eyt">—</span></div></div>
+<div class="bs" id="esm">—</div></div></div>
+
+<!-- Weekly Sparkline -->
+<div class="spark-card"><div class="spark-title"><span class="material-symbols-outlined ms" style="color:var(--p);font-size:16px">show_chart</span> مصاريف الأسبوع</div><div id="sparkline"></div></div>
+
+<!-- Category Breakdown -->
+<div class="spark-card"><div class="spark-title"><span class="material-symbols-outlined ms" style="color:var(--p);font-size:16px">donut_small</span> توزيع التصنيفات</div><div id="cat-breakdown"></div></div>
+
+<!-- Month Total -->
+<div class="bt"><div class="gs"></div><div style="font-family:'Space Grotesk';font-size:8px;color:var(--osv);text-transform:uppercase;letter-spacing:2px">إجمالي الشهر</div><div style="font-family:'Space Grotesk';font-size:10px;color:var(--pc);font-weight:700">EGP</div><div id="mtot" style="font-family:'JetBrains Mono';font-size:34px;font-weight:700;background:linear-gradient(135deg,var(--p),var(--pc));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-2px">—</div><div class="gs"></div><div id="mcnt" style="font-size:9px;color:var(--osv)">—</div></div>
+
+<div class="sh"><h2 class="st">الأخيرة</h2></div>
+<div id="rl"><div class="empty">اضغط تحديث</div></div>
+<button class="rb" onclick="loadDash()" style="margin-top:6px"><span class="material-symbols-outlined ms" style="font-size:13px;vertical-align:middle;margin-left:3px">refresh</span> تحديث</button>
+</div>
+<!-- MODALS -->
+<div class="mo" id="mo-act"><div class="md"><div class="mh"><div class="mt2" id="amt">نشاط</div><button class="mx" onclick="cm('mo-act')">✕</button></div>
+<form id="af" onsubmit="subAct(event)"><input type="hidden" id="at2"><input type="hidden" id="ah">
+<div class="dt"><button type="button" class="dtb" id="add" onclick="tdi('a')">📅 النهارده</button><button type="button" class="dtr" onclick="rd('a')">↩️</button></div><input type="date" class="dti" id="adi" onchange="odc('a')">
+<div class="fg"><label class="fl">الاسم</label><input class="fi" id="an" required placeholder="وصف النشاط"></div>
+<div class="fg" id="ahg" style="display:none"><label class="fl">البيت</label><select class="fs" id="ahs"><option value="🏠 Salwa">🏠 سلوى</option><option value="🏠 Yara">🏠 يارا</option><option value="Both">الاتنين</option><option value="Outside">برا</option></select></div>
+<div class="fg" id="amg" style="display:none"><label class="fl">حالة المبيت</label><select class="fs" id="ams"><option value="مبيت كامل">مبيت كامل</option><option value="مبيت جزئى">مبيت جزئى</option><option value="سفر">سفر</option><option value="ظروف استثنائية">ظروف استثنائية</option></select></div>
+<div class="tg" id="amtg"><div class="ti" id="ts" onclick="this.classList.toggle('on')"><span class="t-i">🕌</span><span class="t-l">صلاة</span></div><div class="ti" id="tq" onclick="this.classList.toggle('on')"><span class="t-i">💝</span><span class="t-l">نوعى</span></div><div class="ti" id="td" onclick="this.classList.toggle('on')"><span class="t-i">✅</span><span class="t-l">تم</span></div></div>
+<div class="fg" id="amlg" style="display:none"><label class="fl">نوع الانجاز</label><select class="fs" id="amlc"><option value="">—</option><option value="Quran 📖">قرآن</option><option value="School 🏫">مدرسة</option><option value="Sport 🏊">رياضة</option><option value="Islamic Learning">اسلامى</option><option value="Social & Emotional">اجتماعى</option><option value="Health">صحة</option><option value="Creative & Skills">مهارات</option><option value="Language">لغة</option><option value="First Time 🌟">أول مرة</option><option value="Behavioral">سلوك</option></select></div>
+<div class="fg"><label class="fl">العيلة</label><div class="chips" id="afc"></div></div>
+<div class="fg"><label class="fl">ملاحظات</label><input class="fi" id="ano" placeholder="اختيارى"></div>
+<button type="submit" class="sb1" id="asb">✅ تسجيل</button></form></div></div>
+
+<div class="mo" id="mo-exp"><div class="md"><div class="mh"><div class="mt2" id="emt">مصروف</div><button class="mx" onclick="cm('mo-exp')">✕</button></div>
+<form id="ef" onsubmit="subExp(event)"><input type="hidden" id="ec">
+<div class="dt"><button type="button" class="dtb" id="edd" onclick="tdi('e')">📅 النهارده</button><button type="button" class="dtr" onclick="rd('e')">↩️</button></div><input type="date" class="dti" id="edi" onchange="odc('e')">
+<div class="fg"><label class="fl">الاسم</label><input class="fi" id="en" required placeholder="وصف"></div>
+<div class="fg"><label class="fl">المبلغ</label><input class="fi" type="number" id="ea" required placeholder="0" min="1" step="0.5" inputmode="decimal"></div>
+<div class="fg" id="ecg" style="display:none"><label class="fl">التصنيف</label><select class="fs" id="ecs"><option value="Super Market🛒">سوبر ماركت</option><option value="Food 🥘">أكل</option><option value="Fuel ⛽️">بنزين</option><option value="DR & Medicine">دكتور</option><option value="school">مدرسة</option><option value="Clothes👕👚">لبس</option><option value="Bills">فواتير</option><option value="entertainment💃">ترفيه</option><option value="Essential">أساسيات</option><option value="Maintenance 🔧">صيانة</option><option value="Spare parts ⚙️">قطع غيار</option><option value="ISLAM">اسلام</option><option value="هدية">هدية</option><option value="Sport">رياضة</option><option value="Travel">سفر</option><option value="Desserts and Candy">حلويات</option><option value="مصروف شخصى">شخصى</option><option value="خدمات">خدمات</option><option value="بامبرز ومناديل">بامبرز</option><option value="دروس وكتب خارجية">دروس</option><option value="ترخيص">ترخيص</option></select></div>
+<div class="fg" id="ebtg" style="display:none"><label class="fl">نوع الفاتورة</label><select class="fs" id="ebt"><option value="كهربا">كهرباء ⚡</option><option value="غاز">غاز 🔥</option><option value="Internet bill">نت 🌐</option><option value="Mobile Bill📱">موبايل</option><option value="Telephone bill☎️">أرضى</option></select></div>
+<div class="fg" id="epg" style="display:none"><label class="fl">العقار</label><select class="fs" id="eps"><option value="">—</option><option value="356b4fb4">الحدايق</option><option value="b1363fc3">المقطم</option><option value="970f8193">بابا الحدايق</option></select></div>
+<div class="fg"><label class="fl">الدفع</label><select class="fs" id="epb"><option value="CASH">كاش</option><option value="CIB 4476 FDM">CIB 4476</option><option value="CIB 1011">CIB 1011</option><option value="CIB 8019">CIB 8019</option><option value="CIB 6135">CIB 6135</option><option value="CIB 7010">CIB 7010</option><option value="CIB 0010">CIB 0010</option><option value="HSBC 3626">HSBC 3626</option><option value="HSBC 2936">HSBC 2936</option><option value="VF Cash">VF Cash</option><option value="Instapay CIB">Instapay</option></select></div>
+<div class="fg"><label class="fl">العيلة</label><div class="chips" id="efc"></div></div>
+<div class="fg" id="evg" style="display:none"><label class="fl">العربية</label><select class="fs" id="ev"><option value="">—</option><option value="a89327c0">Kymco 250</option><option value="9d530c70">BMW</option><option value="d52b4381">Honda</option><option value="1e8cde28">Lanos</option></select></div>
+<div class="fg" id="ekg" style="display:none"><label class="fl">KM</label><input class="fi" type="number" id="ekm" placeholder="KM" inputmode="numeric"></div>
+<div class="fg"><label class="fl">ملاحظات</label><input class="fi" id="eno" placeholder="اختيارى"></div>
+<button type="submit" class="sb1" id="esb">✅ تسجيل</button></form></div></div>
+
+<!-- UNIFIED TASK/SHOP/NOTE MODAL -->
+<div class="mo" id="mo-task"><div class="md"><div class="mh"><div class="mt2" id="tmt">📋 مهمة</div><button class="mx" onclick="cm('mo-task')">✕</button></div>
+<form id="tf" onsubmit="subEntry(event)"><input type="hidden" id="t-etype" value="📋 Task"><input type="hidden" id="t-edit-id" value="">
+<div class="fg"><label class="fl">العنوان</label><input class="fi" id="t-name" required placeholder="ايه المطلوب؟"></div>
+<div class="fg"><label class="fl">ملاحظات / تفاصيل</label><textarea class="fi" id="t-note" rows="2" placeholder="اختيارى" style="font-size:12px"></textarea></div>
+<div class="fg"><label class="fl">التاريخ</label><input type="datetime-local" class="fi" id="t-due" style="font-family:'JetBrains Mono';font-size:12px;text-align:right;color-scheme:dark"></div>
+<div class="fg" id="t-pri-group" style="display:none"><label class="fl">الأولوية</label><select class="fs" id="t-pri"><option value="🔴 عاجل">🔴 عاجل</option><option value="🟡 قريب" selected>🟡 قريب</option><option value="🔵 Wishlist">🔵 Wishlist</option><option value="⚪ عادى">⚪ عادى</option></select></div>
+<div class="fg" id="t-price-group" style="display:none"><label class="fl">السعر التقريبى</label><input class="fi" type="number" id="t-price" placeholder="اختيارى" inputmode="decimal"></div>
+<div class="fg"><label class="fl">العيلة</label><div class="chips" id="t-fam"></div></div>
+<div class="fg"><label class="fl">العقار</label><select class="fs" id="t-prop"><option value="">— بدون —</option><option value="356b4fb4">الحدايق</option><option value="b1363fc3">المقطم</option><option value="970f8193">بابا الحدايق</option></select></div>
+<div class="fg"><label class="fl">العربية</label><select class="fs" id="t-veh"><option value="">— بدون —</option><option value="a89327c0">Kymco 250</option><option value="9d530c70">BMW</option><option value="d52b4381">Honda</option><option value="1e8cde28">Lanos</option></select></div>
+<button type="submit" class="sb1" id="tsb">✅ إضافة</button></form></div></div>
+
+
+<!-- NOTE MODAL (Notes DB) -->
+<div class="mo" id="mo-note"><div class="md"><div class="mh"><div class="mt2" id="nmt">📝 ملاحظة</div><button class="mx" onclick="cm('mo-note')">✕</button></div>
+<form id="nf" onsubmit="subNote(event)"><input type="hidden" id="n-edit-id" value="">
+<div class="fg"><label class="fl">العنوان</label><input class="fi" id="n-name" required placeholder="عنوان الملاحظة"></div>
+<div class="fg"><label class="fl">التفاصيل</label><textarea class="fi" id="n-body" rows="4" placeholder="اكتب هنا..." style="font-size:12px"></textarea></div>
+<div class="fg"><label class="fl">الدفتر</label><select class="fs" id="n-notebook"><option value="">— بدون —</option><option value="Family">Family</option><option value="School">School</option><option value="Programs">Programs</option><option value="Business">Business</option><option value="ISLAM">ISLAM</option><option value="NOTION">NOTION</option><option value="Vehicle">Vehicle</option><option value="Property">Property</option><option value="Health">Health</option><option value="AI">AI</option></select></div>
+<div class="fg"><label class="fl">العيلة</label><div class="chips" id="n-fam"></div></div>
+<div class="fg"><label class="fl">العقار</label><select class="fs" id="n-prop"><option value="">— بدون —</option><option value="356b4fb4">الحدايق</option><option value="b1363fc3">المقطم</option><option value="970f8193">بابا الحدايق</option></select></div>
+<div class="fg"><label class="fl">العربية</label><select class="fs" id="n-veh"><option value="">— بدون —</option><option value="a89327c0">Kymco 250</option><option value="9d530c70">BMW</option><option value="d52b4381">Honda</option><option value="1e8cde28">Lanos</option></select></div>
+<button type="submit" class="sb1" id="nsb">✅ حفظ</button></form></div></div>
+
+<!-- Day Expenses Modal -->
+<div class="mo" id="mo-dayexp"><div class="md"><div class="mh"><div class="mt2" id="det">مصاريف اليوم</div><button class="mx" onclick="cm('mo-dayexp')">✕</button></div><div id="del2"></div><div id="detot" style="text-align:center;font-family:'JetBrains Mono';font-size:18px;font-weight:700;color:var(--p);margin-top:10px">—</div></div></div>
+
+<!-- Settings -->
+<div class="mo" id="mo-set"><div class="md"><div class="mh"><div class="mt2">⚙️ إعدادات</div><button class="mx" onclick="cm('mo-set')">✕</button></div>
+<div class="fg"><label class="fl">Notion Token</label><input class="fi" id="tki" type="password" placeholder="ntn_..." dir="ltr" style="font-family:'JetBrains Mono';font-size:11px"><button class="sb1" onclick="saveTk()" style="margin-top:4px">💾 حفظ</button></div>
+<div id="cs" style="font-size:11px;color:var(--osv);margin-top:8px">—</div>
+<div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)"><label class="fl">إشعارات التذكير</label>
+<button class="rb" onclick="requestNotifPerm()" id="notif-btn" style="margin-top:4px">🔔 تفعيل الإشعارات</button>
+<div id="notif-status" style="font-size:10px;color:var(--osv);margin-top:4px"></div></div>
+<button class="danger-btn" onclick="clearTk()">🗑️ مسح التوكن</button></div></div>
+
+<!-- NAV -->
+<div class="bnav" id="bnav">
+<div class="nav-ind" id="nav-ind"></div>
+<button class="ni active" onclick="sp('activity')"><span class="material-symbols-outlined ms">history</span><span class="nl">أنشطة</span></button>
+<button class="ni" onclick="sp('expenses')"><span class="material-symbols-outlined ms">payments</span><span class="nl">مصاريف</span></button>
+<button class="ni" onclick="sp('planner')" id="np"><span class="material-symbols-outlined ms">checklist</span><span class="nl">مخطط</span></button>
+<button class="ni" onclick="sp('dashboard')"><span class="material-symbols-outlined ms">dashboard</span><span class="nl">لوحة</span></button>
+</div>
+<div class="toast" id="tt"></div>
+<script>
+const W='https://fdm-api.amahalim.workers.dev';
+const DB={a:'51e6f26ff10740d8a5a697b341a21d70',e:'3ad23eb4fcb54f6baf2ebeec603dd9ae',t:'485e735c09fe41e1b16fe0b0b3770d65',n:'55a14ecf68074888854266c278ddf616'};
+const F={ahmad:{id:'e4c8783f-d65b-436c-84d7-1d998e2abf88',n:'أحمد',e:'👨',c:'#D4A846'},salwa:{id:'14fb5273-a910-409c-9e04-0c15a1846826',n:'سلوى',e:'🙎‍♀️',c:'#5b8def'},farah:{id:'764f0cad-4464-49a7-a732-c55d6080b7d6',n:'فرح',e:'😍',c:'#E05080'},youssef:{id:'36c4e569-1b36-489d-9e34-240a10fc681b',n:'يوسف',e:'😎',c:'#4FA8E0'},hayat:{id:'68e82cca-91ab-4399-bc45-86fb9616b75f',n:'حياة',e:'😝',c:'#50C8B0'},yara:{id:'e26d4426-bf0e-46ae-9a0e-a0be7af6aefa',n:'يارا',e:'👧',c:'#b07ce8'},younis:{id:'32acde28-d1d7-811f-95b4-cfef8c39748a',n:'يونس',e:'👶',c:'#E89040'}};
+const V={'a89327c0':'a89327c0-855c-48f1-9f41-2ef4e6e792a6','9d530c70':'9d530c70-6ad5-40e5-98cb-1b2f6ba64a57','d52b4381':'d52b4381-8218-427c-92df-648d43cfb0ad','1e8cde28':'1e8cde28-d1d7-8073-97ec-dc0792dcef33'};
+const P={'356b4fb4':'356b4fb4-5f83-48a8-8810-fe4f5382666a','b1363fc3':'b1363fc3-e13f-4e99-8653-0506e341c07c','970f8193':'970f8193-ed21-4798-9f71-d1648cae2b36'};
+const AT={mabeet:'مبيت 🌙',milestone:'Milestone 🌟',outing:'Outing 🚗',sport:'Sport 🏃',islam:'Islam 🕌',health:'Health 🏥',task:'Task 📋',event:'Event 🎉'};
+const HS=['14fb5273-a910-409c-9e04-0c15a1846826','764f0cad-4464-49a7-a732-c55d6080b7d6','36c4e569-1b36-489d-9e34-240a10fc681b','68e82cca-91ab-4399-bc45-86fb9616b75f'];
+const HY=['e26d4426-bf0e-46ae-9a0e-a0be7af6aefa','32acde28-d1d7-811f-95b4-cfef8c39748a'];
+const PM2='b1363fc3-e13f-4e99-8653-0506e341c07c',PB2='970f8193-ed21-4798-9f71-d1648cae2b36';
+const RC=2*Math.PI*50;
+
+// TOKEN
+const gT=()=>localStorage.getItem('fdm_token')||'';
+function saveTk(){const t=document.getElementById('tki').value.trim();if(!t){toast('ادخل التوكن','error');return}localStorage.setItem('fdm_token',t);document.getElementById('tki').value='';toast('✅ تم');cm('mo-set');testConn()}
+function clearTk(){if(confirm('متأكد؟')){localStorage.removeItem('fdm_token');toast('تم المسح');document.getElementById('cs').textContent='غير متصل'}}
+function openSettings(){document.getElementById('mo-set').classList.add('active');document.getElementById('cs').textContent=gT()?'التوكن موجود':'لا يوجد توكن';updateNotifStatus()}
+
+// NAV
+const PG=['activity','expenses','planner','dashboard'];
+function sp(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+n).classList.add('active');document.querySelectorAll('.ni')[PG.indexOf(n)].classList.add('active');updateNavInd(PG.indexOf(n));haptic('light');if(n==='dashboard')loadDash();if(n==='planner'){loadTasks();loadShopping();loadNotes()}}
+function updateNavInd(idx){const nav=document.getElementById('bnav'),ind=document.getElementById('nav-ind');if(!nav||!ind)return;const btns=nav.querySelectorAll('.ni');if(!btns[idx])return;const btn=btns[idx],navR=nav.getBoundingClientRect(),btnR=btn.getBoundingClientRect();ind.style.right=(navR.right-btnR.right+btnR.width/2-24)+'px'}
+function cm(id){const el=document.getElementById(id);el.classList.add('closing');setTimeout(()=>{el.classList.remove('active','closing')},250)}
+function switchSub(t){['tasks','shopping','notes'].forEach(s=>{document.getElementById('sub-'+s).style.display='none';const b=document.getElementById('stab-'+s);b.style.background='transparent';b.style.color='var(--osv)'});document.getElementById('sub-'+t).style.display='block';const b=document.getElementById('stab-'+t);b.style.background='var(--p)';b.style.color='var(--op)'}
+
+// TOAST
+const TI={success:'check_circle',error:'error',warning:'warning'};
+function toast(m,t='success'){const e=document.getElementById('tt');e.className='toast '+t;e.style.setProperty('--toast-dur','3.5s');e.innerHTML='<span class="material-symbols-outlined ms" style="font-size:16px;vertical-align:middle;margin-left:4px;font-variation-settings:\'FILL\' 1">'+(TI[t]||'info')+'</span> '+m;setTimeout(()=>e.classList.add('show'),10);setTimeout(()=>e.classList.remove('show'),3500);haptic(t==='error'?'error':'light')}
+function toastL(m,u){const e=document.getElementById('tt');e.className='toast success';e.style.setProperty('--toast-dur','6s');e.innerHTML='<span class="material-symbols-outlined ms" style="font-size:16px;vertical-align:middle;margin-left:4px;font-variation-settings:\'FILL\' 1">check_circle</span> '+m+' <a href="'+u+'" target="_blank" style="color:#000;text-decoration:underline;font-weight:800">📎</a>';setTimeout(()=>e.classList.add('show'),10);setTimeout(()=>e.classList.remove('show'),6000)}
+
+// CHIPS
+function bC(id,pre=[]){const el=document.getElementById(id);el.innerHTML='';Object.entries(F).forEach(([k,m])=>{const c=document.createElement('div');c.className='chip'+(pre.includes(k)?' selected':'');c.style.cssText='--cc:'+m.c;c.dataset.key=k;c.textContent=m.e+' '+m.n;c.onclick=()=>c.classList.toggle('selected');el.appendChild(c)})}
+function gC(id){return Array.from(document.querySelectorAll('#'+id+' .chip.selected')).map(c=>F[c.dataset.key]?.id).filter(Boolean)}
+
+// HAPTIC
+function haptic(type='light'){if(!navigator.vibrate)return;const p={light:[10],medium:[20],heavy:[30],success:[10,50,10],error:[50,30,50]};navigator.vibrate(p[type]||[10])}
+
+// SKELETON
+function showSkel(el,count=3,type='task'){el.innerHTML=Array(count).fill('<div class="skeleton skeleton-'+type+'"></div>').join('')}
+
+// API
+async function nP(body){const t=gT();if(!t){toast('⚠️ التوكن','error');return null}try{const r=await fetch(W,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(body)});const d=await r.json();if(!r.ok){toast('⚠️ '+(d.message||r.status),'error');return null}return d}catch(e){toast('⚠️ اتصال','error');return null}}
+async function nQ(db,filter={},sorts=[],ps=20){const t=gT();if(!t)return null;const b={_endpoint:'query',_database_id:db,page_size:ps};if(Object.keys(filter).length)b.filter=filter;if(sorts.length)b.sorts=sorts;try{const r=await fetch(W,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify(b)});const d=await r.json();if(!r.ok)return null;return d}catch(e){return null}}
+
+// DATE
+const today=()=>new Date().toISOString().split('T')[0];
+function fmtD(s){if(!s||s===today())return'📅 النهارده';const d=new Date(s+'T00:00:00'),ds=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],ms=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];return'📅 '+ds[d.getDay()]+' '+d.getDate()+' '+ms[d.getMonth()]}
+function tdi(p){const i=document.getElementById(p+'di');i.classList.contains('visible')?(i.classList.remove('visible')):(i.classList.add('visible'),i.value=i.value||today(),i.focus())}
+function odc(p){const i=document.getElementById(p+'di'),d=document.getElementById(p+'dd');i.value&&i.value!==today()?(d.textContent=fmtD(i.value),d.classList.add('custom')):(d.textContent='📅 النهارده',d.classList.remove('custom'))}
+function rd(p){const i=document.getElementById(p+'di'),d=document.getElementById(p+'dd');i.value='';i.classList.remove('visible');d.textContent='📅 النهارده';d.classList.remove('custom')}
+function gD(p){const i=document.getElementById(p+'di');return(i.value&&i.value.length===10)?i.value:today()}
+
+// RING
+function uR(sI,yI,sv,yv){const t=sv+yv||1,sp=sv/t,yp=yv/t,g=5;const sa=RC*sp-(sp>0&&yp>0?g:0),ya=RC*yp-(sp>0&&yp>0?g:0);const se=document.getElementById(sI),ye=document.getElementById(yI);se.setAttribute('stroke-dasharray',Math.max(0,sa)+' '+RC);se.setAttribute('stroke-dashoffset','0');ye.setAttribute('stroke-dasharray',Math.max(0,ya)+' '+RC);ye.setAttribute('stroke-dashoffset',-(RC*sp))}
+
+// ============================================================
+// ACTIVITY (unchanged logic)
+// ============================================================
+function quickAction(type,sub){document.getElementById('af').reset();document.getElementById('at2').value=type==='mabeet'?'mabeet':sub;const nm={mabeet:sub==='salwa'?'مبيت سلوى':'مبيت يارا',milestone:'انجاز',outing:'طلعة',sport:'تمرين',islam:'اسلامى',health:'صحة',task:'مهمة',event:'مناسبة'};document.getElementById('an').value=nm[type==='mabeet'?'mabeet':sub]||'';document.getElementById('ah').value=type==='mabeet'?(sub==='salwa'?'🏠 Salwa':'🏠 Yara'):'';document.getElementById('amg').style.display=type==='mabeet'?'block':'none';document.getElementById('ahg').style.display=type!=='mabeet'?'block':'none';document.getElementById('amlg').style.display=sub==='milestone'?'block':'none';const tg=document.getElementById('amtg');if(type==='mabeet'){tg.classList.add('visible');document.getElementById('ts').classList.remove('on');document.getElementById('tq').classList.remove('on');document.getElementById('td').classList.add('on')}else{tg.classList.remove('visible')}document.getElementById('amt').textContent={mabeet:'🌙 مبيت',milestone:'🏆 انجاز',outing:'🚗 طلعة',sport:'🏃 رياضة',islam:'🕌 اسلام',health:'🏥 صحة',task:'📋 مهمة',event:'🎉 مناسبة'}[type==='mabeet'?'mabeet':sub]||'نشاط';bC('afc',type==='mabeet'?(sub==='salwa'?['ahmad','salwa']:['ahmad','yara']):[]);document.getElementById('mo-act').classList.add('active');rd('a');if(type!=='mabeet')document.getElementById('an').focus()}
+
+async function subAct(e){e.preventDefault();const b=document.getElementById('asb');b.disabled=true;b.textContent='⏳';const tk=document.getElementById('at2').value,isM=tk==='mabeet',at=isM?'مبيت 🌙':AT[tk],house=isM?document.getElementById('ah').value:document.getElementById('ahs').value,name=document.getElementById('an').value,sd=gD('a');const p={'Name':{title:[{text:{content:name}}]},'Type':{select:{name:at}},'House':{select:{name:house}},'Activity Date':{date:{start:sd}},'Done':{checkbox:true}};if(isM){p['Mabeet Status']={select:{name:document.getElementById('ams').value}};p['Salah Together']={checkbox:document.getElementById('ts').classList.contains('on')};p['Quality Time']={checkbox:document.getElementById('tq').classList.contains('on')};p['Done']={checkbox:document.getElementById('td').classList.contains('on')}}if(tk==='milestone'){const c=document.getElementById('amlc').value;if(c)p['Milestone Category']={select:{name:c}};p['Achivment 🏅']={checkbox:true}}const fam=gC('afc');if(fam.length)p['Family']={relation:fam.map(id=>({id}))};const body={parent:{database_id:DB.a},properties:p};const note=document.getElementById('ano').value.trim();if(note)body.children=[{object:'block',type:'paragraph',paragraph:{rich_text:[{type:'text',text:{content:note}}]}}];const r=await nP(body);b.disabled=false;b.textContent='✅ تسجيل';if(r&&r.id){toastL('✅ '+name,'https://www.notion.so/'+r.id.replace(/-/g,''));cm('mo-act')}}
+
+// ============================================================
+// EXPENSE (unchanged logic)
+// ============================================================
+function quickExpense(type,house){document.getElementById('ef').reset();document.getElementById('ef').dataset.editId='';document.getElementById('esb').textContent='✅ تسجيل';const iF=type==='fuel',iB=type==='bills',iC=type==='custom',iL=type==='license';const cm2={supermarket:'Super Market🛒',fuel:'Fuel ⛽️',food:'Food 🥘',medical:'DR & Medicine',school:'school',clothes:'Clothes👕👚',bills:'',license:'ترخيص',custom:''};document.getElementById('ec').value=cm2[type]||'';const nm2={supermarket:house==='salwa'?'مصروف "S"':'مصروف "Y"',fuel:'بنزين',food:'أكل',medical:'دكتور',school:'مدرسة',clothes:'لبس',bills:'فاتورة',license:'ترخيص',custom:''};document.getElementById('en').value=nm2[type]||'';document.getElementById('emt').textContent={supermarket:'🛒 مصروف',fuel:'⛽ بنزين',food:'🥘 أكل',medical:'💊 دكتور',school:'🏫 مدرسة',clothes:'👕 لبس',bills:'📃 فواتير',license:'🪪 ترخيص',custom:'✏️ حر'}[type]||'مصروف';document.getElementById('ecg').style.display=iC?'block':'none';document.getElementById('ebtg').style.display=iB?'block':'none';document.getElementById('epg').style.display=iB?'block':'none';document.getElementById('evg').style.display=(iF||iL)?'block':'none';document.getElementById('ekg').style.display=iF?'block':'none';bC('efc',house==='salwa'?['salwa']:house==='yara'?['yara']:[]);document.getElementById('mo-exp').classList.add('active');rd('e');document.getElementById('ea').focus()}
+
+async function subExp(e){e.preventDefault();const b=document.getElementById('esb');b.disabled=true;b.textContent='⏳';const editId=document.getElementById('ef').dataset.editId||'';const name=document.getElementById('en').value,amt=parseFloat(document.getElementById('ea').value),pb=document.getElementById('epb').value,sd=gD('e');let cat=document.getElementById('ec').value;if(!cat&&document.getElementById('ebtg').style.display!=='none')cat=document.getElementById('ebt').value;if(!cat)cat=document.getElementById('ecs').value;const p={'Name':{title:[{text:{content:name}}]},'Amount':{number:amt},'Paid BY':{select:{name:pb}},'Date':{date:{start:sd}}};if(cat)p['Category']={multi_select:[{name:cat}]};const note=document.getElementById('eno').value;if(note)p['note']={rich_text:[{text:{content:note}}]};const fam=gC('efc');if(fam.length)p['Family']={relation:fam.map(id=>({id}))};if(document.getElementById('evg').style.display!=='none'){const v=document.getElementById('ev').value;if(v&&V[v])p['Vehicles']={relation:[{id:V[v]}]};const km=document.getElementById('ekm').value;if(km)p['KM']={number:parseInt(km)}}if(document.getElementById('epg').style.display!=='none'){const pk=document.getElementById('eps').value;if(pk&&P[pk])p['Property']={relation:[{id:P[pk]}]}}let ok;if(editId){ok=await nU(editId,p);document.getElementById('ef').dataset.editId=''}else{const r2=await nP({parent:{database_id:DB.e},properties:p});ok=r2&&r2.id;if(ok)toastL('✅ '+name+' — '+amt,'https://www.notion.so/'+r2.id.replace(/-/g,''))}b.disabled=false;b.textContent='✅ تسجيل';if(ok){if(editId)toast('✅ تم تحديث '+name);cm('mo-exp')}}
+
+// ============================================================
+// UNIFIED PLANNER — Task/Shopping/Note/Reminder all in Notion
+// ============================================================
+function openModal(type){
+  if(type==='note'){openNM();return}
+  document.getElementById('tf').reset();document.getElementById('t-edit-id').value='';
+  bC('t-fam',[]);
+  const titles={'task':'📋 مهمة جديدة','shop':'🛍️ عنصر تسوق'};
+  const etypes={'task':'📋 Task','shop':'🛍️ Shopping'};
+  document.getElementById('tmt').textContent=titles[type]||'إضافة';
+  document.getElementById('t-etype').value=etypes[type]||'📋 Task';
+  // Show/hide priority + price for shopping
+  document.getElementById('t-pri-group').style.display=type==='shop'?'block':'none';
+  document.getElementById('t-price-group').style.display=type==='shop'?'block':'none';
+  document.getElementById('mo-task').classList.add('active');
+  document.getElementById('t-name').focus();
+}
+
+async function subEntry(e){
+  e.preventDefault();
+  const b=document.getElementById('tsb');b.disabled=true;b.textContent='⏳';
+  const eid=document.getElementById('t-edit-id').value;
+  const etype=document.getElementById('t-etype').value;
+  const name=document.getElementById('t-name').value;
+  const note=document.getElementById('t-note').value;
+  const dueVal=document.getElementById('t-due').value; // datetime-local
+  const priority=document.getElementById('t-pri').value;
+  const price=document.getElementById('t-price').value;
+
+  const p={'Task':{title:[{text:{content:name}}]},'Entry Type':{select:{name:etype}}};
+
+  // Due date — if datetime-local has value, send with time
+  if(dueVal){
+    if(dueVal.includes('T')){
+      // datetime-local format: 2026-03-22T14:30
+      p['Due']={date:{start:dueVal+':00.000+02:00'}};
+    } else {
+      p['Due']={date:{start:dueVal}};
+    }
+  }
+
+  if(note) p['Note']={rich_text:[{text:{content:note}}]};
+  if(etype==='🛍️ Shopping'){
+    p['Priority']={select:{name:priority}};
+    if(price) p['Price']={number:parseFloat(price)};
+  }
+
+  const fam=gC('t-fam');
+  if(fam.length) p['Family']={relation:fam.map(id=>({id}))};
+  const pk=document.getElementById('t-prop').value;
+  if(pk&&P[pk]) p['Property']={relation:[{id:P[pk]}]};
+  const vk=document.getElementById('t-veh').value;
+  if(vk&&V[vk]) p['Vehicles']={relation:[{id:V[vk]}]};
+
+  let ok;if(eid){ok=await nU(eid,p)}else{const r=await nP({parent:{database_id:DB.t},properties:p});ok=r&&r.id;if(ok&&dueVal)scheduleNotif(name,dueVal)}
+  b.disabled=false;b.textContent=eid?'💾 تحديث':'✅ إضافة';
+  if(ok){toast('✅ '+(eid?'تم التحديث':name));cm('mo-task');loadTasks();loadShopping();loadNotes()}
+}
+
+// ============================================================
+// LOAD TASKS FROM NOTION
+// ============================================================
+async function loadTasks(){
+  const l=document.getElementById('tasks-list');showSkel(l,4,'task');
+  const d=await nQ(DB.t,{and:[{property:'Done',checkbox:{equals:false}},{or:[{property:'Entry Type',select:{equals:'📋 Task'}},{property:'Entry Type',select:{is_empty:true}}]}]},[{property:'Due',direction:'ascending'}],30);
+  if(!d||!d.results){l.innerHTML='<div class="empty"><div class="empty-icon">😕</div><div class="empty-text">تعذر التحميل</div></div>';return}
+  if(!d.results.length){l.innerHTML='<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">لا مهام مفتوحة</div><div class="empty-sub">اضغط + لإضافة مهمة جديدة</div></div>';upOD(0);return}
+  const td=today();let od=0;l.innerHTML='';
+  d.results.forEach(r=>{
+    const n=r.properties?.Task?.title?.[0]?.plain_text||'—',du=r.properties?.Due?.date?.start||'',id=r.id;
+    let dc='future',dt='بدون تاريخ';
+    const duDate=du.split('T')[0];
+    if(du){if(duDate<td){dc='overdue';dt='⚠️ متأخر — '+duDate;od++}else if((new Date(duDate)-new Date(td))/864e5<=3){dc='soon';dt='⏰ قريب — '+duDate}else dt='📅 '+duDate}
+    const div=document.createElement('div');div.className='task-item';
+    div.innerHTML='<div class="task-check" onclick="event.stopPropagation();togDone(\''+id+'\',this)"></div><div style="flex:1;min-width:0"><div class="task-name">'+n+'</div><div class="task-due '+dc+'">'+dt+'</div></div>';div.onclick=()=>openET(r);
+    l.appendChild(div)});
+  upOD(od);attachSwipes()}
+
+// LOAD SHOPPING FROM NOTION
+async function loadShopping(){
+  const l=document.getElementById('shopping-list');showSkel(l,3,'task');
+  const d=await nQ(DB.t,{and:[{property:'Done',checkbox:{equals:false}},{property:'Entry Type',select:{equals:'🛍️ Shopping'}}]},[{property:'Priority',direction:'ascending'}],30);
+  if(!d||!d.results){l.innerHTML='<div class="empty"><div class="empty-icon">😕</div><div class="empty-text">تعذر التحميل</div></div>';return}
+  if(!d.results.length){l.innerHTML='<div class="empty"><div class="empty-icon">🛍️</div><div class="empty-text">لا عناصر تسوق</div><div class="empty-sub">اضغط + لإضافة عنصر</div></div>';return}
+  l.innerHTML='';
+  d.results.forEach(r=>{
+    const n=r.properties?.Task?.title?.[0]?.plain_text||'—',id=r.id;
+    const pri=r.properties?.Priority?.select?.name||'';
+    const price=r.properties?.Price?.number;
+    const note=r.properties?.Note?.rich_text?.[0]?.plain_text||'';
+    const c=pri.startsWith('🔴')?'var(--red)':pri.startsWith('🟡')?'var(--org)':'var(--salwa)';
+    const div=document.createElement('div');div.className='task-item';div.style.borderRight='3px solid '+c;
+    div.innerHTML='<div class="task-check" onclick="togDone(\''+id+'\',this)"></div><div style="flex:1;min-width:0"><div class="task-name">'+n+'</div><div class="task-due future">'+pri+(price?' — ~'+price+' ج.م':'')+'</div>'+(note?'<div style="font-size:9px;color:var(--osv);margin-top:1px">'+note+'</div>':'')+'</div><div class="del-btn" onclick="event.stopPropagation();delEntry(\''+id+'\',this)"><span class="material-symbols-outlined ms" style="font-size:16px">delete</span></div>';
+    l.appendChild(div)})}
+
+// LOAD NOTES FROM NOTION NOTES DB (55a14ecf)
+async function loadNotes(){
+  const l=document.getElementById('notes-list');showSkel(l,3,'task');
+  const d=await nQ(DB.n,{},[{property:'Created time',direction:'descending'}],30);
+  if(!d||!d.results){l.innerHTML='<div class="empty"><div class="empty-icon">😕</div><div class="empty-text">تعذر التحميل</div></div>';return}
+  if(!d.results.length){l.innerHTML='<div class="empty"><div class="empty-icon">📝</div><div class="empty-text">لا ملاحظات</div><div class="empty-sub">اضغط + لإضافة ملاحظة</div></div>';return}
+  l.innerHTML='';
+  d.results.forEach(r=>{
+    const n=r.properties?.Name?.title?.[0]?.plain_text||'—',id=r.id;
+    const notebook=r.properties?.Notebook?.select?.name||'';
+    const famIds=(r.properties?.Family?.relation||[]).map(f=>f.id);
+    const propRel=(r.properties?.Property?.relation||[])[0]?.id||'';
+    const vehRel=(r.properties?.Vehicles?.relation||[])[0]?.id||'';
+    const nbC={'Family':'var(--salwa)','School':'#60a5fa','Business':'var(--org)','ISLAM':'var(--grn)','Vehicle':'#a78bfa','Property':'#2dd4bf','Health':'var(--red)','AI':'var(--pnk)'}[notebook]||'var(--yara)';
+    const div=document.createElement('div');div.className='note-item';div.style.borderRight='3px solid '+nbC;
+    div.innerHTML='<div class="note-pin">📝</div><div style="padding-left:30px"><div class="note-text">'+n+'</div><div class="note-meta">'+(notebook?'📂 '+notebook:'📝')+'</div></div><div class="del-btn" onclick="event.stopPropagation();delNote(\''+id+'\',this)" style="position:absolute;top:10px;left:34px"><span class="material-symbols-outlined ms" style="font-size:16px">delete</span></div>';
+    div.onclick=()=>openNM({id,name:n,body:'',notebook,famIds,propKey:propRel?propRel.substring(0,8):'',vehKey:vehRel?vehRel.substring(0,8):''});
+    l.appendChild(div)})}
+
+// TOGGLE DONE
+async function togDone(id,el){
+  el.classList.add('done');
+  const nameEl=el.parentElement.querySelector('.task-name');
+  if(nameEl)nameEl.classList.add('done');
+  const item=el.closest('.task-item,.note-item');
+  if(item)item.style.transition='all .4s';
+  const t=gT();if(!t)return;
+  try{
+    const r=await fetch(W,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify({_endpoint:'update',_page_id:id,properties:{'Done':{checkbox:true}}})});
+    if(r.ok){
+      if(item){item.style.opacity='0';item.style.transform='translateX(40px)'}
+      setTimeout(()=>{if(item)item.remove();loadTasks();loadShopping()},500);
+    }else{toast('⚠️ فشل التحديث','error');el.classList.remove('done');if(nameEl)nameEl.classList.remove('done')}
+  }catch(e){toast('⚠️ اتصال','error')}}
+
+async function togDoneQuiet(id){
+  const t=gT();if(!t)return;
+  try{const r=await fetch(W,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify({_endpoint:'update',_page_id:id,properties:{'Done':{checkbox:true}}})});return r.ok}catch(e){return false}}
+
+// DELETE (mark as Done to archive)
+async function delEntry(id,el){
+  if(!confirm('حذف؟'))return;
+  const item=el.closest('.task-item,.note-item');
+  if(item){item.style.transition='all .3s';item.style.opacity='0';item.style.transform='scale(0.9)'}
+  const ok=await togDoneQuiet(id);
+  if(ok){setTimeout(()=>{if(item)item.remove()},300);toast('✅ تم الحذف')}
+  else{if(item){item.style.opacity='1';item.style.transform='none'}toast('⚠️ فشل','error')}}
+
+function upOD(n){
+  const a1=document.getElementById('oa1'),a2=document.getElementById('oa2'),nav=document.getElementById('np');
+  nav.querySelectorAll('.td').forEach(d=>d.remove());
+  if(n>0){a1.classList.add('show');document.getElementById('oc1').textContent=n;a2.classList.add('show');document.getElementById('oc2').textContent=n;const dot=document.createElement('div');dot.className='td';nav.appendChild(dot)}
+  else{a1.classList.remove('show');a2.classList.remove('show')}}
+
+// ============================================================
+// PWA NOTIFICATIONS
+// ============================================================
+function requestNotifPerm(){
+  if(!('Notification' in window)){toast('المتصفح لا يدعم الإشعارات','error');return}
+  Notification.requestPermission().then(p=>{
+    if(p==='granted'){toast('✅ تم تفعيل الإشعارات');updateNotifStatus()}
+    else{toast('⚠️ تم رفض الإشعارات','error')}
+  })}
+
+function updateNotifStatus(){
+  const el=document.getElementById('notif-status');
+  if(!('Notification' in window)){el.textContent='غير مدعوم';return}
+  el.textContent=Notification.permission==='granted'?'✅ مفعّل':'⚠️ غير مفعّل — اضغط الزر'}
+
+function scheduleNotif(title,dateStr){
+  if(Notification.permission!=='granted')return;
+  const target=new Date(dateStr).getTime();
+  const now=Date.now();
+  const delay=target-now;
+  if(delay<=0){new Notification('⏰ FDM تذكير',{body:title,icon:'🏠'});return}
+  // Store in localStorage for persistence
+  const reminders=JSON.parse(localStorage.getItem('fdm_reminders')||'[]');
+  reminders.push({title,time:target,id:Date.now()});
+  localStorage.setItem('fdm_reminders',JSON.stringify(reminders));
+  // Set timeout (works while tab is open)
+  setTimeout(()=>{new Notification('⏰ FDM تذكير',{body:title,icon:'🏠'})},delay)}
+
+// Check pending reminders on load
+function checkPendingReminders(){
+  if(Notification.permission!=='granted')return;
+  const reminders=JSON.parse(localStorage.getItem('fdm_reminders')||'[]');
+  const now=Date.now();
+  const pending=[];
+  reminders.forEach(r=>{
+    if(r.time<=now){new Notification('⏰ FDM تذكير',{body:r.title,icon:'🏠'})}
+    else{pending.push(r);setTimeout(()=>{new Notification('⏰ FDM تذكير',{body:r.title,icon:'🏠'})},r.time-now)}
+  });
+  localStorage.setItem('fdm_reminders',JSON.stringify(pending))}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+const MA=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+let dY=new Date().getFullYear(),dM=new Date().getMonth();
+function uML(){document.getElementById('ml').innerHTML=MA[dM]+' <span>'+dY+'</span>'}
+function chM(d){dM+=d;if(dM>11){dM=0;dY++}if(dM<0){dM=11;dY--}uML();loadDash()}
+function clE(r){const fm=(r.properties?.Family?.relation||[]).map(f=>f.id),pr=(r.properties?.Property?.relation||[]).map(p=>p.id),nm=(r.properties?.Name?.title?.[0]?.plain_text||'').toLowerCase();if(pr.includes(PM2))return's';if(pr.includes(PB2))return'y';if(fm.some(id=>HS.includes(id))&&!fm.some(id=>HY.includes(id)))return's';if(fm.some(id=>HY.includes(id))&&!fm.some(id=>HS.includes(id)))return'y';if(nm.includes('"s"')||nm.includes('سلوى'))return's';if(nm.includes('"y"')||nm.includes('يارا'))return'y';return'x'}
+
+async function loadDash(){
+  const rb=document.querySelector('#page-dashboard .rb');if(rb){rb.disabled=true;rb.innerHTML='⏳'}uML();
+  const ms=new Date(dY,dM,1).toISOString().split('T')[0],me=new Date(dY,dM+1,0).toISOString().split('T')[0];
+
+  // Load planner stats
+  const allOpen=await nQ(DB.t,{property:'Done',checkbox:{equals:false}},[],100);
+  if(allOpen&&allOpen.results){
+    let tasks=0,shop=0,reminders=0,notes=0;
+    const remList=[];
+    allOpen.results.forEach(r=>{
+      const et=r.properties?.['Entry Type']?.select?.name||'📋 Task';
+      if(et==='📋 Task'||!et)tasks++;
+      else if(et==='🛍️ Shopping')shop++;
+      else if(et==='⏰ Reminder'){reminders++;const du=r.properties?.Due?.date?.start||'';const n=r.properties?.Task?.title?.[0]?.plain_text||'';if(du)remList.push({n,du})}
+      else if(et==='📝 Note')notes++;
+    });
+    document.getElementById('d-tasks').textContent=tasks;
+    document.getElementById('d-shop').textContent=shop;
+    document.getElementById('d-remind').textContent=reminders;
+    document.getElementById('d-notes').textContent=notes;
+    // Upcoming reminders in dash
+    const rDiv=document.getElementById('dash-reminders');rDiv.innerHTML='';
+    remList.sort((a,b)=>a.du.localeCompare(b.du)).slice(0,3).forEach(r=>{
+      const d=document.createElement('div');d.className='remind-card';
+      d.innerHTML='<span class="material-symbols-outlined ms" style="color:var(--org);font-size:18px">alarm</span><div style="flex:1;min-width:0;font-size:11px;font-weight:700">'+r.n+'</div><div class="rc-time">'+r.du.replace('T',' ').substring(0,16)+'</div>';
+      rDiv.appendChild(d)});
+  }
+
+  // Mabeet
+  const md=await nQ(DB.a,{and:[{property:'Type',select:{equals:'مبيت 🌙'}},{property:'Activity Date',date:{on_or_after:ms}},{property:'Activity Date',date:{on_or_before:me}}]},[{property:'Activity Date',direction:'descending'}],100);
+  if(md&&md.results){let sc=0,yc=0;md.results.forEach(r=>{const h=r.properties?.House?.select?.name;if(h==='🏠 Salwa')sc++;else if(h==='🏠 Yara')yc++});const t=sc+yc;document.getElementById('msc').textContent=sc;document.getElementById('myc').textContent=yc;document.getElementById('mtr').textContent=t;uR('rs','ry',sc,yc);const df=Math.abs(sc-yc),bl=df<=2,bg=document.getElementById('mb'),sm=document.getElementById('msm');bg.textContent=bl?'✅ متوازن':'⚠️ فرق';bg.style.cssText='margin-right:auto;font-size:7px;font-weight:700;padding:2px 7px;border-radius:14px;font-family:Space Grotesk;background:rgba('+(bl?'74,222,128':'251,146,60')+',0.12);color:var(--'+(bl?'grn':'org')+')';sm.textContent=bl?'متوازن — فرق '+df:'فرق '+df+' لصالح '+(sc>yc?'سلوى':'يارا');sm.style.cssText='text-align:center;font-size:10px;font-weight:700;padding:4px 10px;border-radius:14px;margin-top:2px;background:rgba('+(bl?'74,222,128':'251,146,60')+',0.06);color:var(--'+(bl?'grn':'org')+')';renderMC(md.results)}
+
+  // Reminders section
+  const allOpen2=await nQ(DB.t,{property:'Done',checkbox:{equals:false}},[],100);if(allOpen2&&allOpen2.results){let tsk=0,shp=0,td3=today(),odItems=[];allOpen2.results.forEach(r2=>{const et2=r2.properties?.['Entry Type']?.select?.name||'📋 Task';if(et2==='📋 Task'||!et2)tsk++;else if(et2==='🛍️ Shopping')shp++;const du2=r2.properties?.Due?.date?.start||'',dd2=du2.split('T')[0],n2=r2.properties?.Task?.title?.[0]?.plain_text||'—';if(du2&&dd2<=td3)odItems.push({n:n2,du:dd2,r:r2});else if(du2&&(new Date(dd2)-new Date(td3))/864e5<=1)odItems.push({n:n2,du:dd2,r:r2})});document.getElementById('d-tasks').textContent=tsk;document.getElementById('d-shop').textContent=shp;const drw=document.getElementById('drw'),drl=document.getElementById('drl');if(odItems.length){drw.style.display='block';document.getElementById('drc').textContent=odItems.length;drl.innerHTML='';odItems.slice(0,5).forEach(it=>{const isOD=it.du<=td3,d2=document.createElement('div');d2.className='remind-card';d2.onclick=()=>openET(it.r);d2.innerHTML='<span class="material-symbols-outlined ms" style="color:'+(isOD?'var(--red)':'var(--org)')+';font-size:16px">'+(isOD?'error':'schedule')+'</span><div style="flex:1;font-size:11px;font-weight:700">'+it.n+'</div><div class="rc-time" style="color:'+(isOD?'var(--red)':'var(--org)')+'">'+it.du+'</div>';drl.appendChild(d2)});document.getElementById('d-remind').textContent=odItems.length}else{drw.style.display='none';document.getElementById('d-remind').textContent='0'}}
+
+  // Notes count
+  const nq2=await nQ(DB.n,{},[],1);document.getElementById('d-notes').textContent=nq2?.results?.length||'—';
+
+  // Expenses
+  const ed=await nQ(DB.e,{and:[{property:'Date',date:{on_or_after:ms}},{property:'Date',date:{on_or_before:me}}]},[{property:'Date',direction:'descending'}],100);
+  if(ed&&ed.results){let tt=0,se=0,ye=0;ed.results.forEach(r=>{const a=r.properties?.Amount?.number||0;tt+=a;const h=clE(r);if(h==='s')se+=a;else if(h==='y')ye+=a});document.getElementById('mtot').textContent=tt.toLocaleString('en');document.getElementById('mcnt').textContent=ed.results.length+' عملية';uR('ers','ery',se,ye);document.getElementById('est').textContent=se.toLocaleString('en');document.getElementById('eyt').textContent=ye.toLocaleString('en');const ratio=Math.min(se,ye)/Math.max(se,ye)*100||0;document.getElementById('eqp').textContent=Math.round(ratio)+'%';const xd=Math.abs(se-ye),xb=xd<tt*0.15,xs=document.getElementById('esm');xs.textContent=xb?'متوازن — '+xd.toLocaleString('en')+' ج.م':'فرق '+xd.toLocaleString('en')+' ج.م لصالح '+(se>ye?'سلوى':'يارا');xs.style.cssText='text-align:center;font-size:10px;font-weight:700;padding:4px 10px;border-radius:14px;margin-top:2px;background:rgba('+(xb?'74,222,128':'251,146,60')+',0.06);color:var(--'+(xb?'grn':'org')+')';
+  // Recent
+  const ci={'Super Market🛒':'shopping_cart','Fuel ⛽️':'local_gas_station','Food 🥘':'restaurant','DR & Medicine':'medical_services','school':'school','Clothes👕👚':'checkroom','كهربا':'bolt','غاز':'local_fire_department','Internet bill':'wifi','Bills':'receipt_long','ترخيص':'badge'};const cc={'Super Market🛒':'#f59e0b','Fuel ⛽️':'#4ade80','Food 🥘':'#fb923c','DR & Medicine':'#f87171','school':'#60a5fa','Clothes👕👚':'#a78bfa','كهربا':'#facc15','غاز':'#f87171','Internet bill':'#22d3ee','Bills':'#2dd4bf','ترخيص':'#818cf8'};const rl=document.getElementById('rl');rl.innerHTML='';ed.results.slice(0,5).forEach(r=>{const nm=r.properties?.Name?.title?.[0]?.plain_text||'—',am=r.properties?.Amount?.number||0,cats=r.properties?.Category?.multi_select?.map(c=>c.name)||[],dt=r.properties?.Date?.date?.start||'',h=clE(r),ht=h==='s'?'🔵':h==='y'?'🟣':'⚪',ic=ci[cats[0]]||'payments',co=cc[cats[0]]||'var(--p)',bc=h==='s'?'var(--salwa)':h==='y'?'var(--yara)':'var(--p)';const d=document.createElement('div');d.className='hi';d.style.borderRightColor=bc;d.innerHTML='<div style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:'+co+'12;flex-shrink:0"><span class="material-symbols-outlined ms" style="color:'+co+';font-size:18px">'+ic+'</span></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+ht+' '+nm+'</div><div style="font-family:Space Grotesk;font-size:8px;color:var(--osv);margin-top:1px">'+cats.join(', ')+' · '+dt+'</div></div><div style="font-family:JetBrains Mono;font-size:12px;font-weight:700;flex-shrink:0">'+am.toLocaleString('en')+'</div>';d.onclick=()=>openExpEdit(r);rl.appendChild(d)});if(!ed.results.length)rl.innerHTML='<div class="empty">لا مصاريف</div>';
+  cachedExp=ed.results;renderSparkline(ed.results);renderCatBreakdown(ed.results,tt);renderQuickStats(ed.results,md?md.results:[])}
+  if(rb){rb.disabled=false;rb.innerHTML='<span class="material-symbols-outlined ms" style="font-size:13px;vertical-align:middle;margin-left:3px">refresh</span> تحديث'}
+  loadTasks()}
+
+// ============================================================
+// PHASE 6: DASHBOARD WIDGETS
+// ============================================================
+function renderSparkline(results){
+  const el=document.getElementById('sparkline');if(!el)return;
+  const td=new Date(),days=[];
+  for(let i=6;i>=0;i--){const d=new Date(td);d.setDate(d.getDate()-i);days.push(d.toISOString().split('T')[0])}
+  const vals=days.map(day=>results.filter(r=>(r.properties?.Date?.date?.start||'').startsWith(day)).reduce((s,r)=>s+(r.properties?.Amount?.number||0),0));
+  const max=Math.max(...vals,1),w=280,h=50;
+  const pts=vals.map((v,i)=>`${w-(i/(vals.length-1))*w},${h-(v/max)*(h-6)-3}`).join(' ');
+  const dayNames=['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];
+  el.innerHTML=`<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:50px">
+    <defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--p)" stop-opacity=".3"/><stop offset="1" stop-color="var(--p)" stop-opacity="0"/></linearGradient></defs>
+    <polygon points="${pts} ${w},${h} 0,${h}" fill="url(#sg)"/>
+    <polyline points="${pts}" fill="none" stroke="var(--p)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg><div style="display:flex;justify-content:space-between;padding:0 2px;margin-top:4px">${days.map(d=>{const dn=dayNames[new Date(d+'T00:00:00').getDay()];return`<span style="font-family:'Space Grotesk';font-size:7px;color:var(--osv)">${dn}</span>`}).join('')}</div>`}
+
+function renderCatBreakdown(results,total){
+  const el=document.getElementById('cat-breakdown');if(!el||!total)return;
+  const cats={};
+  const cc2={'Super Market🛒':'#f59e0b','Fuel ⛽️':'#4ade80','Food 🥘':'#fb923c','DR & Medicine':'#f87171','school':'#60a5fa','Clothes👕👚':'#a78bfa','Bills':'#2dd4bf','ترخيص':'#818cf8'};
+  const cn={'Super Market🛒':'سوبر ماركت','Fuel ⛽️':'بنزين','Food 🥘':'أكل','DR & Medicine':'دكتور','school':'مدرسة','Clothes👕👚':'لبس','Bills':'فواتير','ترخيص':'ترخيص'};
+  results.forEach(r=>{const a=r.properties?.Amount?.number||0;const c=(r.properties?.Category?.multi_select||[])[0]?.name||'أخرى';cats[c]=(cats[c]||0)+a});
+  const sorted=Object.entries(cats).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  el.innerHTML=sorted.map(([cat,amt])=>{const pct=Math.round(amt/total*100);const color=cc2[cat]||'var(--osv)';const name=cn[cat]||cat;return`<div class="cat-bar-wrap"><div class="cat-bar-label"><span>${name}</span><span style="font-family:'JetBrains Mono';color:var(--osv)">${amt.toLocaleString('en')} (${pct}%)</span></div><div class="cat-bar"><div class="cat-bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`}).join('')}
+
+function renderQuickStats(expenses,mabeets){
+  const td=today();
+  const todayAmt=expenses.filter(r=>(r.properties?.Date?.date?.start||'')===td).reduce((s,r)=>s+(r.properties?.Amount?.number||0),0);
+  const weekAgo=new Date();weekAgo.setDate(weekAgo.getDate()-7);const ws=weekAgo.toISOString().split('T')[0];
+  const weekAmt=expenses.filter(r=>{const d=r.properties?.Date?.date?.start||'';return d>=ws&&d<=td}).reduce((s,r)=>s+(r.properties?.Amount?.number||0),0);
+  const daysInMonth=new Date(dY,dM+1,0).getDate();const totalAmt=expenses.reduce((s,r)=>s+(r.properties?.Amount?.number||0),0);
+  const avgDay=Math.round(totalAmt/Math.min(new Date().getDate(),daysInMonth));
+  // Mabeet streak
+  let streak=0;if(mabeets&&mabeets.length){const dates=[...new Set(mabeets.map(r=>r.properties?.['Activity Date']?.date?.start||''))].sort().reverse();const tdn=new Date(td);for(let i=0;i<dates.length;i++){const d=new Date(tdn);d.setDate(d.getDate()-i);if(dates.includes(d.toISOString().split('T')[0]))streak++;else break}}
+  animNum('qs-today',todayAmt);animNum('qs-week',weekAmt);animNum('qs-avg',avgDay);animNum('qs-streak',streak)}
+
+// PHASE 8: Number animation
+function animNum(id,target,dur=600){const el=document.getElementById(id);if(!el)return;const start=parseInt(el.textContent)||0;if(start===target){el.textContent=target.toLocaleString('en');return}const t0=performance.now();function tick(now){const p=Math.min((now-t0)/dur,1);const e=1-Math.pow(1-p,3);el.textContent=Math.round(start+(target-start)*e).toLocaleString('en');if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+
+// PHASE 7: Swipe gestures
+function addSwipe(el,onRight,onLeft){
+  let sx,sy,moving=false;
+  el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;moving=true},{passive:true});
+  el.addEventListener('touchmove',e=>{if(!moving)return;const dx=e.touches[0].clientX-sx,dy=e.touches[0].clientY-sy;if(Math.abs(dy)>Math.abs(dx)){moving=false;el.style.transform='';return}if(Math.abs(dx)>10){e.preventDefault();el.style.transform=`translateX(${dx*.6}px)`;el.style.opacity=1-Math.abs(dx)/400}},{passive:false});
+  el.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(dx>80){haptic('success');onRight?.(el)}else if(dx<-80){haptic('medium');onLeft?.(el)}else{el.style.transform='';el.style.opacity=''}moving=false})}
+
+function attachSwipes(){document.querySelectorAll('.task-item').forEach(el=>{
+  const check=el.querySelector('.task-check'),del=el.querySelector('.del-btn');
+  addSwipe(el,item=>{if(check)check.click();else{item.style.transform='';item.style.opacity=''}},item=>{if(del)del.click();else{item.style.transform='';item.style.opacity=''}})})}
+
+// CONNECTION
+async function testConn(){const t=gT();if(!t)return;try{const r=await fetch(W,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify({_endpoint:'query',_database_id:DB.a,page_size:1})});if(r.ok)document.getElementById('cs').innerHTML='<span style="color:var(--grn)">✅ متصل</span>'}catch(e){}}
+
+// INIT
+document.addEventListener('DOMContentLoaded',()=>{
+  if(!gT())setTimeout(()=>openSettings(),500);else testConn();
+  checkPendingReminders();
+  updateNotifStatus();
+  setTimeout(()=>updateNavInd(0),100);
+});
+document.querySelectorAll('.mo').forEach(o=>{o.addEventListener('click',e=>{if(e.target===o)cm(o.id)})});
+document.getElementById('ebt')?.addEventListener('change',function(){const nm=document.getElementById('en'),tm={'كهربا':'فاتورة كهرباء','غاز':'فاتورة غاز','Internet bill':'فاتورة نت','Mobile Bill📱':'فاتورة موبايل','Telephone bill☎️':'فاتورة أرضى'};nm.value=tm[this.value]||'فاتورة';document.getElementById('epg').style.display=['كهربا','غاز'].includes(this.value)?'block':'none'});
+
+// === V4: SWIPE NAVIGATION ===
+let curPage=0;
+(function(){let sx=0,sy=0,sw=false;document.addEventListener('touchstart',e=>{if(e.target.closest('.mo,.bnav,.task-item,.note-item,.mcal-d'))return;sx=e.touches[0].clientX;sy=e.touches[0].clientY;sw=true},{passive:true});document.addEventListener('touchend',e=>{if(!sw)return;sw=false;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dy)>Math.abs(dx)||Math.abs(dx)<60)return;const ci=PG.indexOf([...document.querySelectorAll('.page')].find(p=>p.classList.contains('active'))?.id?.replace('page-',''));if(dx<0&&ci>0)sp(PG[ci-1]);else if(dx>0&&ci<PG.length-1)sp(PG[ci+1])})})();
+
+// === V4: UPDATE nU helper ===
+async function nU(pid,props){const t=gT();if(!t)return false;try{const r=await fetch(W,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify({_endpoint:'update',_page_id:pid,properties:props})});return r.ok}catch(e){return false}}
+
+// === V4: preSelectChips helper ===
+function preChips(id,fids){document.querySelectorAll('#'+id+' .chip').forEach(c=>{c.classList.toggle('selected',fids.includes(F[c.dataset.key]?.id))})}
+
+// === V4: OPEN NOTE MODAL ===
+function openNM(ed){document.getElementById('nf').reset();document.getElementById('n-edit-id').value='';bC('n-fam',[]);if(ed){document.getElementById('n-edit-id').value=ed.id;document.getElementById('n-name').value=ed.name||'';document.getElementById('n-body').value=ed.body||'';document.getElementById('n-notebook').value=ed.notebook||'';document.getElementById('n-prop').value=ed.propKey||'';document.getElementById('n-veh').value=ed.vehKey||'';document.getElementById('nmt').textContent='📝 تعديل';document.getElementById('nsb').textContent='💾 تحديث';setTimeout(()=>{if(ed.famIds)preChips('n-fam',ed.famIds)},50)}else{document.getElementById('nmt').textContent='📝 ملاحظة جديدة';document.getElementById('nsb').textContent='✅ حفظ'}document.getElementById('mo-note').classList.add('active');document.getElementById('n-name').focus()}
+
+// === V4: SUBMIT NOTE to Notion Notes DB ===
+async function subNote(e){e.preventDefault();const b=document.getElementById('nsb');b.disabled=true;b.textContent='⏳';const eid=document.getElementById('n-edit-id').value,name=document.getElementById('n-name').value,body=document.getElementById('n-body').value,nb=document.getElementById('n-notebook').value;const p={'Name':{title:[{text:{content:name}}]}};if(nb)p['Notebook']={select:{name:nb}};else p['Notebook']={select:null};const fam=gC('n-fam');p['Family']={relation:fam.length?fam.map(id=>({id})):[]};const pk=document.getElementById('n-prop').value;p['Property']={relation:pk&&P[pk]?[{id:P[pk]}]:[]};const vk=document.getElementById('n-veh').value;p['Vehicles']={relation:vk&&V[vk]?[{id:V[vk]}]:[]};let ok;if(eid)ok=await nU(eid,p);else{const bo={parent:{database_id:DB.n},properties:p};if(body)bo.children=[{object:'block',type:'paragraph',paragraph:{rich_text:[{type:'text',text:{content:body}}]}}];const r=await nP(bo);ok=r&&r.id}b.disabled=false;b.textContent=eid?'💾 تحديث':'✅ حفظ';if(ok){toast('✅ '+(eid?'تم التحديث':name));cm('mo-note');loadNotes()}}
+
+// === V4: OPEN EDIT TASK/SHOPPING ===
+function openET(r){document.getElementById('tf').reset();document.getElementById('t-edit-id').value=r.id;const p=r.properties,et=p?.['Entry Type']?.select?.name||'📋 Task',iS=et==='🛍️ Shopping';document.getElementById('t-etype').value=et;document.getElementById('tmt').textContent=iS?'🛍️ تعديل':'📋 تعديل';document.getElementById('t-name').value=p?.Task?.title?.[0]?.plain_text||'';document.getElementById('t-note').value=p?.Note?.rich_text?.[0]?.plain_text||'';const du=p?.Due?.date?.start||'';if(du)document.getElementById('t-due').value=du.includes('T')?du.substring(0,16):du+'T00:00';document.getElementById('t-pri-group').style.display=iS?'block':'none';document.getElementById('t-price-group').style.display=iS?'block':'none';if(iS){document.getElementById('t-pri').value=p?.Priority?.select?.name||'🟡 قريب';const pr=p?.Price?.number;if(pr)document.getElementById('t-price').value=pr}const fi=(p?.Family?.relation||[]).map(f=>f.id);bC('t-fam',[]);setTimeout(()=>preChips('t-fam',fi),50);const pR=(p?.Property?.relation||[])[0]?.id||'',vR=(p?.Vehicles?.relation||[])[0]?.id||'';document.getElementById('t-prop').value=pR?pR.substring(0,8):'';document.getElementById('t-veh').value=vR?vR.substring(0,8):'';document.getElementById('tsb').textContent='💾 تحديث';document.getElementById('mo-task').classList.add('active')}
+
+// === V4: MABEET CALENDAR ===
+let mcOpen=false,cachedMab=[];
+function toggleMC(ev){if(ev)ev.stopPropagation();mcOpen=!mcOpen;document.getElementById('mcb').style.display=mcOpen?'block':'none'}
+function renderMC(results){const el=document.getElementById('mcd');if(!el)return;el.innerHTML='';cachedMab=results;const dim=new Date(dY,dM+1,0).getDate(),fd=new Date(dY,dM,1).getDay(),off=(fd+1)%7,td2=today(),mm={};results.forEach(r=>{const d=r.properties?.['Activity Date']?.date?.start||'',h=r.properties?.House?.select?.name||'';if(d)mm[d]=h});for(let i=0;i<off;i++){const s=document.createElement('div');s.className='mcal-d empty';el.appendChild(s)}for(let day=1;day<=dim;day++){const ds=dY+'-'+String(dM+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');const d=document.createElement('div');d.className='mcal-d';d.textContent=day;if(mm[ds])d.classList.add(mm[ds]==='🏠 Salwa'?'sw':'yr');else if(ds<td2){d.classList.add('missed');d.onclick=()=>{quickAction('mabeet','salwa');document.getElementById('adi').value=ds;document.getElementById('adi').classList.add('visible');odc('a')}}else if(ds===td2){d.classList.add('missed');d.onclick=()=>quickAction('mabeet','salwa')}if(ds===td2)d.classList.add('today');if(ds>td2)d.classList.add('future');el.appendChild(d)}}
+
+// === V4: DAY EXPENSES POPUP ===
+let cachedExp=[];
+function showDayExp(dt){const items=cachedExp.filter(r=>(r.properties?.Date?.date?.start||'')===dt);if(!items.length){toast('لا مصاريف لهذا اليوم','warning');return}const l=document.getElementById('del2');l.innerHTML='';let tot=0;items.forEach(r=>{const nm=r.properties?.Name?.title?.[0]?.plain_text||'—',am=r.properties?.Amount?.number||0;tot+=am;const d=document.createElement('div');d.className='hi';d.innerHTML='<div style="flex:1;font-size:11px;font-weight:700">'+nm+'</div><div style="font-family:JetBrains Mono;font-size:12px;font-weight:700">'+am.toLocaleString('en')+'</div>';l.appendChild(d)});document.getElementById('detot').textContent=tot.toLocaleString('en')+' ج.م';document.getElementById('det').textContent='مصاريف '+fmtD(dt);document.getElementById('mo-dayexp').classList.add('active')}
+
+// === V4: DELETE NOTE (archive in Notion) ===
+async function delNote(id,el){if(!confirm('حذف الملاحظة؟'))return;const item=el.closest('.note-item');if(item){item.style.transition='all .3s';item.style.opacity='0';item.style.transform='scale(0.9)'}const t=gT();if(!t)return;try{const r=await fetch(W,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+t},body:JSON.stringify({_endpoint:'update',_page_id:id,archived:true})});if(r.ok){setTimeout(()=>{if(item)item.remove()},300);toast('✅ تم الحذف')}else{if(item){item.style.opacity='1';item.style.transform='none'}toast('⚠️ فشل','error')}}catch(e){toast('⚠️ اتصال','error')}}
+
+
+// === V4: EDIT EXPENSE ===
+function openExpEdit(r){
+  document.getElementById('ef').reset();
+  const p=r.properties;
+  const name=p?.Name?.title?.[0]?.plain_text||'';
+  const amt=p?.Amount?.number||0;
+  const cats=(p?.Category?.multi_select||[]).map(c=>c.name);
+  const pb=p?.['Paid BY']?.select?.name||'CASH';
+  const dt=p?.Date?.date?.start||'';
+  const note=p?.note?.rich_text?.[0]?.plain_text||'';
+  const famIds=(p?.Family?.relation||[]).map(f=>f.id);
+  const vehRel=(p?.Vehicles?.relation||[])[0]?.id||'';
+  const propRel=(p?.Property?.relation||[])[0]?.id||'';
+  const km=p?.KM?.number||'';
+  
+  // Show custom category mode
+  document.getElementById('ecg').style.display='block';
+  document.getElementById('ebtg').style.display='none';
+  document.getElementById('epg').style.display='block';
+  document.getElementById('evg').style.display='block';
+  document.getElementById('ekg').style.display='block';
+  
+  document.getElementById('ec').value=cats[0]||'';
+  document.getElementById('en').value=name;
+  document.getElementById('ea').value=amt;
+  document.getElementById('ecs').value=cats[0]||'';
+  document.getElementById('epb').value=pb;
+  document.getElementById('eno').value=note;
+  if(km)document.getElementById('ekm').value=km;
+  if(vehRel)document.getElementById('ev').value=vehRel.substring(0,8);
+  if(propRel)document.getElementById('eps').value=propRel.substring(0,8);
+  
+  // Set date
+  if(dt){
+    document.getElementById('edi').value=dt;
+    document.getElementById('edi').classList.add('visible');
+    odc('e');
+  }
+  
+  // Family chips
+  bC('efc',[]);
+  setTimeout(()=>preChips('efc',famIds),50);
+  
+  document.getElementById('emt').textContent='✏️ تعديل مصروف';
+  
+  // Store the page ID for update
+  document.getElementById('ef').dataset.editId=r.id;
+  document.getElementById('esb').textContent='💾 تحديث';
+  document.getElementById('mo-exp').classList.add('active');
+}
+
+
+// === V4: BACK BUTTON HANDLER ===
+window.addEventListener('popstate', function(e) {
+  const openModal = document.querySelector('.mo.active');
+  if (openModal) {
+    e.preventDefault();
+    cm(openModal.id);
+    history.pushState(null, '', location.href);
+  }
+});
+// Push initial state
+history.pushState(null, '', location.href);
+// When opening any modal, push state so back button can close it
+const origCmShow = document.querySelectorAll('.mo');
+const observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(m) {
+    if (m.target.classList.contains('active')) {
+      history.pushState({modal: true}, '', location.href);
+    }
+  });
+});
+document.querySelectorAll('.mo').forEach(mo => {
+  observer.observe(mo, { attributes: true, attributeFilter: ['class'] });
+});
+
+</script></body></html>
